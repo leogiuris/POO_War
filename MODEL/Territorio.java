@@ -3,7 +3,13 @@ package MODEL;
 import java.util.List;
 
 public class Territorio {
-	public List<Ficha> fichas;
-	String nome;
+	
+	public String nome;
+	public List<Exercito> fichas;
+	
+	public Territorio(String nome, Continente continente) {
+		this.nome = nome;
+		continente.AddTerritorio(this);
+	}
 	
 }

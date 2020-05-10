@@ -1,7 +1,6 @@
 package MODEL;
 
-public class Ficha {
-	public int valor;
+public class Exercito {
 	public Player.Cor cor;
 }
 
