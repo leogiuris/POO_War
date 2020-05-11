@@ -9,7 +9,7 @@ public class BaralhoTerritorio {
 		baralho.add(carta);
 	}
 	
-	CartaTerritorio sorteioObjetivo(Player a){
+	CartaTerritorio sorteioTerritorio(Player a){
 		Random random = new Random();
 		int numero = random.nextInt(baralho.size());
 		return baralho.get(numero);
