@@ -1,17 +1,18 @@
 package teste;
 
-import MODEL.Board;
+import MODEL.*;
 
 public class testeRapido {
 
+	
 	public static void main(String[] args) {
+		
 		Board board = new Board();
 		
-		board.imprimeBoard();
-		board.imprimeFronteira(3);
-
+		//board.TESTE_imprimeBoard();
+		board.TESTE_imprimeFronteira(3);
+		BaralhoTerritorio.TESTE_imprimeBaralho();
 	}
 	
 	
-
 }

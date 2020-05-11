@@ -1,15 +1,16 @@
 package MODEL;
 
-import java.util.List;
+import java.util.*;
 
 public class Territorio {
 	
 	public String nome;
-	public List<Exercito> fichas;
+	public List<Exercito> exercitos = new ArrayList<Exercito>();
 	
 	public Territorio(String nome, Continente continente) {
 		this.nome = nome;
 		continente.AddTerritorio(this);
+		BaralhoTerritorio.addCarta(this);
 	}
 	
 }
