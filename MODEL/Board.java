@@ -113,7 +113,6 @@ public class Board {
 	};
 	
 	
-	
 	public void TESTE_imprimeFronteira(int index) {
 		System.out.println(territorios[index].nome + " faz fronteira com:");
 		for(int i = 0; i<mapa[index].length; i++) {

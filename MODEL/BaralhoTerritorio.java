@@ -15,21 +15,22 @@ public class BaralhoTerritorio {
 		return baralho.size();
 	}
 	
-	public BaralhoTerritorio sorteioTerritorio(){
-		Random random = new Random();
-		BaralhoTerritorio barTer = new BaralhoTerritorio();
+	static public void sorteiaCartas() {
+		Random r = new Random();
+		int index;
 		
-		//Pare aqui
-		for(int i =0;i<7;i++){
-			int numero = random.nextInt(baralho.size());
-			barTer.addCarta(baralho[numero]); 
+		if(Player.jogadores.isEmpty()) {
+			return;
 		}
 		
-	
-		return baralho.remove(numero);  
+		for(int i = 0; !baralho.isEmpty(); i++) {
+			index = r.nextInt(baralho.size());
+			Player.jogadores.get(i%Player.jogadores.size()).maoTer.add(baralho.remove(index));
+		}
 	}
 	
 	static public void TESTE_imprimeBaralho() {
+		System.out.println("--- TESTE IMPRIME BARALHO TERRITORIO ---");
 		System.out.println("Cartas de territorio:\n");
 		for(CartaTerritorio c: baralho) {
 			System.out.println(c.getTerritorio().nome + ": " + c.forma);

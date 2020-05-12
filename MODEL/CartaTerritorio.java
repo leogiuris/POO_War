@@ -2,7 +2,7 @@
 package MODEL;
 
 public class CartaTerritorio {
-	private Territorio territorio;
+	public Territorio territorio;
 	public Forma forma;
 	
 	public enum Forma{

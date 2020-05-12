@@ -11,6 +11,7 @@ public class Continente {
 		this.nome = nome;
 		this.bonus = bonus;
 		territorios = new ArrayList<Territorio>();
+		BaralhoObjetivo.criaCarta("coquistar todo o continente " + nome);
 	}
 	
 	public void AddTerritorio(Territorio t) {
