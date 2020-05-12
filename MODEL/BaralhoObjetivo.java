@@ -10,11 +10,10 @@ public class BaralhoObjetivo {
 	static public void addCarta(CartaObjetivo carta) {
 		baralho.add(carta);
 	}
-	
-	CartaObjetivo sorteioObjetivo(Player a){
+	CartaObjetivo sorteioObjetivo(){
 		Random random = new Random();
 		int numero = random.nextInt(baralho.size());
-		return baralho.get(numero);
+		return baralho.remove(numero); 
 	}
 	
 }

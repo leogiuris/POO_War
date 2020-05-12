@@ -11,7 +11,6 @@ public class CartaTerritorio {
 		quadrado		
 	}
 	
-	
 	public Forma getForma(int n) {
 		if(n%3 == 0) {
 			return Forma.triangulo;

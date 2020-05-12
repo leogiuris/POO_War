@@ -15,11 +15,17 @@ public class BaralhoTerritorio {
 		return baralho.size();
 	}
 	
-	public CartaTerritorio sorteioTerritorio(){
+	public BaralhoTerritorio sorteioTerritorio(){
 		Random random = new Random();
-		int numero = random.nextInt(baralho.size());
+		BaralhoTerritorio barTer = new BaralhoTerritorio();
 		
-		//usei o metodo remove pq a carta nao pode mais ficar no baralho dps q tira
+		//Pare aqui
+		for(int i =0;i<7;i++){
+			int numero = random.nextInt(baralho.size());
+			barTer.addCarta(baralho[numero]); 
+		}
+		
+	
 		return baralho.remove(numero);  
 	}
 	
