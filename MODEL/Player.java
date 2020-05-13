@@ -5,13 +5,14 @@ public class Player {
 	String nome;
 	Cor cor;
 	int qtd_jogadores = 0;
-	int spawn_exercitos;
+	int exercitosRodada;
 	private CartaObjetivo objetivo;
 	public List<CartaTerritorio> maoCartas = new ArrayList<CartaTerritorio>();
 	public List<Territorio> territorios = new ArrayList<Territorio>();
 	
 	static public List<Player> jogadores = new ArrayList<Player>();
 	static int maior = 0;
+	static int numTroca;
 	
 	public enum Cor{
 		branco,
@@ -46,16 +47,42 @@ public class Player {
 
 	
 	public void botarExercitosInit() {
-		//ler lista de territorios
-		//colocar 1 exercito em cada
-		
+		//ler lista de territorios, colocar 1 exercito em cada
 		for(int i = 0; i<territorios.size(); i++) {
 			territorios.get(i).botarExercito(new Exercito(cor));
 		}
 		
 	}
 	
-	
+	public void contarExercitosRodada() {
+		int numContinente=0;
+		//Exercitos comuns da rodada
+		exercitosRodada = territorios.size()/2;
+		//Percorre lista de territorios e compara com continentes
+		for(int i = 0; i<6; i++) {
+			for(int j = 0; i<territorios.size(); i++) {
+				
+				if(Board.continentes[i].territorios.get(j) ==  territorios.get(j)) {
+					numContinente++;
+				}
+				if(numContinente == Board.continentes[i].territorios.size()) {
+					exercitosRodada = exercitosRodada + Board.continentes[i].bonus;
+				}
+			}
+		}
+		//Troca de cartas
+		if(maoCartas.size()>=3) {
+			Scanner ent=new Scanner(System.in);
+			System.out.println("Deseja fazer a troca de cartas?(Sim/Nao)"); 
+			String troca=ent.nextLine();
+			if(troca == "Sim") {
+				//Falta selecionar cartas para trocar e remove-las da mao
+				exercitosRodada = 4+2*(numTroca);
+				numTroca++;
+			}
+		}
+		
+	}
 	
 	
 	
