@@ -9,6 +9,7 @@ public class Player {
 	private CartaObjetivo objetivo;
 	public List<CartaTerritorio> maoCartas = new ArrayList<CartaTerritorio>();
 	public List<Territorio> territorios = new ArrayList<Territorio>();
+	public int[] bonusContinente = {0,0,0,0,0,0};
 	
 	static public List<Player> jogadores = new ArrayList<Player>();
 	static int maior = 0;
@@ -55,7 +56,13 @@ public class Player {
 		
 	}
 	
-	
+	public void ContarSpawnRodada() {
+		// 1. contar territorios e determinar qtd de exercitos
+		// 2. contar continentes completos e atualizar vetor bonusContinente
+		spawn_exercitos = territorios.size();
+		
+		
+	}
 	
 	
 	
