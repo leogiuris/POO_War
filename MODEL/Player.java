@@ -5,9 +5,9 @@ public class Player {
 	String nome;
 	Cor cor;
 	int qtd_jogadores = 0;
-	public int ordemJogada = 0;   //  acho isso não devia estar nessa classe
+	int spawn_exercitos;
 	private CartaObjetivo objetivo;
-	public List<CartaTerritorio> maoTer = new ArrayList<CartaTerritorio>();
+	public List<CartaTerritorio> maoCartas = new ArrayList<CartaTerritorio>();
 	public List<Territorio> territorios = new ArrayList<Territorio>();
 	
 	static public List<Player> jogadores = new ArrayList<Player>();
@@ -27,11 +27,11 @@ public class Player {
 		this.nome = nome;
 		this.cor = cor;
 		qtd_jogadores++;
-		ordemJogada = sorteioOrdemJogada();
+		int num = sorteioOrdemJogada();
 		objetivo = BaralhoObjetivo.sorteioObjetivo();
-		if(ordemJogada>=maior) {
+		if(num>=maior) {
 			jogadores.add(0, this);
-			maior = ordemJogada;
+			maior = num;
 		}
 		else {
 			jogadores.add(this);
@@ -43,6 +43,21 @@ public class Player {
 		int numero = random.nextInt(6);
 		return numero;
 	}
+
+	
+	public void botarExercitosInit() {
+		//ler lista de territorios
+		//colocar 1 exercito em cada
+		
+		for(int i = 0; i<territorios.size(); i++) {
+			territorios.get(i).botarExercito(new Exercito(cor));
+		}
+		
+	}
+	
+	
+	
+	
 	
 	public static void TESTE_criaJogadores() {
 		System.out.println("--- TESTE CRIA JOGADORES ---");
@@ -64,11 +79,10 @@ public class Player {
 		
 		System.out.println("nome:\t " + nome);
 		System.out.println("cor:\t " + cor);
-		System.out.println("ordem:\t " + ordemJogada);
 		System.out.println("objetivo:\t " + objetivo.objetivo); 
 		System.out.println("Cartas de territorio:");
-		for(int i = 0; i<maoTer.size(); i++) {
-			System.out.println("- " + maoTer.get(i).territorio.nome);
+		for(int i = 0; i<territorios.size(); i++) {
+			System.out.println("- " + territorios.get(i).nome + ", "+ territorios.get(i).exercitos.size() + " exercitos");
 		}
 	}
 	

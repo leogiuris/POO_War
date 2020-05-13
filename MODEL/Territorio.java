@@ -13,4 +13,7 @@ public class Territorio {
 		BaralhoTerritorio.addCarta(this);
 	}
 	
+	public void botarExercito(Exercito e) {
+		exercitos.add(e);
+	}
 }

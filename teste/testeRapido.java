@@ -13,7 +13,10 @@ public class testeRapido {
 		//board.TESTE_imprimeFronteira(3);
 		Player.TESTE_criaJogadores();
 		BaralhoTerritorio.sorteiaCartas();
-		
+		for(int i = 0; i < Player.jogadores.size(); i++) {
+			Player.jogadores.get(i).botarExercitosInit();
+		}
+			
 		Player.jogadores.get(0).TESTE_Jogador();
 		//BaralhoTerritorio.TESTE_imprimeBaralho();
 	}

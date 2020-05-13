@@ -23,9 +23,10 @@ public class BaralhoTerritorio {
 			return;
 		}
 		
-		for(int i = 0; !baralho.isEmpty(); i++) {
-			index = r.nextInt(baralho.size());
-			Player.jogadores.get(i%Player.jogadores.size()).maoTer.add(baralho.remove(index));
+		Collections.shuffle(baralho);
+		
+		for(int i = 0; i<baralho.size(); i++) {		
+			Player.jogadores.get(i % Player.jogadores.size()).territorios.add(baralho.get(i).territorio);
 		}
 	}
 	
@@ -36,4 +37,6 @@ public class BaralhoTerritorio {
 			System.out.println(c.getTerritorio().nome + ": " + c.forma);
 		}
 	}
+	
+	
 }
