@@ -30,7 +30,7 @@ public class Continente {
 	public void Imprime() {
 		System.out.println("--- " + nome + " ---");
 		for (Territorio t : territorios) {
-			System.out.println(t.nome);
+			System.out.println(t.nome + ": " + t.exercitos.size() + " tropas");
 		}
 	}
 }

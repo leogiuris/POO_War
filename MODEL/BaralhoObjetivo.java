@@ -18,6 +18,6 @@ public class BaralhoObjetivo {
 		return baralho.remove(numero); 
 	}
 	
-
+	
 	
 }

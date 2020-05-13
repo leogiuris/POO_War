@@ -123,9 +123,11 @@ public class Board {
 	}
 	
 	public void TESTE_imprimeBoard() {
+		System.out.println("--- TESTE BOARD ---");
 		for(int i = 0; i<continentes.length; i++){
 			continentes[i].Imprime();
 			System.out.println();
 		}
+		System.out.println();
 	}
 }

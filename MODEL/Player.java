@@ -5,7 +5,7 @@ public class Player {
 	String nome;
 	Cor cor;
 	int qtd_jogadores = 0;
-	int exercitosRodada;
+	int exercitosRodada = 0;
 	private CartaObjetivo objetivo;
 	public List<CartaTerritorio> maoCartas = new ArrayList<CartaTerritorio>();
 	public List<Territorio> territorios = new ArrayList<Territorio>();
@@ -23,11 +23,28 @@ public class Player {
 		amarelo,
 		vermelho
 	}
+	public Cor getCor(String s) {
+		if(s == "branco")
+			return Cor.branco;
+		if(s == "preto")
+			return Cor.preto;
+		if(s == "azul")
+			return Cor.azul;
+		if(s == "verde")
+			return Cor.verde;
+		if(s == "amarelo")
+			return Cor.amarelo;
+		if(s == "vermelho")
+			return Cor.vermelho;
+		else
+			return null;
+	}
 	
 	
-	Player(String nome, Cor cor){
+//	CONSTRUTOR	
+	public Player(String nome, String cor){
 		this.nome = nome;
-		this.cor = cor;
+		this.cor = getCor(cor);
 		qtd_jogadores++;
 		int num = sorteioOrdemJogada();
 		objetivo = BaralhoObjetivo.sorteioObjetivo();
@@ -71,7 +88,7 @@ public class Player {
 
 	public void trocarCartas() {
 		//Falta selecionar cartas para trocar e remove-las da mao			
-		exercitosRodada = 2+2*(numTroca);
+		exercitosRodada =+ 2+2*(numTroca);
 		numTroca++;
 		
 		CartaTerritorio ret[] = {
@@ -103,18 +120,20 @@ public class Player {
 		Scanner ent=new Scanner(System.in);
 		System.out.println("Deseja fazer a troca de cartas?(Sim/Nao)"); 
 		String troca=ent.nextLine();
-		if(troca == "Sim" || maoCartas.size()>=5) {
+		if(troca == "s" || maoCartas.size()>=5) {
 			trocarCartas();
 		}
 	}
 	
-	
+//	------ FUNÇÕES DE TESTE ------
 	public static void TESTE_criaJogadores() {
 		System.out.println("--- TESTE CRIA JOGADORES ---");
 		Player[] galera = {
-				new Player("marcelinho", Cor.amarelo),
-				new Player("joao", Cor.preto),
-				new Player("maria", Cor.azul)				
+				new Player("marcelinho", "amarelo"),
+				new Player("joao", "preto"),
+				new Player("maria", "azul"),
+				new Player("jorge", "verde"),
+				
 		};
 		System.out.println("Ordem dos Jogadores:");
 		
@@ -130,10 +149,17 @@ public class Player {
 		System.out.println("nome:\t " + nome);
 		System.out.println("cor:\t " + cor);
 		System.out.println("objetivo:\t " + objetivo.objetivo); 
-		System.out.println("Cartas de territorio:");
+		contarExercitosRodada();
+		System.out.println("tropas a disposiçao:\t " + exercitosRodada + '\n');
+		
+		System.out.println("vai colocar todas as tropas no primeiro territorio...\n");		
+		botarExercitos(territorios.get(0), exercitosRodada);
+		
+		System.out.println("Territorios:");
 		for(int i = 0; i<territorios.size(); i++) {
 			System.out.println("- " + territorios.get(i).nome + ", "+ territorios.get(i).exercitos.size() + " exercitos");
 		}
+		System.out.println();
 	}
 	
 }

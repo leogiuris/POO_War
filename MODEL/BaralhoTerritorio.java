@@ -27,6 +27,10 @@ public class BaralhoTerritorio {
 		
 		for(int i = 0; i<baralho.size(); i++) {		
 			Player.jogadores.get(i % Player.jogadores.size()).territorios.add(baralho.get(i).territorio);
+			
+		}
+		for (Player j: Player.jogadores) {
+			j.botarExercitosInit();
 		}
 	}
 	
