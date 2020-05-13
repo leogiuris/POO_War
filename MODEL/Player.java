@@ -5,7 +5,7 @@ public class Player {
 	String nome;
 	Cor cor;
 	int qtd_jogadores = 0;
-	int spawn_exercitos;
+	int exercitosRodada;
 	private CartaObjetivo objetivo;
 	public List<CartaTerritorio> maoCartas = new ArrayList<CartaTerritorio>();
 	public List<Territorio> territorios = new ArrayList<Territorio>();
@@ -13,6 +13,7 @@ public class Player {
 	
 	static public List<Player> jogadores = new ArrayList<Player>();
 	static int maior = 0;
+	static int numTroca = 1;
 	
 	public enum Cor{
 		branco,
@@ -39,31 +40,73 @@ public class Player {
 		}
 	}
 	
+	
+	
 	int sorteioOrdemJogada() {
 		Random random = new Random();
 		int numero = random.nextInt(6);
 		return numero;
 	}
 
+	public void botarExercitos(Territorio t, int qtd_tropas) {
+		for (int i = 0; i < qtd_tropas; i++) {
+			t.exercitos.add(new Exercito(cor));
+		}
+	}
 	
 	public void botarExercitosInit() {
-		//ler lista de territorios
-		//colocar 1 exercito em cada
-		
+		//ler lista de territorios, colocar 1 exercito em cada
 		for(int i = 0; i<territorios.size(); i++) {
-			territorios.get(i).botarExercito(new Exercito(cor));
+			botarExercitos(territorios.get(i), 1);
 		}
+	}
+
+	private void verificaContinentes() {
+		for(int i = 0; i<Board.continentes.length; i++) {
+			if(Board.continentes[i].validaBonus(cor)) {
+				bonusContinente[i] = Board.continentes[i].bonus;
+			}
+		}
+	}
+
+	public void trocarCartas() {
+		//Falta selecionar cartas para trocar e remove-las da mao			
+		exercitosRodada = 2+2*(numTroca);
+		numTroca++;
 		
+		CartaTerritorio ret[] = {
+				maoCartas.remove(0),
+				maoCartas.remove(0),
+				maoCartas.remove(0),
+				};
+		
+		for(int i =0; i<ret.length; i++) {
+			for(int j =0; j<territorios.size(); j++) {
+				if(ret[i].territorio == territorios.get(j)) {
+					botarExercitos(territorios.get(j), 1);
+				}
+			}
+		}
 	}
 	
-	public void ContarSpawnRodada() {
-		// 1. contar territorios e determinar qtd de exercitos
-		// 2. contar continentes completos e atualizar vetor bonusContinente
-		spawn_exercitos = territorios.size();
+	public void contarExercitosRodada() {
+		//Exercitos comuns da rodada
+		exercitosRodada = territorios.size()/2;
 		
+		//Percorre lista de territorios e compara com continentes
+		verificaContinentes();
 		
+		//Troca de cartas
+		if(maoCartas.size()<3)
+			return;
+		
+		Scanner ent=new Scanner(System.in);
+		System.out.println("Deseja fazer a troca de cartas?(Sim/Nao)"); 
+		String troca=ent.nextLine();
+		if(troca == "Sim" || maoCartas.size()>=5) {
+			trocarCartas();
+		}
 	}
-	
 	
 	
 	public static void TESTE_criaJogadores() {

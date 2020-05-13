@@ -13,6 +13,10 @@ public class Territorio {
 		BaralhoTerritorio.addCarta(this);
 	}
 	
+	public Player.Cor getCor(){
+		return exercitos.get(0).cor;
+	}
+	
 	public void botarExercito(Exercito e) {
 		exercitos.add(e);
 	}
