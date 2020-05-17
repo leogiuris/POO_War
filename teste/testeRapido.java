@@ -1,28 +1,46 @@
 package teste;
 
-import java.util.Scanner;
+import java.util.*;
 
 import MODEL.*;
 
 public class testeRapido {
+	
 
-	//PROBLEMA AQUI!
+	
+	
+	static void RotinaInit() {
+		entraJogadores();
+		BaralhoTerritorio.sorteiaCartas();
+	}
+	
+	static void RotinaJogada(int i) {
+		Player j = Player.jogadores.get(i);
+		
+		j.contarExercitosRodada();
+		j.TESTE_JogadorVez();
+	}
+	
 	static void entraJogadores() {
-		Scanner ent=new Scanner(System.in);
+		 Scanner ent = new Scanner(System.in);
+		 
+		 System.out.println("('0' para terminar de lançar jogadores)\n");
 		//cria novos jogadores ate q entrarem c o nome 0
 		while(true && Player.jogadores.size() <= 6) {
 			System.out.println("digite seu nome");
 			String nome = ent.nextLine();
-			System.out.println(nome);
-			if(nome == "0") {
-				ent.close();
-				return;
+			if(nome.compareTo("0") == 0) {
+				break;
 			}
-			System.out.println("digite a cor das suas peças");
+			System.out.println("digite a cor das suas peças (branco/verde/azul/preto/vermelho/amarelo");
 			String cor = ent.nextLine();
+			if(cor.compareTo("0") == 0) {
+				break;
+			}
 			new Player(nome,cor);
 		}
-		
+		ent.close();
+		return;
 	}
 	
 	
@@ -34,31 +52,34 @@ public class testeRapido {
 		//board.TESTE_imprimeFronteira(3);
 		
 		entraJogadores();
+		
 		BaralhoTerritorio.sorteiaCartas();
-			
-		Player.jogadores.get(0).TESTE_Jogador();
+		
+		Player.TESTE_Status_Jogadores();
+		//Player.jogadores.get(0).TESTE_Jogador();
 		board.TESTE_imprimeBoard();
 		
 		return;
 	}
 
 	
-	static void teste2() {
+	static void teste2()  {
 		boolean fim = false;
-		
+		int i = 0;
 		Board board = new Board();
-		// cria jogadores
-		
-		//sorteia territorios
-		BaralhoTerritorio.sorteiaCartas();
+		RotinaInit();
+
+		RotinaJogada(i);
 		//começam as rodadas
 		while(!fim) {
 			
 		}
+		
 	}
 	
 	
 	public static void main(String[] args) {
+		
 		teste1();
 	}
 	

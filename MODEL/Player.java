@@ -24,17 +24,17 @@ public class Player {
 		vermelho
 	}
 	public Cor getCor(String s) {
-		if(s == "branco")
+		if(s.compareTo("branco") == 0)
 			return Cor.branco;
-		if(s == "preto")
+		if(s.compareTo("preto") == 0)
 			return Cor.preto;
-		if(s == "azul")
+		if(s.compareTo("azul") == 0)
 			return Cor.azul;
-		if(s == "verde")
+		if(s.compareTo("verde") == 0)
 			return Cor.verde;
-		if(s == "amarelo")
+		if(s.compareTo("amarelo") == 0)
 			return Cor.amarelo;
-		if(s == "vermelho")
+		if(s.compareTo("vermelho") == 0)
 			return Cor.vermelho;
 		else
 			return null;
@@ -48,6 +48,8 @@ public class Player {
 		qtd_jogadores++;
 		int num = sorteioOrdemJogada();
 		objetivo = BaralhoObjetivo.sorteioObjetivo();
+		System.out.println("rolou... " + (num+1) ); 
+		
 		if(num>=maior) {
 			jogadores.add(0, this);
 			maior = num;
@@ -68,6 +70,7 @@ public class Player {
 	public void botarExercitos(Territorio t, int qtd_tropas) {
 		for (int i = 0; i < qtd_tropas; i++) {
 			t.exercitos.add(new Exercito(cor));
+			
 		}
 	}
 	
@@ -142,6 +145,36 @@ public class Player {
 		}
 		System.out.println();
 	}
+	
+	public void TESTE_JogadorVez() {
+		System.out.println("--- Jogadores ---");
+		
+		System.out.println("-> " + nome);
+		System.out.println("cor:\t " + cor);
+		System.out.println("objetivo:\t " + objetivo.objetivo); 
+		System.out.println("tropas a disposiçao:\t " + exercitosRodada + '\n');
+		
+		System.out.println("Territorios:");
+		for(int i = 0; i<territorios.size(); i++) {
+			System.out.println("- " + territorios.get(i).nome + ", "+ territorios.get(i).exercitos.size() + " exercitos");
+		}
+	}
+	
+	static public void TESTE_Status_Jogadores() {
+		for(Player p: jogadores) {
+			System.out.println("--- Jogadores ---");
+			
+			System.out.println("-> " + p.nome);
+			System.out.println("cor:\t " + p.cor);
+			System.out.println("objetivo:\t " + p.objetivo.objetivo); 
+			System.out.println("territorios:\t " + p.territorios.size()); 
+			
+			System.out.println("tropas a disposiçao:\t " + p.exercitosRodada + '\n');
+		}
+		System.out.println("É a vez de " + jogadores.get(0).nome);
+	}
+	
+	
 	
 	public void TESTE_Jogador() {
 		System.out.println("--- TESTE JOGADOR ---");
