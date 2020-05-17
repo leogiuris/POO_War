@@ -141,12 +141,12 @@ public class Player {
 		System.out.println("Ordem dos Jogadores:");
 		
 		for(int i = 0; i<jogadores.size(); i++) {
-			System.out.println(i + " : " + jogadores.get(i).nome + "\tobjetivo: " + jogadores.get(i).objetivo.objetivo); 
+			System.out.println(i + " : " + jogadores.get(i).nome + jogadores.get(i).cor + "\tobjetivo: " + jogadores.get(i).objetivo.objetivo); 
 		}
 		System.out.println();
 	}
 	
-	public void TESTE_JogadorVez() {
+	public void TESTE_JogadorVez() { e
 		System.out.println("--- Jogadores ---");
 		
 		System.out.println("-> " + nome);

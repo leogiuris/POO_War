@@ -27,7 +27,7 @@ public class Continente {
 		return true;
 	}
 	
-	public void Imprime() {
+	public void TESTE_continente() {
 		System.out.println("--- " + nome + " ---");
 		for (Territorio t : territorios) {
 			System.out.println(t.nome + ": " + t.exercitos.size() + " " + t.exercitos.get(0).cor);
