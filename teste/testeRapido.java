@@ -23,10 +23,10 @@ public class testeRapido {
 	
 	static void entraJogadores() {
 		 Scanner ent = new Scanner(System.in);
-		 
+		 int n = 0;
 		 System.out.println("('0' para terminar de lançar jogadores)\n");
 		//cria novos jogadores ate q entrarem c o nome 0
-		while(true && Player.jogadores.size() <= 6) {
+		while(true && n < 6) {
 			System.out.println("digite seu nome");
 			String nome = ent.nextLine();
 			if(nome.compareTo("0") == 0) {
@@ -38,6 +38,7 @@ public class testeRapido {
 				break;
 			}
 			new Player(nome,cor);
+			n++;
 		}
 		ent.close();
 		return;
