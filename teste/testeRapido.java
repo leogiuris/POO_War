@@ -6,9 +6,6 @@ import MODEL.*;
 
 public class testeRapido {
 	
-
-	
-	
 	static void RotinaInit() {
 		entraJogadores();
 		BaralhoTerritorio.sorteiaCartas();

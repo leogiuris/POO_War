@@ -182,15 +182,19 @@ public class Player {
 		System.out.println("Ordem dos Jogadores:");
 		
 		for(int i = 0; i<jogadores.size(); i++) {
+
 			System.out.println((i+1) + " : " + jogadores.get(i).nome + "\tcor: " + jogadores.get(i).cor + "\tobjetivo: " + jogadores.get(i).objetivo.objetivo); 
+
 		}
 		System.out.println("Territorios sorteados...");
 		
 		System.out.println();
 	}
 	
+
 	public void TESTE_JogadorVez() { 
 		System.out.println("--- Jogador da Vez ---");
+
 		
 		System.out.println("-> " + nome);
 		System.out.println("cor:\t " + cor);
