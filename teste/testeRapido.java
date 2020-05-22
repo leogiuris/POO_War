@@ -46,43 +46,34 @@ public class testeRapido {
 	
 	
 	static void teste1() {
-		Board board = new Board();
-		//Dado d = new Dado();
-		//board.TESTE_imprimeBoard();
-		//d.TESTE_dado();
-		//board.TESTE_imprimeFronteira(3);
 		
+
+		new Player("jon", "verde");
 		entraJogadores();
 		
 		BaralhoTerritorio.sorteiaCartas();
 		
 		Player.TESTE_Status_Jogadores();
 		//Player.jogadores.get(0).TESTE_Jogador();
-		board.TESTE_imprimeBoard();
+		Board.TESTE_imprimeBoard();
 		
 		return;
 	}
 
 	
 	static void teste2()  {
-		boolean fim = false;
-		int i = 0;
-		Board board = new Board();
-		RotinaInit();
-
-		RotinaJogada(i);
-		//começam as rodadas
-		while(!fim) {
-			
-		}
+		Board b = Board.getInstance();
+		Player.TESTE_criaJogadores();
+		Player p = Player.jogadores.get(0);
+		p.TESTE_JogadorVez();
 		
+		Board.TESTE_imprimeBoard();
+		Board.TESTE_imprimeFronteira(3);
 	}
 	
 	
 	public static void main(String[] args) {
-		
-		teste1();
+		teste2();
 	}
-	
-	
+		
 }

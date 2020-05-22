@@ -16,6 +16,7 @@ public class Player {
 	static int numTroca = 1;
 	
 	public enum Cor{
+		vazio,
 		branco,
 		preto,
 		azul,
@@ -23,7 +24,10 @@ public class Player {
 		amarelo,
 		vermelho
 	}
+	
 	public Cor getCor(String s) {
+		if(s.compareTo("vazio") == 0)
+			return Cor.vazio;
 		if(s.compareTo("branco") == 0)
 			return Cor.branco;
 		if(s.compareTo("preto") == 0)
@@ -48,7 +52,7 @@ public class Player {
 		qtd_jogadores++;
 		int num = sorteioOrdemJogada();
 		objetivo = BaralhoObjetivo.sorteioObjetivo();
-		System.out.println("rolou... " + (num+1) ); 
+		System.out.println(nome + " rolou... " + (num+1) ); 
 		
 		if(num>=maior) {
 			jogadores.add(0, this);
@@ -58,33 +62,65 @@ public class Player {
 			jogadores.add(this);
 		}
 	}
-	
-	
-	
+
 	int sorteioOrdemJogada() {
 		Random random = new Random();
 		int numero = random.nextInt(6);
 		return numero;
 	}
 
+	
+	
 	public void botarExercitos(Territorio t, int qtd_tropas) {
-		for (int i = 0; i < qtd_tropas; i++) {
-			t.exercitos.add(new Exercito(cor));
-			
+		
+		int iBonus = getBonusIndex(t);
+		
+		if((qtd_tropas > exercitosRodada + bonusContinente[iBonus]) || !t.validaCor(cor)) {
+			System.out.print("Erro entrada botarExercitos");
+			return;
 		}
+		
+		for (int i = 0; i < qtd_tropas; i++) {
+			
+			if( !t.botarExercito(new Exercito(cor)) ) {
+				System.out.println("Erro ao posicionar tropa");	
+			}
+			
+			if(exercitosRodada + bonusContinente[iBonus] <= 0) {
+				return;
+			}
+			
+			if(exercitosRodada <= 0) {
+				bonusContinente[iBonus]--;
+			}
+			else
+				exercitosRodada--;
+		}
+	}
+	
+	private int getBonusIndex(Territorio t) {
+		for (int i = 0; i < bonusContinente.length; i++) {
+			if(t.continente == Board.continentes[i]) {
+				return i;
+			}
+		}
+		System.out.print("ERRO_getBonusCont");
+		return 0;
 	}
 	
 	public void botarExercitosInit() {
 		//ler lista de territorios, colocar 1 exercito em cada
 		for(int i = 0; i<territorios.size(); i++) {
+			exercitosRodada++;
 			botarExercitos(territorios.get(i), 1);
 		}
 	}
 
 	private void verificaContinentes() {
 		for(int i = 0; i<Board.continentes.length; i++) {
-			if(Board.continentes[i].validaBonus(cor)) {
+			if(Board.continentes[i].validarBonus(cor)) {
 				bonusContinente[i] = Board.continentes[i].bonus;
+				System.out.println("possui " + Board.continentes[i].nome);		
 			}
 		}
 	}
@@ -126,33 +162,45 @@ public class Player {
 		if(troca == "s" || maoCartas.size()>=5) {
 			trocarCartas();
 		}
+		ent.close();
 	}
+	
+	
 	
 //	------ FUNÇÕES DE TESTE ------
 	public static void TESTE_criaJogadores() {
 		System.out.println("--- TESTE CRIA JOGADORES ---");
 		Player[] galera = {
-				new Player("marcelinho", "amarelo"),
-				new Player("joao", "preto"),
+				new Player("marcelo", "amarelo"),
+				new Player("joao", "vermelho"),
 				new Player("maria", "azul"),
 				new Player("jorge", "verde"),
 				
 		};
+		
+		BaralhoTerritorio.sorteiaCartas();
 		System.out.println("Ordem dos Jogadores:");
 		
 		for(int i = 0; i<jogadores.size(); i++) {
-			System.out.println(i + " : " + jogadores.get(i).nome + "\tobjetivo: " + jogadores.get(i).objetivo.objetivo); 
+			System.out.println((i+1) + " : " + jogadores.get(i).nome + "\tcor: " + jogadores.get(i).cor + "\tobjetivo: " + jogadores.get(i).objetivo.objetivo); 
 		}
+		System.out.println("Territorios sorteados...");
+		
 		System.out.println();
 	}
 	
-	public void TESTE_JogadorVez() {
-		System.out.println("--- Jogadores ---");
+	public void TESTE_JogadorVez() { 
+		System.out.println("--- Jogador da Vez ---");
 		
 		System.out.println("-> " + nome);
 		System.out.println("cor:\t " + cor);
 		System.out.println("objetivo:\t " + objetivo.objetivo); 
+		
+		contarExercitosRodada();
 		System.out.println("tropas a disposiçao:\t " + exercitosRodada + '\n');
+		
+		System.out.println("vai colocar todas as tropas no primeiro territorio...\n");		
+		botarExercitos(territorios.get(0), exercitosRodada);
 		
 		System.out.println("Territorios:");
 		for(int i = 0; i<territorios.size(); i++) {
@@ -173,11 +221,9 @@ public class Player {
 		}
 		System.out.println("É a vez de " + jogadores.get(0).nome);
 	}
-	
-	
-	
-	public void TESTE_Jogador() {
-		System.out.println("--- TESTE JOGADOR ---");
+
+	public void TESTE_PrimeiroJogador() {
+		System.out.println("--- TESTE PRIMEIRO JOGADOR ---");
 		
 		System.out.println("nome:\t " + nome);
 		System.out.println("cor:\t " + cor);
@@ -194,5 +240,6 @@ public class Player {
 		}
 		System.out.println();
 	}
+	
 	
 }

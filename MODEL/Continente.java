@@ -18,7 +18,7 @@ public class Continente {
 		territorios.add(t);
 	}
 	
-	public Boolean validaBonus(Player.Cor c) {
+	public Boolean validarBonus(Player.Cor c) {
 		for(int i = 0; i < territorios.size(); i++) {
 			if(territorios.get(i).getCor() != c) {
 				return false;
@@ -27,10 +27,10 @@ public class Continente {
 		return true;
 	}
 	
-	public void Imprime() {
+	public void TESTE_continente() {
 		System.out.println("--- " + nome + " ---");
 		for (Territorio t : territorios) {
-			System.out.println(t.nome + ": " + t.exercitos.size() + " " + t.exercitos.get(0).cor);
+			System.out.println(t.nome + ": " + t.getQtdExercitos() + " " + t.getCor());
 		}
 	}
 }

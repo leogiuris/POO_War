@@ -16,8 +16,7 @@ public class BaralhoTerritorio {
 	}
 	
 	static public void sorteiaCartas() {
-		Random r = new Random();
-		int index;
+
 		
 		if(Player.jogadores.isEmpty()) {
 			return;
@@ -25,10 +24,12 @@ public class BaralhoTerritorio {
 		
 		Collections.shuffle(baralho);
 		
-		for(int i = 0; i<baralho.size(); i++) {		
-			Player.jogadores.get(i % Player.jogadores.size()).territorios.add(baralho.get(i).territorio);
+		for(int i = 0; i<baralho.size(); i++) {
+			Player p = Player.jogadores.get(i % Player.jogadores.size());
+			p.territorios.add(baralho.get(i).territorio);
 			
 		}
+		
 		for (Player j: Player.jogadores) {
 			j.botarExercitosInit();
 		}

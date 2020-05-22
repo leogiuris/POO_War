@@ -2,7 +2,9 @@ package MODEL;
 
 public class Board {
 	
-	static Continente[] continentes = {
+	private static Board singleton = null;
+	
+	public static Continente[] continentes = {
 			new Continente("America do Sul",2),
 			new Continente("America do Norte",5),
 			new Continente("Africa",3),
@@ -10,7 +12,7 @@ public class Board {
 			new Continente("Asia",7),
 			new Continente("Oceania",2)};
 	
-	static Territorio[] territorios = {
+	public static Territorio[] territorios = {
 			//America do Sul
 			new Territorio("Colombia",continentes[0]),
 			new Territorio("Chile",continentes[0]),
@@ -60,7 +62,7 @@ public class Board {
 			new Territorio("NovaGuinea",continentes[5]),
 			new Territorio("Australia",continentes[5])};
 	
-	private int[][] mapa = {
+	private static int[][] mapa = {
 //		AM_SUL			AM_NORTE			AFRICA			EUROPA			ASIA						OCEANIA		
 /*Col*/		{0,1,0,1,	1,0,0,0,0,0,0,0,0,	0,0,0,0,0,0,	0,0,0,0,0,0,0,	0,0,0,0,0,0,0,0,0,0,0,0,	0,0,0,0},
 /*chi*/		{1,0,1,1,	0,0,0,0,0,0,0,0,0,	0,0,0,0,0,0,	0,0,0,0,0,0,0,	0,0,0,0,0,0,0,0,0,0,0,0,	0,0,0,0},
@@ -112,8 +114,22 @@ public class Board {
 /**/		{0,0,0,0,	0,0,0,0,0,0,0,0,0,	0,0,0,0,0,0,	0,0,0,0,0,0,0,	0,0,0,0,0,0,0,0,0,0,0,0,	0,0,0,0}			
 	};
 	
+	public static Board getInstance() {
+		if(singleton == null) {
+			singleton = new Board();
+		}
+		return singleton;
+	}
 	
-	public void TESTE_imprimeFronteira(int index) {
+	
+	
+	
+	static public void TESTE_imprimeFronteira(int index) {
+		
+		if(singleton == null) {
+			singleton = new Board();
+		}
+		
 		System.out.println(territorios[index].nome + " faz fronteira com:");
 		for(int i = 0; i<mapa[index].length; i++) {
 			if(mapa[index][i] == 1) {
@@ -122,10 +138,15 @@ public class Board {
 		}
 	}
 	
-	public void TESTE_imprimeBoard() {
-		System.out.println("--- TESTE BOARD ---");
+	static public void TESTE_imprimeBoard() {
+		
+		if(singleton == null) {
+			singleton = new Board();
+		}
+		
+		System.out.println("\n--- IMPRIME BOARD ---");
 		for(int i = 0; i<continentes.length; i++){
-			continentes[i].Imprime();
+			continentes[i].TESTE_continente();
 			System.out.println();
 		}
 		System.out.println();
