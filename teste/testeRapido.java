@@ -59,13 +59,15 @@ public class testeRapido {
 
 	
 	static void teste2()  {
+		Random r = new Random();
+		
 		Board b = Board.getInstance();
 		Player.TESTE_criaJogadores();
 		Player p = Player.jogadores.get(0);
 		p.TESTE_JogadorVez();
 		
 		Board.TESTE_imprimeBoard();
-		Board.TESTE_imprimeFronteira(3);
+		Board.TESTE_imprimeFronteira(r.nextInt(42));
 	}
 	
 	
