@@ -1,21 +1,15 @@
 package teste;
 
+import MODEL.*;
 import java.util.*;
 
-import MODEL.*;
+import MODEL.Facade;
 
 public class testeRapido {
-	
+
 	static void RotinaInit() {
 		entraJogadores();
 		BaralhoTerritorio.sorteiaCartas();
-	}
-	
-	static void RotinaJogada(int i) {
-		Player j = Player.jogadores.get(i);
-		
-		j.contarExercitosRodada();
-		j.TESTE_JogadorVez();
 	}
 	
 	static void entraJogadores() {
@@ -34,7 +28,7 @@ public class testeRapido {
 			if(cor.compareTo("0") == 0) {
 				break;
 			}
-			new Player(nome,cor);
+			Facade.criaJogador(nome, cor);
 			n++;
 		}
 		ent.close();
@@ -42,37 +36,38 @@ public class testeRapido {
 	}
 	
 	
+	
+	
+	
 	static void teste1() {
+		RotinaInit();
 		
-
-		new Player("jon", "verde");
-		entraJogadores();
-		
-		BaralhoTerritorio.sorteiaCartas();
-		
-		Player.TESTE_Status_Jogadores();
-		//Player.jogadores.get(0).TESTE_Jogador();
-		Board.TESTE_imprimeBoard();
-		
-		return;
+		Facade.TESTE_jogadorVez();
+		Facade.TESTE_imprimeBoard();
 	}
-
 	
 	static void teste2()  {
-		Random r = new Random();
+		Facade.TESTE_criaJogadores();
+		Facade.ComeçaJogada();
+		Facade.TESTE_jogadorVez();		
+		Facade.TESTE_imprimeBoard();
 		
-		Board b = Board.getInstance();
-		Player.TESTE_criaJogadores();
-		Player p = Player.jogadores.get(0);
-		p.TESTE_JogadorVez();
+		Scanner ent = new Scanner(System.in);
+		System.out.println("digite o indice do territorio escolhido:");
+		int i = ent.nextInt();
+		System.out.println("digite a quantidade de exercitos que vai colocar:");
+		int qtd = ent.nextInt();
 		
-		Board.TESTE_imprimeBoard();
-		Board.TESTE_imprimeFronteira(r.nextInt(42));
+		Facade.AlocaExercitos(i, qtd);
+		Facade.TESTE_jogadorVez();	
 	}
-	
 	
 	public static void main(String[] args) {
 		teste2();
-	}
-		
+	}		
 }
+
+
+
+
+

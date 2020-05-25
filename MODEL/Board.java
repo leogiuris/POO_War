@@ -1,6 +1,6 @@
 package MODEL;
 
-public class Board {
+class Board {
 	
 	private static Board singleton = null;
 	
@@ -122,6 +122,23 @@ public class Board {
 	
 	
 	
+	public static boolean fazFronteira(Territorio a, Territorio b) {
+		for(int i = 0; i < territorios.length; i++) {
+			if(territorios[i] == a) {
+				for(int j = 0; j < territorios.length; j++) {
+					if(territorios[j] == b) {
+						if(mapa[i][j] == 1) {
+							return true;
+						}
+						else
+							return false;
+					}
+				}
+			}
+		}
+		System.out.print("ERRO_fazFronteira()");
+		return false;
+	}
 	
 	static public void TESTE_imprimeFronteira(int index) {
 		

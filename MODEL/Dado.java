@@ -4,9 +4,12 @@ import java.util.*;
 
 public class Dado {
 	
+	int valor;
+	
 	public int RolarDado() {
 		Random r = new Random();
-		return r.nextInt(6) + 1;
+		valor = r.nextInt(6) + 1;
+		return valor;
 	}
 	
 	public void TESTE_dado() {
