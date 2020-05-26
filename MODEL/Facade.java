@@ -7,21 +7,21 @@ public class Facade {
 
 	//esta função é chamada pelo Controller ao clicar num territorio,
 	//então o indice do territorio virá com o clique no GUI.
-	public static void AlocaExercitos(int index, int qtd) {
+	public static void JOG_AlocaExercitos(int index, int qtd) {
 		Player p = Player.getJogadorDaVez();
 		p.botarExercitos(Board.territorios[index], qtd);
 	}
 	
-	public static void ComeçaJogada() {
+	public static void JOG_ComeçaJogada() {
 		Player p = Player.getJogadorDaVez();
 		p.IniciarJogada();
 	}
 	
-	public static boolean fazFronteira(Territorio a, Territorio b){
+	public static boolean MAPA_FazFronteira(Territorio a, Territorio b){
 		return Board.fazFronteira(a, b);
 	}
 	
-	public static void criaJogador(String nome, String cor) {
+	public static void JOG_CriaJogador(String nome, String cor) {
 		new Player(nome,cor);
 	}
 	

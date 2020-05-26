@@ -54,7 +54,11 @@ public class Player {
 		this.nome = nome;
 		this.cor = getCor(cor);
 		qtd_jogadores++;
-		int num = sorteioOrdemJogada();
+		
+		//sorteio da ordem
+		Random r = new Random();
+		int num = r.nextInt(6);
+		
 		objetivo = BaralhoObjetivo.sorteioObjetivo();
 		System.out.println(nome + " rolou... " + (num+1) ); 
 		
@@ -67,15 +71,9 @@ public class Player {
 		}
 	}
 
-	int sorteioOrdemJogada() {
-		Random random = new Random();
-		int numero = random.nextInt(6);
-		return numero;
-	}
 
-	
-	
-	
+
+
 	
 	//---------  FUNÇÕES ESTATICAS  ---------
 	
@@ -87,8 +85,14 @@ public class Player {
 		return jogadores.get(jogada%getNumJogadores());
 	}
 	
-	
-	
+	public static Player getJogadorPorCor(Cor c) {
+		for (Player p : jogadores) {
+			if(p.cor == c)
+				return p;
+		}
+		System.out.println("ERRO - não ha jogador com essa cor");
+		return getJogadorDaVez();
+	}
 	
 	
 	//--------- FUNÇÕES DO OBJETO -----------
@@ -102,13 +106,22 @@ public class Player {
 		if(conquistouTerritorio) {
 			ReceberCarta();
 		}
-		
 		jogando = false;
 		jogada++;
 	}
 	
 	private void ReceberCarta() {
 		//implementar
+	}
+	
+	public void Atacar(Territorio origem, Territorio destino, int qtd_tropas) {
+		//verificar se origem pertence ao jogador
+		if(origem.getCor() != cor) {
+			System.out.println("ERRO - territorio de origem nao pertence ao jogador")
+		}
+		//verificar se origem possui mais de um exercito
+		//verificar se destino pertence a outro jogador
+		
 	}
 	
 	public void botarExercitos(Territorio t, int qtd_tropas) {
@@ -119,7 +132,6 @@ public class Player {
 			System.out.print("Erro entrada botarExercitos");
 			return;
 		}
-		
 		
 		for (int i = 0; i < qtd_tropas; i++) {
 			
@@ -209,7 +221,7 @@ public class Player {
 	
 	
 	
-//	------ FUNÇÕES DE TESTE ------
+//	--------- FUNÇÕES DE TESTE ----------
 	public static void TESTE_criaJogadores() {
 		System.out.println("--- TESTE CRIA JOGADORES ---");
 
@@ -231,7 +243,6 @@ public class Player {
 		System.out.println();
 	}
 	
-
 	public static void TESTE_Status_JogadorVez() { 
 		System.out.println("--- Jogador da Vez ---");
 

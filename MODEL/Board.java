@@ -120,25 +120,15 @@ class Board {
 		return singleton;
 	}
 	
-	
-	
 	public static boolean fazFronteira(Territorio a, Territorio b) {
-		for(int i = 0; i < territorios.length; i++) {
-			if(territorios[i] == a) {
-				for(int j = 0; j < territorios.length; j++) {
-					if(territorios[j] == b) {
-						if(mapa[i][j] == 1) {
-							return true;
-						}
-						else
-							return false;
-					}
-				}
-			}
+		if(mapa[a.index][b.index] == 1) {
+			return true;
 		}
-		System.out.print("ERRO_fazFronteira()");
-		return false;
+		else
+			return false;
 	}
+	
+	
 	
 	static public void TESTE_imprimeFronteira(int index) {
 		

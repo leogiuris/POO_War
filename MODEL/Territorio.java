@@ -8,11 +8,16 @@ public class Territorio {
 	
 	public String nome;
 	public Continente continente;
+	public int index;
 	public List<Exercito> exercitos = new ArrayList<Exercito>();
+	
+	private int qtdTerritorios = 0;
 	
 	public Territorio(String nome, Continente continente) {
 		this.nome = nome;
 		this.continente = continente;
+		this.index = qtdTerritorios;
+		qtdTerritorios++;
 		continente.AddTerritorio(this);
 		BaralhoTerritorio.addCarta(this);
 	}

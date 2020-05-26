@@ -28,7 +28,7 @@ public class testeRapido {
 			if(cor.compareTo("0") == 0) {
 				break;
 			}
-			Facade.criaJogador(nome, cor);
+			Facade.JOG_CriaJogador(nome, cor);
 			n++;
 		}
 		ent.close();
@@ -48,7 +48,7 @@ public class testeRapido {
 	
 	static void teste2()  {
 		Facade.TESTE_criaJogadores();
-		Facade.ComeçaJogada();
+		Facade.JOG_ComeçaJogada();
 		Facade.TESTE_jogadorVez();		
 		Facade.TESTE_imprimeBoard();
 		
@@ -58,7 +58,7 @@ public class testeRapido {
 		System.out.println("digite a quantidade de exercitos que vai colocar:");
 		int qtd = ent.nextInt();
 		
-		Facade.AlocaExercitos(i, qtd);
+		Facade.JOG_AlocaExercitos(i, qtd);
 		Facade.TESTE_jogadorVez();	
 	}
 	
