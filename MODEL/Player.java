@@ -117,9 +117,11 @@ public class Player {
 	public void Atacar(Territorio origem, Territorio destino, int qtd_tropas) {
 		//verificar se origem pertence ao jogador
 		if(origem.getCor() != cor) {
-			System.out.println("ERRO - territorio de origem nao pertence ao jogador")
+			System.out.println("ERRO - territorio de origem nao pertence ao jogador");
 		}
+		
 		//verificar se origem possui mais de um exercito
+		
 		//verificar se destino pertence a outro jogador
 		
 	}

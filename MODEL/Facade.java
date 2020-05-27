@@ -1,7 +1,6 @@
 package MODEL;
 
 public class Facade {
-
 	
 	static Board b = Board.getInstance();
 
@@ -17,15 +16,21 @@ public class Facade {
 		p.IniciarJogada();
 	}
 	
-	public static boolean MAPA_FazFronteira(Territorio a, Territorio b){
-		return Board.fazFronteira(a, b);
-	}
-	
 	public static void JOG_CriaJogador(String nome, String cor) {
 		new Player(nome,cor);
 	}
 	
-		
+	public static void JOG_Atacar(int i_origem, int i_destino, int qtd_tropas) {
+		Player p = Player.getJogadorDaVez();
+		p.Atacar(Board.territorios[i_origem], Board.territorios[i_destino], qtd_tropas);
+	}
+	
+	public static boolean MAPA_FazFronteira(Territorio a, Territorio b){
+		return Board.fazFronteira(a, b);
+	}
+	
+	
+	
 	
 	// TESTES
 	public static void TESTE_jogadorVez() {
