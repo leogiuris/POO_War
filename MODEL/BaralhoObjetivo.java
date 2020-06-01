@@ -7,8 +7,8 @@ public class BaralhoObjetivo {
 	static private List<CartaObjetivo> baralho = new ArrayList<CartaObjetivo>();
 	
 	
-	static public void criaCarta(String objetivo) {
-		CartaObjetivo carta = new CartaObjetivo(objetivo);
+	static public void criaCarta() {
+		CartaObjetivo carta = new CartaObjetivo();
 		baralho.add(carta);
 	}
 	

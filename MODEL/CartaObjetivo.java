@@ -1,9 +1,18 @@
 package MODEL;
 
-public class CartaObjetivo {
-	public String objetivo;
+import VIEW.Tabuleiro;
+
+public abstract class CartaObjetivo {
+	protected String descricao;
+	protected Player dono;
 	
-	CartaObjetivo(String o){
-		objetivo = o;
-	}
+	protected CartaObjetivo() {
+        this.descricao = "sem descrição";
+    }
+	
+	public abstract boolean satisfeito();
+	
+	 public void setDono(Player jogador) {
+	        this.dono = jogador;
+	 }
 }

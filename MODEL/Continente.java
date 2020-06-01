@@ -11,7 +11,6 @@ public class Continente {
 		this.nome = nome;
 		this.bonus = bonus;
 		territorios = new ArrayList<Territorio>();
-		BaralhoObjetivo.criaCarta("coquistar todo o continente " + nome);
 	}
 	
 	public void AddTerritorio(Territorio t) {
@@ -26,6 +25,23 @@ public class Continente {
 		}
 		return true;
 	}
+	
+	public String getNome() {
+        return nome;
+    }
+	
+	// se não tiver dono retorna null
+    public Player getDono() {
+        // deve ter pelo menos 1 país por razões óbvias
+        Iterator<Territorio> territorioIterator = territorios.iterator();
+        Player jogador = territorioIterator.next().getDono();
+
+        while (territorioIterator.hasNext())
+            if (territorioIterator.next().getDono() != jogador)
+                return null;
+
+        return jogador;
+    }
 	
 	public void TESTE_continente() {
 		System.out.println("--- " + nome + " ---");
