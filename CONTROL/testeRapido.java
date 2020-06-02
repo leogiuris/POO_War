@@ -33,10 +33,7 @@ public class testeRapido {
 		}
 		ent.close();
 		return;
-	}
-	
-	
-	
+	}	
 	
 	
 	static void teste1() {

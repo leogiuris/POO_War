@@ -25,11 +25,18 @@ public class Facade {
 		p.Atacar(Board.territorios[i_origem], Board.territorios[i_destino], qtd_tropas);
 	}
 	
+	public String JOG_getObjetivo() {
+		Player p = Player.getJogadorDaVez();
+		return p.getObjetivo();
+	}
+	
 	public static boolean MAPA_FazFronteira(Territorio a, Territorio b){
 		return Board.fazFronteira(a, b);
 	}
 	
-	
+	public static void BART_SorteiaCartas() {
+		BaralhoTerritorio.sorteiaCartas();
+	}
 	
 	
 	// TESTES

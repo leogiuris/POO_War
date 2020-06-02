@@ -110,20 +110,91 @@ public class Player {
 		jogada++;
 	}
 	
-	private void ReceberCarta() {
-		//implementar
-	}
+
+	
+	
+	
 	
 	public void Atacar(Territorio origem, Territorio destino, int qtd_tropas) {
+		
+		//verificar se fazem fronteira
+		if(!Board.fazFronteira(origem, destino)) {
+			System.out.println("ERRO - ataque invalido (nao fazem fronteira)");
+			return;
+		}
+		
 		//verificar se origem pertence ao jogador
 		if(origem.getCor() != cor) {
 			System.out.println("ERRO - territorio de origem nao pertence ao jogador");
 		}
 		
 		//verificar se origem possui mais de um exercito
+		if(origem.getQtdExercitos() <= qtd_tropas) {
+			System.out.println("ERRO - ataque invalido (ataque nao possui exercitos suficiente)");
+			return;
+		}
 		
 		//verificar se destino pertence a outro jogador
+		if(destino.getCor() == this.cor) {
+			System.out.println("ERRO - ataque invalido (territorios do mesmo jogador)");
+			return;
+		}
+		//verificar se qtd_tropas é menor que 3
+		if(qtd_tropas > 3) {
+			System.out.println("ERRO - ataque invalido (qtd_tropas > 3)");
+			return;
+		}
 		
+		//instanciar dados de acordo c qtd_tropas
+		Dado []dadosAtaque = new Dado[qtd_tropas];
+		Dado []dadosDefesa;
+		if(destino.getQtdExercitos() > 3)
+			dadosDefesa = new Dado[3];
+		
+		else
+			dadosDefesa = new Dado[destino.getQtdExercitos()];
+		
+		//rolar dados ataque
+		int [] valoresAtaque = new int[qtd_tropas];
+		
+		for (int i = 0; i < valoresAtaque.length; i++) {
+			valoresAtaque[i] = dadosAtaque[i].RolarDado();
+		}
+		
+		Arrays.sort(valoresAtaque);
+		
+		
+		//rolar dados defesa
+		int [] valoresDefesa = new int[qtd_tropas];
+		
+		for (int i = 0; i < valoresDefesa.length; i++) {
+			valoresDefesa[i] = dadosDefesa[i].RolarDado();
+		}
+		
+		Arrays.sort(valoresDefesa);
+		
+		//compara dados (parte mais importante)
+		int tropasAvante = qtd_tropas;
+		for (int i = 0; i < valoresDefesa.length && i < valoresAtaque.length; i++) {
+			if(valoresAtaque[i] > valoresDefesa[i])
+				destino.exercitos.remove(0);
+			else {
+				tropasAvante--;
+				origem.exercitos.remove(0);
+			}
+		}
+		
+		//caso conquiste o territorio inimigo
+		if(destino.getCor() == Cor.vazio) {
+			conquistouTerritorio = true;
+			moverExercitos(origem,destino,tropasAvante);
+		}
+		
+	}
+	
+	public void ReceberCarta() {
+		if(conquistouTerritorio)
+			maoCartas.add(BaralhoTerritorio.pegarCarta());
 	}
 	
 	public void botarExercitos(Territorio t, int qtd_tropas) {
@@ -151,6 +222,12 @@ public class Player {
 			}
 			else
 				exercitosRodada--;
+		}
+	}
+	
+	public void moverExercitos(Territorio a, Territorio b, int qtd) {
+		for (int i = 0; i < qtd; i++) {
+			b.exercitos.add(a.exercitos.remove(0));
 		}
 	}
 	
@@ -219,6 +296,10 @@ public class Player {
 			trocarCartas();
 		}
 		ent.close();
+	}
+	
+	public String getObjetivo() {
+		return this.objetivo.objetivo;
 	}
 	
 	

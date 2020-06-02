@@ -11,6 +11,10 @@ public class BaralhoTerritorio {
 		baralho.add(carta);
 	}
 	
+	static public CartaTerritorio pegarCarta() {
+		return baralho.remove(0);
+	}
+	
 	static public int getTamanho() {
 		return baralho.size();
 	}

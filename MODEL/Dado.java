@@ -17,5 +17,5 @@ public class Dado {
 			System.out.print(RolarDado() + ", ");
 		}
 		System.out.println();
-	}
+	}	
 }

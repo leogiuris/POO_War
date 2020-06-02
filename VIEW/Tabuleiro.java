@@ -10,19 +10,21 @@ import java.io.*;
 
 
 public class Tabuleiro extends JPanel{
-	public static final int IMG_X = 0;
-	public static final int IMG_Y = 0;
-	private ListaImagens li;
+	public static final int IMG_X = 100;
+	public static final int IMG_Y = 100;
+	private BancoImagens li;
 	
-	public Tabuleiro(ListaImagens l) {
+	public Tabuleiro(BancoImagens l) {
 		li = l;
 	}
 	
-	public void paintComponent(Graphics g) {
+	public void MostraMapa(Graphics g) {
 		super.paintComponent(g);
 		Image []vi = li.getImagem();
 		int larg = IMG_X, alt = IMG_Y;
 		
 		g.drawImage(vi[0],larg,alt,null);
+		g.drawImage(vi[79], larg, alt,null);
+		
 	}
 }
