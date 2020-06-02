@@ -1,8 +1,6 @@
 package MODEL;
 import java.util.*;
 
-import VIEW.Tabuleiro;
-
 public class Player {
 	String nome;
 	Cor cor;
@@ -18,7 +16,7 @@ public class Player {
 	
 	static public List<Player> jogadores = new ArrayList<Player>();
 	static int jogada = 0;
-	static int maior = 0;
+	static int maiorDado = 0;
 	static int numTroca = 1;
 	
 	public enum Cor{
@@ -50,36 +48,34 @@ public class Player {
 			return null;
 	}
 	
-	public Cor getCor() {
-		return this.cor;
-	}
-	
 	
 //	CONSTRUTOR	
 	public Player(String nome, String cor){
 		this.nome = nome;
 		this.cor = getCor(cor);
 		qtd_jogadores++;
-		
-		//sorteio da ordem
-		Random r = new Random();
-		int num = r.nextInt(6);
-		
+		int num = sorteioOrdemJogada();
 		objetivo = BaralhoObjetivo.sorteioObjetivo();
 		System.out.println(nome + " rolou... " + (num+1) ); 
 		
-		if(num>=maior) {
+		if(num>=maiorDado) {
 			jogadores.add(0, this);
-			maior = num;
+			maiorDado = num;
 		}
 		else {
 			jogadores.add(this);
 		}
 	}
 
+	int sorteioOrdemJogada() {
+		Random random = new Random();
+		int numero = random.nextInt(6);
+		return numero;
+	}
 
-
-
+	
+	
+	
 	
 	//---------  FUNÇÕES ESTATICAS  ---------
 	
@@ -91,18 +87,9 @@ public class Player {
 		return jogadores.get(jogada%getNumJogadores());
 	}
 	
-	public static Player getJogadorPorCor(Cor c) {
-		for (Player p : jogadores) {
-			if(p.cor == c)
-				return p;
-		}
-		System.out.println("ERRO - não ha jogador com essa cor");
-		return getJogadorDaVez();
-	}
 	
-	public Tabuleiro getTabuleiro() {
-        return tabuleiro;
-    }
+	
+	
 	
 	//--------- FUNÇÕES DO OBJETO -----------
 	public void IniciarJogada() {
@@ -115,95 +102,13 @@ public class Player {
 		if(conquistouTerritorio) {
 			ReceberCarta();
 		}
+		
 		jogando = false;
 		jogada++;
 	}
 	
-
-	
-	
-	
-	
-	public void Atacar(Territorio origem, Territorio destino, int qtd_tropas) {
-		
-		//verificar se fazem fronteira
-		if(!Board.fazFronteira(origem, destino)) {
-			System.out.println("ERRO - ataque invalido (nao fazem fronteira)");
-			return;
-		}
-		
-		//verificar se origem pertence ao jogador
-		if(origem.getCor() != cor) {
-			System.out.println("ERRO - territorio de origem nao pertence ao jogador");
-		}
-		
-		//verificar se origem possui mais de um exercito
-		if(origem.getQtdExercitos() <= qtd_tropas) {
-			System.out.println("ERRO - ataque invalido (ataque nao possui exercitos suficiente)");
-			return;
-		}
-		
-		//verificar se destino pertence a outro jogador
-		if(destino.getCor() == this.cor) {
-			System.out.println("ERRO - ataque invalido (territorios do mesmo jogador)");
-			return;
-		}
-		//verificar se qtd_tropas é menor que 3
-		if(qtd_tropas > 3) {
-			System.out.println("ERRO - ataque invalido (qtd_tropas > 3)");
-			return;
-		}
-		
-		//instanciar dados de acordo c qtd_tropas
-		Dado []dadosAtaque = new Dado[qtd_tropas];
-		Dado []dadosDefesa;
-		if(destino.getQtdExercitos() > 3)
-			dadosDefesa = new Dado[3];
-		
-		else
-			dadosDefesa = new Dado[destino.getQtdExercitos()];
-		
-		//rolar dados ataque
-		int [] valoresAtaque = new int[qtd_tropas];
-		
-		for (int i = 0; i < valoresAtaque.length; i++) {
-			valoresAtaque[i] = dadosAtaque[i].RolarDado();
-		}
-		
-		Arrays.sort(valoresAtaque);
-		
-		
-		//rolar dados defesa
-		int [] valoresDefesa = new int[qtd_tropas];
-		
-		for (int i = 0; i < valoresDefesa.length; i++) {
-			valoresDefesa[i] = dadosDefesa[i].RolarDado();
-		}
-		
-		Arrays.sort(valoresDefesa);
-		
-		//compara dados (parte mais importante)
-		int tropasAvante = qtd_tropas;
-		for (int i = 0; i < valoresDefesa.length && i < valoresAtaque.length; i++) {
-			if(valoresAtaque[i] > valoresDefesa[i])
-				destino.exercitos.remove(0);
-			else {
-				tropasAvante--;
-				origem.exercitos.remove(0);
-			}
-		}
-		
-		//caso conquiste o territorio inimigo
-		if(destino.getCor() == Cor.vazio) {
-			conquistouTerritorio = true;
-			moverExercitos(origem,destino,tropasAvante);
-		}
-		
-	}
-	
-	public void ReceberCarta() {
-		if(conquistouTerritorio)
-			maoCartas.add(BaralhoTerritorio.pegarCarta());
+	private void ReceberCarta() {
+		//implementar
 	}
 	
 	public void botarExercitos(Territorio t, int qtd_tropas) {
@@ -214,6 +119,7 @@ public class Player {
 			System.out.print("Erro entrada botarExercitos");
 			return;
 		}
+		
 		
 		for (int i = 0; i < qtd_tropas; i++) {
 			
@@ -231,12 +137,6 @@ public class Player {
 			}
 			else
 				exercitosRodada--;
-		}
-	}
-	
-	public void moverExercitos(Territorio a, Territorio b, int qtd) {
-		for (int i = 0; i < qtd; i++) {
-			b.exercitos.add(a.exercitos.remove(0));
 		}
 	}
 	
@@ -301,19 +201,85 @@ public class Player {
 		Scanner ent=new Scanner(System.in);
 		System.out.println("Deseja fazer a troca de cartas?(Sim/Nao)"); 
 		String troca=ent.nextLine();
-		if(troca == "s" || maoCartas.size()>=5) {
+		if(troca == "s" || maoCartas.size()>=3) {
 			trocarCartas();
 		}
 		ent.close();
 	}
 	
-	public String getObjetivo() {
-		return this.objetivo.objetivo;
+	public boolean playerAtaque(Territorio a, Territorio b){
+		
+		/*if(fazFronteira(a,b)) func do controller*/
+		
+		Dado Ataque = new Dado();
+		Dado Defesa = new Dado();
+		ArrayList<Integer> dadosAtaque = new ArrayList<Integer>();
+		if(a.getQtdExercitos()<=4) {
+			for(int i =0; i<=(a.getQtdExercitos()-1);i++) {
+				dadosAtaque.add(Ataque.RolarDado()); 
+			}
+		}
+		else {
+			for(int i =0; i<=3;i++) {
+				dadosAtaque.add(Ataque.RolarDado()); 
+			}
+		}
+		ArrayList<Integer> dadosDefesa = new ArrayList<Integer>();
+		if(b.getQtdExercitos()<=3)
+			for(int i =0; i<=b.getQtdExercitos();i++) {
+				dadosDefesa.add(Defesa.RolarDado()); 
+			}
+		else {
+			for(int i =0; i<=3;i++) {
+				dadosDefesa.add(Defesa.RolarDado()); 
+			}
+		}
+		
+		//dadosAtaque(0)= min
+		Collections.sort(dadosAtaque);
+		Collections.sort(dadosDefesa);
+		
+		//Remove exercitos dependendo do valor dos dados
+		if(dadosAtaque.get(dadosAtaque.size() - 1)<=dadosDefesa.get(dadosDefesa.size() - 1)) {
+			a.exercitos.remove(0);
+		}
+		else {
+			b.exercitos.remove(0);
+		}
+		
+		if(dadosAtaque.get(dadosAtaque.size() - 2)<=dadosDefesa.get(dadosDefesa.size() - 2)) {
+			a.exercitos.remove(0);
+		}
+		else {
+			b.exercitos.remove(0);
+		}
+		
+		if(dadosAtaque.get(dadosAtaque.size() - 3)<=dadosDefesa.get(dadosDefesa.size() - 3) ) {
+			a.exercitos.remove(0);
+		}
+		else {
+			b.exercitos.remove(0);
+		}
+		//Conquista territorio
+		if(b.getQtdExercitos()==0) {
+			b.setCor(a.getCor());
+			//Deslocamento de exercitos pos ataque
+			Scanner ent=new Scanner(System.in);
+			System.out.println("Deseja deslocar quantas unidades para territorio conquistado? (1,2,3)");
+			int qtdExercito =ent.nextInt();
+			for(int i =0;i<qtdExercito;i++) {
+				b.botarExercito(a.exercitos.remove(0));
+			}
+			ent.close();
+		}
+		
+		return (b.getQtdExercitos()==0);
+		
 	}
 	
+
 	
-	
-//	--------- FUNÇÕES DE TESTE ----------
+//	------ FUNÇÕES DE TESTE ------
 	public static void TESTE_criaJogadores() {
 		System.out.println("--- TESTE CRIA JOGADORES ---");
 
@@ -335,6 +301,7 @@ public class Player {
 		System.out.println();
 	}
 	
+
 	public static void TESTE_Status_JogadorVez() { 
 		System.out.println("--- Jogador da Vez ---");
 
@@ -388,5 +355,8 @@ public class Player {
 		System.out.println();
 	}
 	
+	public void TESTE_Ataque() {
+	
+	}
 	
 }

@@ -8,16 +8,12 @@ public class Territorio {
 	
 	public String nome;
 	public Continente continente;
-	public int index;
+	public Cor cor;
 	public List<Exercito> exercitos = new ArrayList<Exercito>();
-	public Player dono;
-	private int qtdTerritorios = 0;
 	
 	public Territorio(String nome, Continente continente) {
 		this.nome = nome;
 		this.continente = continente;
-		this.index = qtdTerritorios;
-		qtdTerritorios++;
 		continente.AddTerritorio(this);
 		BaralhoTerritorio.addCarta(this);
 	}
@@ -31,6 +27,10 @@ public class Territorio {
 			return Player.Cor.vazio;
 		}
 		return exercitos.get(0).cor;
+	}
+	
+	public void setCor(Cor a){
+		cor =a;
 	}
 	
 	public boolean validaCor(Cor c) {
@@ -48,12 +48,4 @@ public class Territorio {
 
 		return false;		
 	}
-	
-	public void setDono(Player jogador) {
-        this.dono = jogador;
-    }
-
-    public Player getDono() {
-        return this.dono;
-    }
 }
