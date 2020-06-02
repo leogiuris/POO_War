@@ -10,7 +10,7 @@ public class Territorio {
 	public Continente continente;
 	public int index;
 	public List<Exercito> exercitos = new ArrayList<Exercito>();
-	
+	public Player dono;
 	private int qtdTerritorios = 0;
 	
 	public Territorio(String nome, Continente continente) {
@@ -48,4 +48,12 @@ public class Territorio {
 
 		return false;		
 	}
+	
+	public void setDono(Player jogador) {
+        this.dono = jogador;
+    }
+
+    public Player getDono() {
+        return this.dono;
+    }
 }

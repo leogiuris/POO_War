@@ -1,6 +1,8 @@
 package MODEL;
 import java.util.*;
 
+import VIEW.Tabuleiro;
+
 public class Player {
 	String nome;
 	Cor cor;
@@ -46,6 +48,10 @@ public class Player {
 			return Cor.vermelho;
 		else
 			return null;
+	}
+	
+	public Cor getCor() {
+		return this.cor;
 	}
 	
 	
@@ -94,6 +100,9 @@ public class Player {
 		return getJogadorDaVez();
 	}
 	
+	public Tabuleiro getTabuleiro() {
+        return tabuleiro;
+    }
 	
 	//--------- FUNÇÕES DO OBJETO -----------
 	public void IniciarJogada() {

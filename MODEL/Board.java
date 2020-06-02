@@ -1,6 +1,6 @@
 package MODEL;
 
-class Board {
+public class Board {
 	
 	private static Board singleton = null;
 	
