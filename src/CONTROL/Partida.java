@@ -50,9 +50,7 @@ public class Partida {
 		return;
 	}
 
-	public static void main(String[] args) {
-		getInstance();
-	}
+	
 
 
 }

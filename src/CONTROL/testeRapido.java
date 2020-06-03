@@ -59,9 +59,9 @@ public class testeRapido {
 		Facade.TESTE_jogadorVez();	
 	}
 	
-	//public static void main(String[] args) {
-		//teste2();
-	//}		
+	public static void main(String[] args) {
+		teste2();
+	}		
 }
 
 

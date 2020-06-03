@@ -1,7 +1,8 @@
 package CONTROL;
 
+import MODEL.Facade;
 public class Objetivo {
-
+	public Objetivos obj;
 	
 	
 	private enum Objetivos{
@@ -21,6 +22,9 @@ public class Objetivo {
 		Conquistar24Territorios
 	}
 	
+	public boolean cumpriuObjetivo() {
+		return true;
+	}
 	
 	
 }

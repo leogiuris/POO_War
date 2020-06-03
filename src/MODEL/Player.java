@@ -65,7 +65,7 @@ public class Player {
 		Random r = new Random();
 		int num = r.nextInt(6);
 		
-		objetivo = BaralhoObjetivo.sorteioObjetivo();
+		objetivo = CartaObjetivo.sorteioObjetivo();
 		System.out.println(nome + " rolou... " + (num+1) ); 
 		
 		if(num>=maior) {
@@ -100,9 +100,7 @@ public class Player {
 		return getJogadorDaVez();
 	}
 	
-	public Tabuleiro getTabuleiro() {
-        return tabuleiro;
-    }
+
 	
 	//--------- FUNÇÕES DO OBJETO -----------
 	public void IniciarJogada() {
@@ -308,7 +306,7 @@ public class Player {
 	}
 	
 	public String getObjetivo() {
-		return this.objetivo.objetivo;
+		return this.objetivo.descricao;
 	}
 	
 	
@@ -327,7 +325,7 @@ public class Player {
 		
 		for(int i = 0; i<jogadores.size(); i++) {
 
-			System.out.println((i+1) + " : " + jogadores.get(i).nome + "\tcor: " + jogadores.get(i).cor + "\tobjetivo: " + jogadores.get(i).objetivo.objetivo); 
+			System.out.println((i+1) + " : " + jogadores.get(i).nome + "\tcor: " + jogadores.get(i).cor+ "\tobjetivo: " + jogadores.get(i).objetivo.descricao); 
 
 		}
 		System.out.println("Territorios sorteados...");
@@ -341,7 +339,7 @@ public class Player {
 		Player p = jogadores.get(0);
 		System.out.println("-> " + p.nome);
 		System.out.println("cor:\t " + p.cor);
-		System.out.println("objetivo:\t " + p.objetivo.objetivo); 
+		System.out.println("objetivo:\t " + p.objetivo.descricao); 
 		
 		//p.contarExercitosRodada();
 		System.out.println("tropas a disposiçao:\t " + p.exercitosRodada + '\n');
@@ -361,7 +359,7 @@ public class Player {
 			
 			System.out.println("-> " + p.nome);
 			System.out.println("cor:\t " + p.cor);
-			System.out.println("objetivo:\t " + p.objetivo.objetivo); 
+			System.out.println("objetivo:\t " + p.objetivo.descricao); 
 			System.out.println("territorios:\t " + p.territorios.size()); 
 			
 			System.out.println("tropas a disposiçao:\t " + p.exercitosRodada + '\n');
@@ -374,7 +372,7 @@ public class Player {
 		
 		System.out.println("nome:\t " + nome);
 		System.out.println("cor:\t " + cor);
-		System.out.println("objetivo:\t " + objetivo.objetivo); 
+		System.out.println("objetivo:\t " + objetivo.descricao); 
 		contarExercitosRodada();
 		System.out.println("tropas a disposiçao:\t " + exercitosRodada + '\n');
 		
