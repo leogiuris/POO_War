@@ -30,7 +30,13 @@ public class Model {
 		return p.getObjetivo();
 	}
 
-	
+	public static int JOG_getTotalBonusCont() {
+		int total = 0;
+		for(int i: Player.getJogadorDaVez().bonusContinente) {
+			total += i;
+		}
+		return total;
+	}
 	
 	public static void JOG_TerminaJogada() {
 		Player.getJogadorDaVez().TerminarJogada();
@@ -71,6 +77,11 @@ public class Model {
 	
 	
 	// TESTES
+	public static void TESTE_jogadorAlocaPrimeiroTer() {
+		Player p = Player.getJogadorDaVez();
+		p.botarExercitos(p.territorios.get(0), p.exercitosRodada);
+	}
+	
 	public static void TESTE_jogadorVez() {
 		Player.TESTE_Status_JogadorVez();
 	}

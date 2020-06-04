@@ -70,11 +70,14 @@ public class testeRapido {
 			Model.JOG_Atacar(origem, destino, qtd);
 			MenuJogada();
 		}
-		else {
+		else if(i == 2){
 			System.out.println("passou a vez...");
 			Model.JOG_TerminaJogada();
 			return;
 		}
+		
+		return;
+
 	}
 	
 	
@@ -84,6 +87,13 @@ public class testeRapido {
 	
 		System.out.println("digite o indice do territorio escolhido:");
 		int i = ent.nextInt();
+		
+		
+		// opção para pular jogadores (usar em testes)
+		if(i == 99) {
+			Model.JOG_TerminaJogada();
+			return;
+		}
 		System.out.println("digite a quantidade de exercitos que vai colocar:");
 		int qtd = ent.nextInt();
 		
@@ -97,7 +107,7 @@ public class testeRapido {
 		System.out.println("\n\n\n------------- TURNO -------------\n");
 		Model.JOG_ComeçaJogada();
 		
-		while(Model.JOG_qtdExercRodada() > 0) {
+		while(Model.JOG_qtdExercRodada() + Model.JOG_getTotalBonusCont() > 0) {
 			Model.TESTE_jogadorVez();
 			aloca();
 		}

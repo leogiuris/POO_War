@@ -260,6 +260,9 @@ public class Player {
 	}
 	
 	public void botarExercitos(Territorio t, int qtd_tropas) {
+		// o jogador possui dois fundos de onde pode tirar tropas:
+		// - as que ganha toda rodada;
+		// - as que ganha de bonus por continente conquistado
 		
 		int iBonus = getBonusIndex(t);
 		
@@ -268,6 +271,10 @@ public class Player {
 			return;
 		}
 		
+		// apos verificar que possui tropas suficiente;
+		
+		// Para cada tropa disponivel, o jogador aloca para o novo territorio
+		// e decide de onde vai tirar as tropas
 		for (int i = 0; i < qtd_tropas; i++) {
 			
 			if( !t.botarExercito(new Exercito(cor)) ) {
@@ -278,8 +285,8 @@ public class Player {
 				return;
 			}
 			
-			if(exercitosRodada <= 0) {
-				System.out.println("entrou aqui");
+			if(bonusContinente[iBonus] > 0) {
+				System.out.println("usou bonus continente");
 				bonusContinente[iBonus]--;
 			}
 			else
