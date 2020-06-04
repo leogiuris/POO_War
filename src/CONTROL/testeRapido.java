@@ -7,7 +7,7 @@ import MODEL.Model;
 
 public class testeRapido {
 	static Scanner ent = new Scanner(System.in);
-	
+	static boolean temVencedor = false;
 	
 	
 	static void RotinaInit() {
@@ -43,6 +43,8 @@ public class testeRapido {
 		//Scanner ent = new Scanner(System.in);
 		Model.TESTE_jogadorVez();
 		
+		
+		
 		System.out.println("Selecione a sua ação:\n[1 - atacar oponente] [2 - passar a vez]: ");
 		int i = ent.nextInt();
 		if(i == 1) {
@@ -68,6 +70,12 @@ public class testeRapido {
 			}
 			
 			Model.JOG_Atacar(origem, destino, qtd);
+			
+			if(Model.JOG_cumpriuObjetivo()) {
+				temVencedor = true;
+				return;
+			}
+			
 			MenuJogada();
 		}
 		else if(i == 2){
@@ -90,10 +98,11 @@ public class testeRapido {
 		
 		
 		// opção para pular jogadores (usar em testes)
-		if(i == 99) {
+		if(i > 42) {
 			Model.JOG_TerminaJogada();
 			return;
 		}
+		
 		System.out.println("digite a quantidade de exercitos que vai colocar:");
 		int qtd = ent.nextInt();
 		
@@ -105,12 +114,24 @@ public class testeRapido {
 	
 	static void Jogada() {
 		System.out.println("\n\n\n------------- TURNO -------------\n");
+		
 		Model.JOG_ComeçaJogada();
+		
+		if(Model.JOG_cumpriuObjetivo()) {
+			temVencedor = true;
+			return;
+		}
 		
 		while(Model.JOG_qtdExercRodada() + Model.JOG_getTotalBonusCont() > 0) {
 			Model.TESTE_jogadorVez();
 			aloca();
+			
+			if(!Model.JOG_jogando()) {
+				return;
+			}
+				
 		}
+		
 		MenuJogada();	
 	}
 	
@@ -128,16 +149,16 @@ public class testeRapido {
 		//Scanner ent = new Scanner(System.in);
 		Model.TESTE_criaJogadores();
 		
-		while(true)
+		while(!temVencedor)
 			Jogada();
-		//ent.close();
+		
+		System.out.println("\n\n\t----- FIM DE JOGO -----\n\n");
 	}
 	
 	public static void main(String[] args) {
 		teste2();
 
 		ent.close();
-
 	}		
 }
 

@@ -4,8 +4,8 @@ public class Model {
 	
 	static Board b = Board.getInstance();
 
-	//esta função é chamada pelo Controller ao clicar num territorio,
-	//então o indice do territorio virá com o clique no GUI.
+
+	
 	public static void JOG_AlocaExercitos(int index, int qtd) {
 		Player p = Player.getJogadorDaVez();
 		p.botarExercitos(Board.territorios[index], qtd);
@@ -30,6 +30,10 @@ public class Model {
 		return p.getObjetivo();
 	}
 
+	public static boolean JOG_jogando() {
+		return Player.getJogadorDaVez().jogando;
+	}
+	
 	public static int JOG_getTotalBonusCont() {
 		int total = 0;
 		for(int i: Player.getJogadorDaVez().bonusContinente) {
@@ -44,6 +48,10 @@ public class Model {
 	
 	public static int JOG_qtdExercRodada() {
 		return Player.getJogadorDaVez().exercitosRodada;
+	}
+	
+	public static boolean JOG_cumpriuObjetivo() {
+		return Player.getJogadorDaVez().cumpriuObjetivo();
 	}
 	
 	public static int TER_getQtdExercitos(int i) {

@@ -1,7 +1,6 @@
 package MODEL;
 import java.util.*;
 
-import VIEW.Tabuleiro;
 
 public class Player {
 	String nome;
@@ -122,9 +121,12 @@ public class Player {
 		jogando = false;
 		jogada++;
 		
-		getJogadorDaVez().IniciarJogada();
+		//getJogadorDaVez().IniciarJogada();
 	}
 	
+	public boolean cumpriuObjetivo() {
+		return objetivo.cumpriuObjetivo();
+	}
 	
 	public void Atacar(Territorio origem, Territorio destino, int qtd_tropas) {
 		
