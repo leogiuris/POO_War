@@ -1,6 +1,6 @@
 package MODEL;
 
-public class Facade {
+public class Model {
 	
 	static Board b = Board.getInstance();
 
@@ -29,9 +29,35 @@ public class Facade {
 		Player p = Player.getJogadorDaVez();
 		return p.getObjetivo();
 	}
+
 	
-	public static boolean MAPA_FazFronteira(Territorio a, Territorio b){
-		return Board.fazFronteira(a, b);
+	public static int JOG_qtdExercRodada() {
+		return Player.getJogadorDaVez().exercitosRodada;
+	}
+	
+	public static int TER_getQtdExercitos(int i) {
+		return Board.territorios[i].getQtdExercitos();
+	}
+	
+	public static boolean JOG_possuiTerritorio(int index) {
+		for(Territorio t: Player.getJogadorDaVez().territorios) {
+			if(t.index == index) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean MAPA_FazFronteira(int a, int b){
+		return Board.fazFronteira(Board.territorios[a], Board.territorios[b]);
+	}
+	
+	public static void MAPA_getVizinhos(int index) {
+		System.out.println(">> Vizinhos:");
+		for(Territorio t: Board.getVizinhos(Board.territorios[index])) {
+			System.out.println("\t" + t.index + " - " + t.nome);
+		}
+		System.out.println("\n");
 	}
 	
 	public static void BART_SorteiaCartas() {

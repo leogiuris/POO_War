@@ -1,5 +1,8 @@
 package MODEL;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
 	
 	private static Board singleton = null;
@@ -129,8 +132,17 @@ public class Board {
 	}
 	
 	
+	public static List<Territorio> getVizinhos(Territorio t) {
+		List<Territorio> l = new ArrayList<Territorio>();
+		for(Territorio elem: territorios) {
+			if(fazFronteira(t,elem)) {
+				l.add(elem);
+			}
+		}
+		return l;
+	}
 	
-	static public void TESTE_imprimeFronteira(int index) {
+ 	static public void TESTE_imprimeFronteira(int index) {
 		
 		if(singleton == null) {
 			singleton = new Board();

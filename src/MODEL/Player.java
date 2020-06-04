@@ -6,6 +6,7 @@ import VIEW.Tabuleiro;
 public class Player {
 	String nome;
 	Cor cor;
+	Player quemEliminou;
 	int qtd_jogadores = 0;
 	int exercitosRodada = 0;
 	private CartaObjetivo objetivo;
@@ -13,6 +14,7 @@ public class Player {
 	public List<Territorio> territorios = new ArrayList<Territorio>();
 	public int[] bonusContinente = {0,0,0,0,0,0};
 	
+	boolean eliminado = false;
 	boolean jogando = false;
 	boolean conquistouTerritorio = false;
 	
@@ -65,7 +67,7 @@ public class Player {
 		Random r = new Random();
 		int num = r.nextInt(6);
 		
-		objetivo = BaralhoObjetivo.sorteioObjetivo();
+		objetivo = CartaObjetivo.sorteioObjetivo();
 		System.out.println(nome + " rolou... " + (num+1) ); 
 		
 		if(num>=maior) {
@@ -100,12 +102,13 @@ public class Player {
 		return getJogadorDaVez();
 	}
 	
-	public Tabuleiro getTabuleiro() {
-        return tabuleiro;
-    }
+
 	
 	//--------- FUNÇÕES DO OBJETO -----------
 	public void IniciarJogada() {
+		if(eliminado == true) {
+			return;
+		}
 		jogando = true;
 		conquistouTerritorio = false;
 		contarExercitosRodada();
@@ -118,10 +121,7 @@ public class Player {
 		jogando = false;
 		jogada++;
 	}
-	
 
-	
-	
 	
 	
 	public void Atacar(Territorio origem, Territorio destino, int qtd_tropas) {
@@ -148,25 +148,32 @@ public class Player {
 			System.out.println("ERRO - ataque invalido (territorios do mesmo jogador)");
 			return;
 		}
+		
+		Player oponente = destino.getDono();
+		int qtd_def = destino.getQtdExercitos();
 		//verificar se qtd_tropas é menor que 3
 		if(qtd_tropas > 3) {
-			System.out.println("ERRO - ataque invalido (qtd_tropas > 3)");
-			return;
+			System.out.println("ERRO - (qtd_tropas > 3)");
+			qtd_tropas = 3;
 		}
 		
 		//instanciar dados de acordo c qtd_tropas
 		Dado []dadosAtaque = new Dado[qtd_tropas];
 		Dado []dadosDefesa;
-		if(destino.getQtdExercitos() > 3)
+		if(qtd_def > 3)
 			dadosDefesa = new Dado[3];
 		
 		else
-			dadosDefesa = new Dado[destino.getQtdExercitos()];
+			dadosDefesa = new Dado[qtd_def];
+		
+		//dadosAtaque[0].TESTE_dado();
 		
 		//rolar dados ataque
 		int [] valoresAtaque = new int[qtd_tropas];
 		
 		for (int i = 0; i < valoresAtaque.length; i++) {
+			dadosAtaque[i] = new Dado();
+			
 			valoresAtaque[i] = dadosAtaque[i].RolarDado();
 		}
 		
@@ -174,9 +181,10 @@ public class Player {
 		
 		
 		//rolar dados defesa
-		int [] valoresDefesa = new int[qtd_tropas];
+		int [] valoresDefesa = new int[qtd_def];
 		
 		for (int i = 0; i < valoresDefesa.length; i++) {
+			dadosDefesa[i] = new Dado();
 			valoresDefesa[i] = dadosDefesa[i].RolarDado();
 		}
 		
@@ -184,9 +192,27 @@ public class Player {
 		
 		//compara dados (parte mais importante)
 		int tropasAvante = qtd_tropas;
-		for (int i = 0; i < valoresDefesa.length && i < valoresAtaque.length; i++) {
-			if(valoresAtaque[i] > valoresDefesa[i])
+		System.out.println("\n\nATAQUE\tDEFESA");
+			
+		for (int i = 0, j = 0; !destino.exercitos.isEmpty() && i < valoresAtaque.length; i++) {
+			
+			//pausa dramatica
+			try {
+				Thread.sleep(700);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(i<valoresDefesa.length)
+				System.out.println(valoresAtaque[i] + "\t" + valoresDefesa[i]);
+			else
+				System.out.println(valoresAtaque[i]); 
+			
+			if(valoresAtaque[i] > valoresDefesa[j]) {
 				destino.exercitos.remove(0);
+				j++;
+			}
 			else {
 				tropasAvante--;
 				origem.exercitos.remove(0);
@@ -195,10 +221,33 @@ public class Player {
 		
 		//caso conquiste o territorio inimigo
 		if(destino.getCor() == Cor.vazio) {
+			System.out.println("\n(conquistou territorio!)\n\n");
 			conquistouTerritorio = true;
+			territorios.add(destino);
 			moverExercitos(origem,destino,tropasAvante);
 		}
+		else {
+			System.out.println("\n(nao conquistou)\n\n");
+		}
 		
+		//caso elimine um jogador
+		if(oponente.territorios.isEmpty()) {
+			Eliminar(oponente);
+		}
+		
+		//pausa dramatica
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void Eliminar(Player p) {
+		p.quemEliminou = this;
+		p.eliminado = true;
 	}
 	
 	public void ReceberCarta() {
@@ -308,7 +357,7 @@ public class Player {
 	}
 	
 	public String getObjetivo() {
-		return this.objetivo.objetivo;
+		return this.objetivo.descricao.toString();
 	}
 	
 	
@@ -327,7 +376,7 @@ public class Player {
 		
 		for(int i = 0; i<jogadores.size(); i++) {
 
-			System.out.println((i+1) + " : " + jogadores.get(i).nome + "\tcor: " + jogadores.get(i).cor + "\tobjetivo: " + jogadores.get(i).objetivo.objetivo); 
+			System.out.println((i+1) + " : " + jogadores.get(i).nome + "\tcor: " + jogadores.get(i).cor+ "\tobjetivo: " + jogadores.get(i).objetivo.descricao); 
 
 		}
 		System.out.println("Territorios sorteados...");
@@ -341,7 +390,7 @@ public class Player {
 		Player p = jogadores.get(0);
 		System.out.println("-> " + p.nome);
 		System.out.println("cor:\t " + p.cor);
-		System.out.println("objetivo:\t " + p.objetivo.objetivo); 
+		System.out.println("objetivo:\t " + p.objetivo.descricao); 
 		
 		//p.contarExercitosRodada();
 		System.out.println("tropas a disposiçao:\t " + p.exercitosRodada + '\n');
@@ -351,8 +400,9 @@ public class Player {
 		
 		System.out.println("Territorios:");
 		for(int i = 0; i<p.territorios.size(); i++) {
-			System.out.println("- " + p.territorios.get(i).nome + ", "+ p.territorios.get(i).exercitos.size() + " exercitos");
+			System.out.println(p.territorios.get(i).index + " - " + p.territorios.get(i).nome + ", "+ p.territorios.get(i).exercitos.size() + " exercitos");
 		}
+		System.out.println("\n");
 	}
 	
 	static public void TESTE_Status_Jogadores() {
@@ -361,7 +411,7 @@ public class Player {
 			
 			System.out.println("-> " + p.nome);
 			System.out.println("cor:\t " + p.cor);
-			System.out.println("objetivo:\t " + p.objetivo.objetivo); 
+			System.out.println("objetivo:\t " + p.objetivo.descricao); 
 			System.out.println("territorios:\t " + p.territorios.size()); 
 			
 			System.out.println("tropas a disposiçao:\t " + p.exercitosRodada + '\n');
@@ -374,7 +424,7 @@ public class Player {
 		
 		System.out.println("nome:\t " + nome);
 		System.out.println("cor:\t " + cor);
-		System.out.println("objetivo:\t " + objetivo.objetivo); 
+		System.out.println("objetivo:\t " + objetivo.descricao); 
 		contarExercitosRodada();
 		System.out.println("tropas a disposiçao:\t " + exercitosRodada + '\n');
 		

@@ -2,7 +2,7 @@ package CONTROL;
 
 import java.util.Scanner;
 
-import MODEL.Facade;
+import MODEL.Model;
 import VIEW.*;
 
 public class Partida {
@@ -43,16 +43,14 @@ public class Partida {
 			if(cor.compareTo("0") == 0) {
 				break;
 			}
-			Facade.JOG_CriaJogador(nome, cor);
+			Model.JOG_CriaJogador(nome, cor);
 			n++;
 		}
 		ent.close();
 		return;
 	}
 
-	public static void main(String[] args) {
-		getInstance();
-	}
+	
 
 
 }

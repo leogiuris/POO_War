@@ -1,3 +1,7 @@
+
+
+/*
+
 package MODEL;
 
 import java.util.Iterator;
@@ -52,3 +56,8 @@ public class ConquistarContinentes extends CartaObjetivo{
 	
 
 }
+
+
+
+
+*/

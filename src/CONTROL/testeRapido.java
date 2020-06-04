@@ -1,15 +1,18 @@
 package CONTROL;
 
-import MODEL.*;
+
 import java.util.*;
 
-import MODEL.Facade;
+import MODEL.Model;
 
 public class testeRapido {
-
+	static Scanner ent = new Scanner(System.in);
+	
+	
+	
 	static void RotinaInit() {
 		entraJogadores();
-		BaralhoTerritorio.sorteiaCartas();
+		Model.BART_SorteiaCartas();
 	}
 	
 	static void entraJogadores() {
@@ -28,7 +31,7 @@ public class testeRapido {
 			if(cor.compareTo("0") == 0) {
 				break;
 			}
-			Facade.JOG_CriaJogador(nome, cor);
+			Model.JOG_CriaJogador(nome, cor);
 			n++;
 		}
 		ent.close();
@@ -36,32 +39,91 @@ public class testeRapido {
 	}	
 	
 	
-	static void teste1() {
-		RotinaInit();
+	static void MenuJogada() {
+		//Scanner ent = new Scanner(System.in);
+		Model.TESTE_jogadorVez();
 		
-		Facade.TESTE_jogadorVez();
-		Facade.TESTE_imprimeBoard();
+		System.out.println("Selecione a sua ação:\n[1 - atacar oponente] [2 - passar a vez]: ");
+		int i = ent.nextInt();
+		if(i == 1) {
+			System.out.println("digite o indice do territorio escolhido:");
+			int origem = ent.nextInt();
+			if(!Model.JOG_possuiTerritorio(origem)) {
+				MenuJogada();
+				return;
+			}
+			
+			Model.MAPA_getVizinhos(origem);
+			
+			System.out.println("digite o indice do territorio a ser atacado:");
+			int destino = ent.nextInt();
+			
+			System.out.println("digite o numero de exercitos:\n");
+			int qtd = ent.nextInt();
+			if(Model.TER_getQtdExercitos(origem) <= qtd) {
+				System.out.println("ERRO - nao possui exercitos suficiente\n");
+				MenuJogada();
+				//ent.close();
+				return;
+			}
+			
+			Model.JOG_Atacar(origem, destino, qtd);
+			MenuJogada();
+		}
+		else	
+			return;
 	}
 	
-	static void teste2()  {
-		Facade.TESTE_criaJogadores();
-		Facade.JOG_ComeçaJogada();
-		Facade.TESTE_jogadorVez();		
-		Facade.TESTE_imprimeBoard();
+	static void Jogada() {
+		System.out.println("\n\n\n------------- TURNO -------------\n");
+		Model.JOG_ComeçaJogada();
 		
-		Scanner ent = new Scanner(System.in);
+		while(Model.JOG_qtdExercRodada() > 0) {
+			Model.TESTE_jogadorVez();
+			aloca();
+		}
+		MenuJogada();
+		
+		
+		
+		
+	}
+	
+	
+	static void aloca() {
+		System.out.println("--- Alocar Exercitos ---\n");
+		//Scanner ent = new Scanner(System.in);
+	
 		System.out.println("digite o indice do territorio escolhido:");
 		int i = ent.nextInt();
 		System.out.println("digite a quantidade de exercitos que vai colocar:");
 		int qtd = ent.nextInt();
 		
-		Facade.JOG_AlocaExercitos(i, qtd);
-		Facade.TESTE_jogadorVez();	
+		Model.JOG_AlocaExercitos(i, qtd);
+		//ent.close();
+		
+		return;
 	}
 	
-	//public static void main(String[] args) {
-		//teste2();
-	//}		
+	static void teste1() {
+		RotinaInit();
+		
+		Model.TESTE_jogadorVez();
+		Model.TESTE_imprimeBoard();
+	}
+	
+	static void teste2()  {
+		//Scanner ent = new Scanner(System.in);
+		Model.TESTE_criaJogadores();
+		
+		Jogada();
+		//ent.close();
+	}
+	
+	public static void main(String[] args) {
+		teste2();
+		ent.close();
+	}		
 }
 
 

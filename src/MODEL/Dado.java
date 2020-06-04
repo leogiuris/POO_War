@@ -13,6 +13,7 @@ public class Dado {
 	}
 	
 	public void TESTE_dado() {
+		System.out.println("(TESTE DADOS)");
 		for(int i = 0; i< 12; i++) {
 			System.out.print(RolarDado() + ", ");
 		}

@@ -1,3 +1,7 @@
+
+/*
+
+
 package MODEL;
 
 public class ConquistarNPaises extends CartaObjetivo {
@@ -29,3 +33,4 @@ public class ConquistarNPaises extends CartaObjetivo {
     
 }
 
+*/

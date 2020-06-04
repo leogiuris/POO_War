@@ -1,3 +1,6 @@
+
+/*
+
 package MODEL;
 
 public class ConquistarMundo extends CartaObjetivo {
@@ -16,3 +19,6 @@ public class ConquistarMundo extends CartaObjetivo {
     }
     
 }
+
+
+*/
