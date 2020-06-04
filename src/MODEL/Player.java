@@ -106,7 +106,8 @@ public class Player {
 	
 	//--------- FUNÇÕES DO OBJETO -----------
 	public void IniciarJogada() {
-		if(eliminado == true) {
+		if(eliminado == true){
+			TerminarJogada();
 			return;
 		}
 		jogando = true;
@@ -120,8 +121,9 @@ public class Player {
 		}
 		jogando = false;
 		jogada++;
+		
+		getJogadorDaVez().IniciarJogada();
 	}
-
 	
 	
 	public void Atacar(Territorio origem, Territorio destino, int qtd_tropas) {
@@ -223,7 +225,9 @@ public class Player {
 		if(destino.getCor() == Cor.vazio) {
 			System.out.println("\n(conquistou territorio!)\n\n");
 			conquistouTerritorio = true;
-			territorios.add(destino);
+			
+			//q linha horrivel
+			territorios.add(oponente.territorios.remove(oponente.territorios.indexOf(destino)));
 			moverExercitos(origem,destino,tropasAvante);
 		}
 		else {
@@ -245,7 +249,7 @@ public class Player {
 		
 	}
 	
-	public void Eliminar(Player p) {
+ 	public void Eliminar(Player p) {
 		p.quemEliminou = this;
 		p.eliminado = true;
 	}
@@ -389,13 +393,19 @@ public class Player {
 	public static void TESTE_Status_JogadorVez() { 
 		System.out.println("--- Jogador da Vez ---");
 
-		Player p = jogadores.get(0);
+		Player p = Player.getJogadorDaVez();
 		System.out.println("-> " + p.nome);
 		System.out.println("cor:\t " + p.cor);
 		System.out.println("objetivo:\t " + p.objetivo.descricao); 
 		
 		//p.contarExercitosRodada();
-		System.out.println("tropas a disposiçao:\t " + p.exercitosRodada + '\n');
+		System.out.println("tropas para distribuir:\t " + p.exercitosRodada + '\n');
+		System.out.println("bonus por continente:\n"
+				+ "AM_SUL - " + p.bonusContinente[0] + '\t' + "AM_NORTE - " + p.bonusContinente[1] + '\n'
+				+ "AFRICA - " + p.bonusContinente[2] + '\t' + "EUROPA - " + p.bonusContinente[3] + '\n'
+				+ "ASIA - " + p.bonusContinente[4] + '\t' + "OCEANIA - " + p.bonusContinente[5] + '\n');
+		
+		
 		
 		//System.out.println("vai colocar todas as tropas no primeiro territorio...\n");		
 		//p.botarExercitos(p.territorios.get(0), p.exercitosRodada);

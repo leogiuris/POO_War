@@ -31,6 +31,11 @@ public class Model {
 	}
 
 	
+	
+	public static void JOG_TerminaJogada() {
+		Player.getJogadorDaVez().TerminarJogada();
+	}
+	
 	public static int JOG_qtdExercRodada() {
 		return Player.getJogadorDaVez().exercitosRodada;
 	}

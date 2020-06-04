@@ -70,23 +70,11 @@ public class testeRapido {
 			Model.JOG_Atacar(origem, destino, qtd);
 			MenuJogada();
 		}
-		else	
+		else {
+			System.out.println("passou a vez...");
+			Model.JOG_TerminaJogada();
 			return;
-	}
-	
-	static void Jogada() {
-		System.out.println("\n\n\n------------- TURNO -------------\n");
-		Model.JOG_ComeçaJogada();
-		
-		while(Model.JOG_qtdExercRodada() > 0) {
-			Model.TESTE_jogadorVez();
-			aloca();
 		}
-		MenuJogada();
-		
-		
-		
-		
 	}
 	
 	
@@ -105,6 +93,20 @@ public class testeRapido {
 		return;
 	}
 	
+	static void Jogada() {
+		System.out.println("\n\n\n------------- TURNO -------------\n");
+		Model.JOG_ComeçaJogada();
+		
+		while(Model.JOG_qtdExercRodada() > 0) {
+			Model.TESTE_jogadorVez();
+			aloca();
+		}
+		MenuJogada();	
+	}
+	
+	
+	
+	
 	static void teste1() {
 		RotinaInit();
 		
@@ -116,16 +118,16 @@ public class testeRapido {
 		//Scanner ent = new Scanner(System.in);
 		Model.TESTE_criaJogadores();
 		
-		Jogada();
+		while(true)
+			Jogada();
 		//ent.close();
 	}
 	
 	public static void main(String[] args) {
 		teste2();
-<<<<<<< HEAD
+
 		ent.close();
-=======
->>>>>>> 20bec8701a71547dacf97aa3fa834c6a453029ec
+
 	}		
 }
 
