@@ -357,7 +357,9 @@ public class Player {
 	}
 	
 	public String getObjetivo() {
+
 		return this.objetivo.descricao.toString();
+
 	}
 	
 	

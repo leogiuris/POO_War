@@ -122,7 +122,10 @@ public class testeRapido {
 	
 	public static void main(String[] args) {
 		teste2();
+<<<<<<< HEAD
 		ent.close();
+=======
+>>>>>>> 20bec8701a71547dacf97aa3fa834c6a453029ec
 	}		
 }
 
