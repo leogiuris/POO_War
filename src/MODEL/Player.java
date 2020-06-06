@@ -32,7 +32,7 @@ public class Player {
 		vermelho
 	}
 	
-	public Cor getCor(String s) {
+	static public Cor getCor(String s) {
 		if(s.compareTo("vazio") == 0)
 			return Cor.vazio;
 		if(s.compareTo("branco") == 0)
@@ -78,10 +78,9 @@ public class Player {
 		}
 	}
 
+	private Player() {	}
 
 
-
-	
 	//---------  FUNÇÕES ESTATICAS  ---------
 	
 	public static int getNumJogadores() {
@@ -97,14 +96,60 @@ public class Player {
 			if(p.cor == c)
 				return p;
 		}
-		System.out.println("ERRO - não ha jogador com essa cor");
-		return getJogadorDaVez();
+		System.out.println("Não ha jogador dessa cor");
+		return null;
 	}
 	
-
+	public static void ResetPlayers() {
+		jogadores.clear();
+	}
+	
+	public static void loadJogador(String[] data, boolean[] estado, int[] tropas_d, int ordem,
+			List<Integer> s_territorios, List<Integer> tropas_t, List<Integer> idCartasT ) {
+		
+		Player p = new Player();
+		jogadores.add(ordem, p);
+		
+		p.nome = data[0];
+		p.cor = getCor(data[1]);
+		p.objetivo = CartaObjetivo.loadCarta(data[2]);
+		
+		p.eliminado = estado[0];
+		p.jogando = estado[1];
+		p.conquistouTerritorio = estado[2];
+		
+		if(s_territorios.isEmpty()) {
+			p.eliminado = true;
+			p.quemEliminou = null;
+			return;
+		}
+		
+		for(int i = 0; i< tropas_d.length; i++) {
+			if(i == 0) {
+				p.exercitosRodada = tropas_d[i];
+			}
+			else
+				p.bonusContinente[i-1] = tropas_d[i];
+		}
+		
+		for(Integer id: s_territorios) {
+			Territorio t = Board.territorios[id];
+			t.resetTerritorio();
+			p.territorios.add(t);
+			int qtd = tropas_t.remove(0);
+			t.botarExercito(new Exercito(p.cor), qtd);
+		}
+		
+		for(Integer id: idCartasT) {
+			p.maoCartas.add(BaralhoTerritorio.loadCarta(id));
+		}
+		
+		System.out.println("terminou loadJogador");
+		
+	}
 	
 	//--------- FUNÇÕES DO OBJETO -----------
-	public void IniciarJogada() {
+ 	public void IniciarJogada() {
 		if(eliminado == true){
 			TerminarJogada();
 			return;
@@ -169,8 +214,7 @@ public class Player {
 		
 		else
 			dadosDefesa = new Dado[qtd_def];
-		
-		//dadosAtaque[0].TESTE_dado();
+
 		
 		//rolar dados ataque
 		int [] valoresAtaque = new int[qtd_tropas];
@@ -338,7 +382,7 @@ public class Player {
 				maoCartas.remove(0),
 				maoCartas.remove(0),
 				maoCartas.remove(0),
-				};
+			};
 		
 		for(int i =0; i<ret.length; i++) {
 			for(int j =0; j<territorios.size(); j++) {
@@ -346,6 +390,10 @@ public class Player {
 					botarExercitos(territorios.get(j), 1);
 				}
 			}
+		}
+		
+		for (int i = 0; i < ret.length; i++) {
+			
 		}
 	}
 	
@@ -375,8 +423,6 @@ public class Player {
 
 	}
 	
-	
-	
 //	--------- FUNÇÕES DE TESTE ----------
 	public static void TESTE_criaJogadores() {
 		System.out.println("--- TESTE CRIA JOGADORES ---");
@@ -386,6 +432,7 @@ public class Player {
 		new Player("maria", "azul");
 		new Player("jorge", "verde");
 
+		BaralhoTerritorio.criaCartas();
 		BaralhoTerritorio.sorteiaCartas();
 		System.out.println("Ordem dos Jogadores:");
 		

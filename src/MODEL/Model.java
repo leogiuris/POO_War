@@ -16,6 +16,10 @@ public class Model {
 		p.IniciarJogada();
 	}
 	
+	public static void SAVE_salvarJogo() {
+		SaveData.saveGame();
+	}
+	
 	public static void JOG_CriaJogador(String nome, String cor) {
 		new Player(nome,cor);
 	}
@@ -32,6 +36,10 @@ public class Model {
 
 	public static boolean JOG_jogando() {
 		return Player.getJogadorDaVez().jogando;
+	}
+	
+	public static String JOG_getNomeJogadorVez() {
+		return Player.getJogadorDaVez().nome;
 	}
 	
 	public static int JOG_getTotalBonusCont() {
@@ -58,6 +66,14 @@ public class Model {
 		return Board.territorios[i].getQtdExercitos();
 	}
 	
+	public static int n_vez() {
+		return Player.jogada;
+	}
+	
+	public static int JOG_getQtdJogadores() {
+		return Player.getNumJogadores();
+	}
+	
 	public static boolean JOG_possuiTerritorio(int index) {
 		for(Territorio t: Player.getJogadorDaVez().territorios) {
 			if(t.index == index) {
@@ -71,10 +87,15 @@ public class Model {
 		return Board.fazFronteira(Board.territorios[a], Board.territorios[b]);
 	}
 	
-	public static void MAPA_getVizinhos(int index) {
+	public static void MAPA_imprimeVizinhos(int index) {
+		Player p;
+		
 		System.out.println(">> Vizinhos:");
 		for(Territorio t: Board.getVizinhos(Board.territorios[index])) {
-			System.out.println("\t" + t.index + " - " + t.nome);
+			System.out.print("\t" + t.index + " - " + t.nome);
+			if((p = t.getDono()) != Player.getJogadorDaVez()) {
+				System.out.println(" - jogador " + p.getCor().toString());
+			}
 		}
 		System.out.println("\n");
 	}

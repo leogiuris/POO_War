@@ -44,7 +44,6 @@ public class testeRapido {
 		Model.TESTE_jogadorVez();
 		
 		
-		
 		System.out.println("Selecione a sua ação:\n[1 - atacar oponente] [2 - passar a vez]: ");
 		int i = ent.nextInt();
 		if(i == 1) {
@@ -55,7 +54,7 @@ public class testeRapido {
 				return;
 			}
 			
-			Model.MAPA_getVizinhos(origem);
+			Model.MAPA_imprimeVizinhos(origem);
 			
 			System.out.println("digite o indice do territorio a ser atacado:");
 			int destino = ent.nextInt();
@@ -84,7 +83,7 @@ public class testeRapido {
 			return;
 		}
 		
-		return;
+		MenuJogada();
 
 	}
 	
@@ -116,6 +115,9 @@ public class testeRapido {
 		System.out.println("\n\n\n------------- TURNO -------------\n");
 		
 		Model.JOG_ComeçaJogada();
+		
+		if(Model.n_vez() == Model.JOG_getQtdJogadores())
+			Model.SAVE_salvarJogo();
 		
 		if(Model.JOG_cumpriuObjetivo()) {
 			temVencedor = true;
@@ -151,7 +153,7 @@ public class testeRapido {
 		
 		while(!temVencedor)
 			Jogada();
-		
+		System.out.println("\nJogador " + Model.JOG_getNomeJogadorVez() + " é o vencedor!");
 		System.out.println("\n\n\t----- FIM DE JOGO -----\n\n");
 	}
 	

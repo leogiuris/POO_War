@@ -2,6 +2,7 @@
 package MODEL;
 
 public class CartaTerritorio {
+	public int id;
 	public Territorio territorio;
 	public Forma forma;
 	
@@ -22,7 +23,8 @@ public class CartaTerritorio {
 			return Forma.quadrado;
 	}
 
-	public CartaTerritorio(Territorio t){		
+	public CartaTerritorio(Territorio t){
+		id = BaralhoTerritorio.getTamanho();
 		territorio = t;
 		forma = getForma(BaralhoTerritorio.getTamanho());
 	}

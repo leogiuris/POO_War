@@ -18,7 +18,6 @@ public class Territorio {
 		this.index = qtdTerritorios;
 		qtdTerritorios++;
 		continente.AddTerritorio(this);
-		BaralhoTerritorio.addCarta(this);
 	}
 	
 	public int getQtdExercitos() {
@@ -47,7 +46,19 @@ public class Territorio {
 
 		return false;		
 	}
-
+	
+	
+	public void botarExercito(Exercito e, int qtd) {
+		while(qtd > 0) {
+			exercitos.add(e);
+			qtd--;
+		}
+	}
+	
+	public void resetTerritorio() {
+		exercitos.clear();
+	}
+	
     public Player getDono() {
     	if(exercitos.isEmpty()) {
 			return null;

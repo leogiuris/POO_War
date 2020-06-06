@@ -35,6 +35,9 @@ public class CartaObjetivo {
     }
 	
 	static private void loadObjetivos() {
+		if(!baralho.isEmpty())
+			baralho.clear();
+		
 		for(Objetivos o: Objetivos.values()) {
 			baralho.add(new CartaObjetivo(o));
 		}
@@ -51,11 +54,29 @@ public class CartaObjetivo {
 		return baralho.remove(numero); 
 	}
 	
+	static public CartaObjetivo loadCarta(String d) {
+		
+		for(Objetivos o: Objetivos.values()) {
+			if(o.toString() == d)
+				baralho.add(new CartaObjetivo(o));
+		}
+		
+		for(CartaObjetivo o: baralho) {
+			if(o.descricao.toString() == d) {
+				int index = baralho.indexOf(o);
+				return baralho.remove(index);
+			}
+		}
+		
+		System.out.println("ERRO - loadCarta");
+		return null;
+	}
+	
 	public void setDono(Player jogador) {
 	        this.dono = jogador;
 	}
 	 
-	 
+	 // Checagem de todos os objetivos
 	public boolean cumpriuObjetivo() {
 		Player p = Player.getJogadorDaVez();
 		if(this.descricao == Objetivos.Conquistar24Territorios) {
@@ -117,6 +138,12 @@ public class CartaObjetivo {
 		
 		if(this.descricao == Objetivos.EliminarJogadorAzul) {
 			Player op = Player.getJogadorPorCor(Cor.azul);
+			
+			if(op == null) {
+				descricao = Objetivos.Conquistar24Territorios;
+				return cumpriuObjetivo();
+			}
+			
 			if(op.eliminado) {
 				if(op.quemEliminou == p) {
 					return true;
@@ -132,6 +159,12 @@ public class CartaObjetivo {
 		
 		if(this.descricao == Objetivos.EliminarJogadorAmarelo) {
 			Player op = Player.getJogadorPorCor(Cor.amarelo);
+			
+			if(op == null) {
+				descricao = Objetivos.Conquistar24Territorios;
+				return cumpriuObjetivo();
+			}
+			
 			if(op.eliminado) {
 				if(op.quemEliminou == p) {
 					return true;
@@ -147,6 +180,12 @@ public class CartaObjetivo {
 		
 		if(this.descricao == Objetivos.EliminarJogadorBranco) {
 			Player op = Player.getJogadorPorCor(Cor.branco);
+			
+			if(op == null) {
+				descricao = Objetivos.Conquistar24Territorios;
+				return cumpriuObjetivo();
+			}
+			
 			if(op.eliminado) {
 				if(op.quemEliminou == p) {
 					return true;
@@ -162,6 +201,12 @@ public class CartaObjetivo {
 		
 		if(this.descricao == Objetivos.EliminarJogadorPreto) {
 			Player op = Player.getJogadorPorCor(Cor.preto);
+			
+			if(op == null) {
+				descricao = Objetivos.Conquistar24Territorios;
+				return cumpriuObjetivo();
+			}
+			
 			if(op.eliminado) {
 				if(op.quemEliminou == p) {
 					return true;
@@ -177,6 +222,12 @@ public class CartaObjetivo {
 		
 		if(this.descricao == Objetivos.EliminarJogadorVerde) {
 			Player op = Player.getJogadorPorCor(Cor.verde);
+			
+			if(op == null) {
+				descricao = Objetivos.Conquistar24Territorios;
+				return cumpriuObjetivo();
+			}
+			
 			if(op.eliminado) {
 				if(op.quemEliminou == p) {
 					return true;
@@ -192,6 +243,12 @@ public class CartaObjetivo {
 		
 		if(this.descricao == Objetivos.EliminarJogadorVermelho) {
 			Player op = Player.getJogadorPorCor(Cor.vermelho);
+			
+			if(op == null) {
+				descricao = Objetivos.Conquistar24Territorios;
+				return cumpriuObjetivo();
+			}
+			
 			if(op.eliminado) {
 				if(op.quemEliminou == p) {
 					return true;
@@ -209,7 +266,5 @@ public class CartaObjetivo {
 		return false;
 		
 	}
-	 
-	 
-	 
+ 
 }
