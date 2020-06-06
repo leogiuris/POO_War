@@ -57,8 +57,8 @@ public class CartaObjetivo {
 	static public CartaObjetivo loadCarta(String d) {
 		
 		for(Objetivos o: Objetivos.values()) {
-			if(o.toString() == d)
-				baralho.add(new CartaObjetivo(o));
+			if(o.toString().compareTo(d) == 0)
+				return new CartaObjetivo(o);
 		}
 		
 		for(CartaObjetivo o: baralho) {
@@ -68,15 +68,13 @@ public class CartaObjetivo {
 			}
 		}
 		
-		System.out.println("ERRO - loadCarta");
+		System.out.println(d);
 		return null;
 	}
 	
-	public void setDono(Player jogador) {
-	        this.dono = jogador;
-	}
+	
 	 
-	 // Checagem de todos os objetivos
+	 // Checagem para todos os objetivos
 	public boolean cumpriuObjetivo() {
 		Player p = Player.getJogadorDaVez();
 		if(this.descricao == Objetivos.Conquistar24Territorios) {

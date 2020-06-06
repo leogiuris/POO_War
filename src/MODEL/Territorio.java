@@ -4,7 +4,7 @@ import java.util.*;
 
 import MODEL.Player.Cor;
 
-public class Territorio {
+class Territorio {
 	
 	public String nome;
 	public Continente continente;
@@ -46,7 +46,6 @@ public class Territorio {
 
 		return false;		
 	}
-	
 	
 	public void botarExercito(Exercito e, int qtd) {
 		while(qtd > 0) {

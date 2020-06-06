@@ -49,8 +49,4 @@ public class Partida {
 		ent.close();
 		return;
 	}
-
-	
-
-
 }

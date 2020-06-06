@@ -10,6 +10,7 @@ public class testeRapido {
 	static boolean temVencedor = false;
 	
 	
+	
 	static void RotinaInit() {
 		entraJogadores();
 		Model.BART_SorteiaCartas();
@@ -34,17 +35,20 @@ public class testeRapido {
 			Model.JOG_CriaJogador(nome, cor);
 			n++;
 		}
+
 		ent.close();
 		return;
 	}	
 	
 	
 	static void MenuJogada() {
-		//Scanner ent = new Scanner(System.in);
+		
 		Model.TESTE_jogadorVez();
 		
 		
-		System.out.println("Selecione a sua ação:\n[1 - atacar oponente] [2 - passar a vez]: ");
+		System.out.println("Selecione a sua ação:"
+				+ "\n[1 - atacar oponente] [2 - passar a vez] [3 - salvar jogo]: ");
+		
 		int i = ent.nextInt();
 		if(i == 1) {
 			System.out.println("digite o indice do territorio escolhido:");
@@ -64,7 +68,6 @@ public class testeRapido {
 			if(Model.TER_getQtdExercitos(origem) <= qtd) {
 				System.out.println("ERRO - nao possui exercitos suficiente\n");
 				MenuJogada();
-				//ent.close();
 				return;
 			}
 			
@@ -82,9 +85,11 @@ public class testeRapido {
 			Model.JOG_TerminaJogada();
 			return;
 		}
+		else {
+			Model.SAVE_salvarJogo();
+			MenuJogada();
+		}
 		
-		MenuJogada();
-
 	}
 	
 	
@@ -116,9 +121,6 @@ public class testeRapido {
 		
 		Model.JOG_ComeçaJogada();
 		
-		if(Model.n_vez() == Model.JOG_getQtdJogadores())
-			Model.SAVE_salvarJogo();
-		
 		if(Model.JOG_cumpriuObjetivo()) {
 			temVencedor = true;
 			return;
@@ -136,9 +138,7 @@ public class testeRapido {
 		
 		MenuJogada();	
 	}
-	
-	
-	
+
 	
 	static void teste1() {
 		RotinaInit();

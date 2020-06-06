@@ -2,7 +2,7 @@ package MODEL;
 import java.util.*;
 
 
-public class Player {
+class Player {
 	String nome;
 	Cor cor;
 	Player quemEliminou;
@@ -49,10 +49,6 @@ public class Player {
 			return Cor.vermelho;
 		else
 			return null;
-	}
-	
-	public Cor getCor() {
-		return this.cor;
 	}
 	
 	
@@ -423,6 +419,10 @@ public class Player {
 
 	}
 	
+	public Cor getCor() {
+		return this.cor;
+	}
+	
 //	--------- FUNÇÕES DE TESTE ----------
 	public static void TESTE_criaJogadores() {
 		System.out.println("--- TESTE CRIA JOGADORES ---");
@@ -463,12 +463,13 @@ public class Player {
 		
 		
 		
-		//System.out.println("vai colocar todas as tropas no primeiro territorio...\n");		
-		//p.botarExercitos(p.territorios.get(0), p.exercitosRodada);
-		
 		System.out.println("Territorios:");
 		for(int i = 0; i<p.territorios.size(); i++) {
-			System.out.println(p.territorios.get(i).index + " - " + p.territorios.get(i).nome + ", "+ p.territorios.get(i).exercitos.size() + " exercitos");
+			
+			System.out.println(p.territorios.get(i).index 
+					+ " - " + p.territorios.get(i).nome
+					+ ", "+ p.territorios.get(i).exercitos.size()
+					+ " exercitos");
 		}
 		System.out.println("\n");
 	}
