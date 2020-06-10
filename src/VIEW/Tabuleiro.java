@@ -4,98 +4,74 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Tabuleiro extends JPanel {
-    int width;
-    int height;
+import MODEL.Player.Cor;
 
+public class Tabuleiro extends JPanel {
+	
+	Dimension panelDimension = new Dimension(1024, 768);
+	Dimension nodeDimension = new Dimension(20, 20);
     ArrayList<Node> nodes;
-    ArrayList<edge> edges;
-    
+
     //Constructor
     public Tabuleiro() { 
-	nodes = new ArrayList<Node>();
-	edges = new ArrayList<edge>();
-	width = 30;
-	height = 30;
-    }
-
-    public Tabuleiro(String name) { 
-    //Construct with label
-	nodes = new ArrayList<Node>();
-	edges = new ArrayList<edge>();
-	width = 30;
-	height = 30;
+    	
+		nodes = new ArrayList<Node>();
+		this.setBounds(0,0, panelDimension.width, panelDimension.height);
+		this.setOpaque(false);
     }
 
     class Node {
 	int x, y;
+	int qtdExercito;
+	Cor cor;
 	String name;
 	
-	public Node(String myName, int myX, int myY) {
-	    x = myX;
-	    y = myY;
-	    name = myName;
-	}
+		public Node(String myName, int myX, int myY) {
+		    x = myX;
+		    y = myY;
+		    name = myName;
+		}
+		
+		public Node(String myName,int qtdE, int myX, int myY,Cor c) {
+		    x = myX;
+		    y = myY;
+		    qtdExercito = qtdE;
+		    name = myName;
+		    
+		}
+		
+		public void setqtdExercito(int z) { 
+			qtdExercito = z;
+    	}
+		
+		public int getqtdExercito() { 
+			return this.qtdExercito;
+    	}
+		
     }
     
-    class edge {
-	int i,j;
-	
-	public edge(int ii, int jj) {
-	    i = ii;
-	    j = jj;	    
-	}
-    }
-    
+    //add a node at pixel (x,y)
     public void addNode(String name, int x, int y) { 
-	//add a node at pixel (x,y)
 	nodes.add(new Node(name,x,y));
 	this.repaint();
     }
-    public void addEdge(int i, int j) {
-	//add an edge between nodes i and j
-	edges.add(new edge(i,j));
-	this.repaint();
-    }
+   
     
-    public void paint(Graphics g) { // draw the nodes and edges
-	FontMetrics f = g.getFontMetrics();
-	int nodeHeight = Math.max(height, f.getHeight());
-
-	g.setColor(Color.black);
-	for (edge e : edges) {
-	    g.drawLine(nodes.get(e.i).x, nodes.get(e.i).y,
-		     nodes.get(e.j).x, nodes.get(e.j).y);
-	}
-
-	for (Node n : nodes) {
-	    int nodeWidth = Math.max(width, f.stringWidth(n.name)+width/2);
-	    g.setColor(Color.white);
-	    g.fillOval(n.x-nodeWidth/2, n.y-nodeHeight/2, 
-		       nodeWidth, nodeHeight);
-	    g.setColor(Color.black);
-	    g.drawOval(n.x-nodeWidth/2, n.y-nodeHeight/2, 
-		       nodeWidth, nodeHeight);
-	    
-	    g.drawString(n.name, n.x-f.stringWidth(n.name)/2,
-			 n.y+f.getHeight()/2);
-	}
-    }
-}
-
-class testGraphDraw {
-    //Here is some example syntax for the GraphDraw class
-    public static void main(String[] args) {
-	Tabuleiro frame = new Tabuleiro("Test Window");
-
-	frame.setSize(400,300);
+     // draw the nodes
+    public void paint(Graphics g) {
+    	
+		FontMetrics f = g.getFontMetrics();
 	
-	frame.setVisible(true);
-
-	frame.addNode("a", 50,50);
-	frame.addNode("b", 100,100);
-	frame.addNode("longNode", 200,200);
-	frame.addEdge(0,1);
-	frame.addEdge(0,2);
+		g.setColor(Color.black);
+		
+		for (Node n : nodes) {
+		    g.setColor(Color.white);
+		    g.fillOval(n.x-10, n.y-10,nodeDimension.width, nodeDimension.height);
+		    g.setColor(Color.black);
+		    g.drawOval(n.x-10, n.y-10,nodeDimension.width, nodeDimension.height);
+		    g.drawString(Integer.toString(n.qtdExercito), n.x-3,n.y+5);
+		    g.drawString(n.name, n.x-16,n.y+17);
+		}
     }
 }
+
