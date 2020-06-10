@@ -11,19 +11,7 @@ import com.google.gson.*;
 public class SaveData {
 
 	
-	//por enquanto apenas testa se o jogo consegue apagar e colocar jogadores de volta
-	public static void testaLoadPlayer() {
-		Player p = Player.getJogadorDaVez();
-		
-		DataPlayer dp = new DataPlayer(p);
-		
-		Player.jogadores.remove(p);
-		Player.loadJogador(dp.data, dp.estado, dp.tropas_d, dp.ordem,
-				dp.id_territorios, dp.tropas_t, dp.idCartas_t);
-	}
-	
 	public static void saveGame() {
-		
 		
 		
 		DataPlayer[] d_array = new DataPlayer[Player.getNumJogadores()];
@@ -57,8 +45,6 @@ public class SaveData {
 	
 }
 
-
-
 class DataPlayer{
 	
 	String[] data = new String[3];
@@ -72,7 +58,6 @@ class DataPlayer{
 	List<Integer> id_territorios;
 	List<Integer> tropas_t ;
 	List<Integer> idCartas_t;
-
 
 	DataPlayer(Player p){
 		

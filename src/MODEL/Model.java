@@ -4,36 +4,44 @@ public class Model {
 	
 	static Board b = Board.getInstance();
 
-
-	
+	// Faz o jogador da vez colocar #qtd de exercitos em num territorio (pelo indice)
 	public static void JOG_AlocaExercitos(int index, int qtd) {
 		Player p = Player.getJogadorDaVez();
 		p.botarExercitos(Board.territorios[index], qtd);
 	}
 	
+	// Muda o estado do jogador da vez para JOGANDO, permitindo que realize açoes
 	public static void JOG_ComeçaJogada() {
 		Player p = Player.getJogadorDaVez();
 		p.IniciarJogada();
 	}
 	
+	// Salva os dados do jogo num arquivo .json
 	public static void SAVE_salvarJogo() {
 		SaveData.saveGame();
 	}
 	
+	// Adiciona uma instancia de jogador, automaticamente sorteando
+	// sua posição na rodada.
 	public static void JOG_CriaJogador(String nome, String cor) {
 		new Player(nome,cor);
 	}
 	
+	// Faz o jogador da vez atacar um territorio inimigo
 	public static void JOG_Atacar(int i_origem, int i_destino, int qtd_tropas) {
 		Player p = Player.getJogadorDaVez();
 		p.Atacar(Board.territorios[i_origem], Board.territorios[i_destino], qtd_tropas);
 	}
 	
-	public String JOG_getObjetivo() {
+	// Retorna o objetivo do jogador da vez
+	public static String JOG_getObjetivo() {
 		Player p = Player.getJogadorDaVez();
 		return p.getObjetivo();
 	}
 
+	// Retorna o estado do jogador da vez (se está jogando ou não)
+	// O jogador da vez pode não estar 'jogando' se não tiver chamado
+	// a função JOG_ComeçaJogada()
 	public static boolean JOG_jogando() {
 		return Player.getJogadorDaVez().jogando;
 	}
@@ -42,6 +50,8 @@ public class Model {
 		return Player.getJogadorDaVez().nome;
 	}
 	
+	// Retorna o total de exercitos de BonusContinente
+	// que restam para alocar
 	public static int JOG_getTotalBonusCont() {
 		int total = 0;
 		for(int i: Player.getJogadorDaVez().bonusContinente) {
@@ -50,43 +60,62 @@ public class Model {
 		return total;
 	}
 	
+	//Jogador da vez passa a vez para o proximo
 	public static void JOG_TerminaJogada() {
 		Player.getJogadorDaVez().TerminarJogada();
 	}
 	
+	//Retorna a quantidade de exercitos disponiveis
+	//do jogador da vez
+	//para distribuir entre os territorios.
+	//(sem contar c o bonus por continente)
 	public static int JOG_qtdExercRodada() {
 		return Player.getJogadorDaVez().exercitosRodada;
 	}
 	
+	//Retorna true se o jogador da vez cumpriu o objetivo
 	public static boolean JOG_cumpriuObjetivo() {
 		return Player.getJogadorDaVez().cumpriuObjetivo();
 	}
 	
-	public static int TER_getQtdExercitos(int i) {
-		return Board.territorios[i].getQtdExercitos();
+	//Retorna a quantidade de exercitos em um territorio pelo id
+	public static int TER_getQtdExercitos(int id) {
+		return Board.territorios[id].getQtdExercitos();
 	}
 	
+	public static String TER_getCorDono(int id) {
+		return Board.territorios[id].getCor().toString();
+	}
+	
+	//Retorna o numero de jogadas desde o inicio
+	//(começa com 0 e incrementa quando um jogador termina sua jogada)
 	public static int n_vez() {
 		return Player.jogada;
 	}
+	
 	
 	public static int JOG_getQtdJogadores() {
 		return Player.getNumJogadores();
 	}
 	
-	public static boolean JOG_possuiTerritorio(int index) {
+	//Retorna true se o jogador da vez possui o territorio 'id'
+	public static boolean JOG_possuiTerritorio(int id) {
 		for(Territorio t: Player.getJogadorDaVez().territorios) {
-			if(t.index == index) {
+			if(t.index == id) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	//Verifica se dois territorios fazem fronteira
+	//Retorna true se fizerem
 	public static boolean MAPA_FazFronteira(int a, int b){
 		return Board.fazFronteira(Board.territorios[a], Board.territorios[b]);
 	}
 	
+	//Função de teste.
+	//Retorna todos os territorios vizinhos de 'index'
 	public static void MAPA_imprimeVizinhos(int index) {
 		Player p;
 		
@@ -100,6 +129,7 @@ public class Model {
 		System.out.println("\n");
 	}
 	
+	//sorteia e distribui as cartas entre os jogadores já cadastrados
 	public static void BART_SorteiaCartas() {
 		BaralhoTerritorio.sorteiaCartas();
 	}

@@ -43,7 +43,7 @@ public class CartaObjetivo {
 		}
 	}
 	
-	static public CartaObjetivo sorteioObjetivo(){
+	static public CartaObjetivo sorteioObjetivo(Player p){
 		
 		if(baralho.isEmpty()) {
 			loadObjetivos();
@@ -51,6 +51,7 @@ public class CartaObjetivo {
 		
 		Random random = new Random();
 		int numero = random.nextInt(baralho.size());
+		baralho.get(numero).dono = p;
 		return baralho.remove(numero); 
 	}
 	
@@ -71,9 +72,7 @@ public class CartaObjetivo {
 		System.out.println(d);
 		return null;
 	}
-	
-	
-	 
+
 	 // Checagem para todos os objetivos
 	public boolean cumpriuObjetivo() {
 		Player p = Player.getJogadorDaVez();
@@ -137,7 +136,7 @@ public class CartaObjetivo {
 		if(this.descricao == Objetivos.EliminarJogadorAzul) {
 			Player op = Player.getJogadorPorCor(Cor.azul);
 			
-			if(op == null) {
+			if(op == null || op == this.dono) {
 				descricao = Objetivos.Conquistar24Territorios;
 				return cumpriuObjetivo();
 			}
@@ -158,7 +157,7 @@ public class CartaObjetivo {
 		if(this.descricao == Objetivos.EliminarJogadorAmarelo) {
 			Player op = Player.getJogadorPorCor(Cor.amarelo);
 			
-			if(op == null) {
+			if(op == null || op == this.dono) {
 				descricao = Objetivos.Conquistar24Territorios;
 				return cumpriuObjetivo();
 			}
@@ -179,7 +178,7 @@ public class CartaObjetivo {
 		if(this.descricao == Objetivos.EliminarJogadorBranco) {
 			Player op = Player.getJogadorPorCor(Cor.branco);
 			
-			if(op == null) {
+			if(op == null || op == this.dono) {
 				descricao = Objetivos.Conquistar24Territorios;
 				return cumpriuObjetivo();
 			}
@@ -200,7 +199,7 @@ public class CartaObjetivo {
 		if(this.descricao == Objetivos.EliminarJogadorPreto) {
 			Player op = Player.getJogadorPorCor(Cor.preto);
 			
-			if(op == null) {
+			if(op == null || op == this.dono) {
 				descricao = Objetivos.Conquistar24Territorios;
 				return cumpriuObjetivo();
 			}
@@ -221,7 +220,7 @@ public class CartaObjetivo {
 		if(this.descricao == Objetivos.EliminarJogadorVerde) {
 			Player op = Player.getJogadorPorCor(Cor.verde);
 			
-			if(op == null) {
+			if(op == null || op == this.dono) {
 				descricao = Objetivos.Conquistar24Territorios;
 				return cumpriuObjetivo();
 			}
@@ -242,7 +241,7 @@ public class CartaObjetivo {
 		if(this.descricao == Objetivos.EliminarJogadorVermelho) {
 			Player op = Player.getJogadorPorCor(Cor.vermelho);
 			
-			if(op == null) {
+			if(op == null || op == this.dono) {
 				descricao = Objetivos.Conquistar24Territorios;
 				return cumpriuObjetivo();
 			}

@@ -130,8 +130,10 @@ public class testeRapido {
 			Model.TESTE_jogadorVez();
 			aloca();
 			
+			// o jogador pode passar a vez na fase de alocar
+			// os exercitos, 
 			if(!Model.JOG_jogando()) {
-				return;
+				Jogada();
 			}
 				
 		}
@@ -148,7 +150,7 @@ public class testeRapido {
 	}
 	
 	static void teste2()  {
-		//Scanner ent = new Scanner(System.in);
+		
 		Model.TESTE_criaJogadores();
 		
 		while(!temVencedor)

@@ -62,7 +62,9 @@ class Player {
 		Random r = new Random();
 		int num = r.nextInt(6);
 		
-		objetivo = CartaObjetivo.sorteioObjetivo();
+		objetivo = CartaObjetivo.sorteioObjetivo(this);
+		
+		
 		System.out.println(nome + " rolou... " + (num+1) ); 
 		
 		if(num>=maior) {
@@ -143,6 +145,7 @@ class Player {
 		System.out.println("terminou loadJogador");
 		
 	}
+	
 	
 	//--------- FUNÇÕES DO OBJETO -----------
  	public void IniciarJogada() {
