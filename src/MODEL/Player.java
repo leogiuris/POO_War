@@ -435,7 +435,7 @@ class Player {
 		new Player("maria", "azul");
 		new Player("jorge", "verde");
 
-		BaralhoTerritorio.criaCartas();
+		//BaralhoTerritorio.criaCartas();
 		BaralhoTerritorio.sorteiaCartas();
 		System.out.println("Ordem dos Jogadores:");
 		

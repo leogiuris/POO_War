@@ -24,7 +24,7 @@ public class CadastroPanel extends JPanel {
 		Dimension jogadoresDimension = new Dimension(100,180);
 		
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-		this.setBackgroundImage("C:/Users/Antonio/Desktop/POO_War-develop/POO_War-develop/images/CADASTRO/bgconfiguracao.png");
+		this.setBackgroundImage("./images/CADASTRO/bgconfiguracao.png");
 		this.setMaximumSize(panelDimension);
 		this.setMinimumSize(panelDimension);
 		this.setPreferredSize(panelDimension);

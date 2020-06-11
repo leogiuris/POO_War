@@ -25,7 +25,10 @@ public class BaralhoTerritorio {
 	}
 	
 	static public void sorteiaCartas() {
-
+		
+		if(baralho.isEmpty()) {
+			criaCartas();
+		}
 		
 		if(Player.jogadores.isEmpty()) {
 			return;
