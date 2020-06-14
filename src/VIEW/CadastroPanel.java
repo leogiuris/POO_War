@@ -7,24 +7,28 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
-
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
+import CONTROL.Partida;
 import java.util.*;
 
-public class CadastroPanel extends JPanel {
+public class CadastroPanel extends JPanel implements ActionListener {
 	
 	private List<JTextField> playerNameTextFields = new ArrayList<JTextField>();
 	private Image bg;
+	Dimension textDimension = new Dimension(100, 30);
+	Dimension panelDimension = new Dimension(275, 600);
+	Dimension jogadoresDimension = new Dimension(100,180);
+	
+	
 	
 	public CadastroPanel() {
-		
-		Dimension textDimension = new Dimension(100, 30);
-		Dimension panelDimension = new Dimension(275, 600);
-		Dimension jogadoresDimension = new Dimension(100,180);
-		
+		Toolkit tk=Toolkit.getDefaultToolkit();
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-		this.setBackgroundImage("./images/CADASTRO/bgconfiguracao.png");
+		this.bg = tk.getImage("./images/CADASTRO/bgconfiguracao.png");
 		this.setMaximumSize(panelDimension);
 		this.setMinimumSize(panelDimension);
 		this.setPreferredSize(panelDimension);
@@ -40,72 +44,25 @@ public class CadastroPanel extends JPanel {
 		
 		for (int i = 0; i < 6; i++) {
 			JTextField playerName = new JTextField(20);
+			
 			switch(i) {
 			case 0:
-				playerName.setMaximumSize(textDimension);
-				playerName.setMinimumSize(textDimension);
-				playerName.setPreferredSize(textDimension);
-				playerName.setHorizontalAlignment(JTextField.LEFT);
-				playerName.setAlignmentX(Component.CENTER_ALIGNMENT); 
-				playerName.setBackground(Color.WHITE);
-				playerName.setFont(new Font("Arial", Font.PLAIN, 12));
-				Jogadores.add(playerName);
-				playerNameTextFields.add(playerName);
+				CadastroJogador(Jogadores, playerName, Color.WHITE);
 				break;
 			case 1:
-				playerName.setMaximumSize(textDimension);
-				playerName.setMinimumSize(textDimension);
-				playerName.setPreferredSize(textDimension);
-				playerName.setHorizontalAlignment(JTextField.LEFT);
-				playerName.setAlignmentX(Component.CENTER_ALIGNMENT); 
-				playerName.setBackground(Color.BLACK);
-				playerName.setFont(new Font("Arial", Font.PLAIN, 12));
-				Jogadores.add(playerName);
-				playerNameTextFields.add(playerName);
+				CadastroJogador(Jogadores, playerName, Color.BLACK);
 				break;
 			case 2:
-				playerName.setMaximumSize(textDimension);
-				playerName.setMinimumSize(textDimension);
-				playerName.setPreferredSize(textDimension);
-				playerName.setHorizontalAlignment(JTextField.LEFT);
-				playerName.setAlignmentX(Component.CENTER_ALIGNMENT); 
-				playerName.setBackground(Color.BLUE);
-				playerName.setFont(new Font("Arial", Font.PLAIN, 12));
-				Jogadores.add(playerName);
-				playerNameTextFields.add(playerName);
+				CadastroJogador(Jogadores, playerName, Color.BLUE);
 				break;
 			case 3:
-				playerName.setMaximumSize(textDimension);
-				playerName.setMinimumSize(textDimension);
-				playerName.setPreferredSize(textDimension);
-				playerName.setHorizontalAlignment(JTextField.LEFT);
-				playerName.setAlignmentX(Component.CENTER_ALIGNMENT); 
-				playerName.setBackground(Color.GREEN);
-				playerName.setFont(new Font("Arial", Font.PLAIN, 12));
-				Jogadores.add(playerName);
-				playerNameTextFields.add(playerName);
+				CadastroJogador(Jogadores, playerName, Color.GREEN);
 				break;
 			case 4:
-				playerName.setMaximumSize(textDimension);
-				playerName.setMinimumSize(textDimension);
-				playerName.setPreferredSize(textDimension);
-				playerName.setHorizontalAlignment(JTextField.LEFT);
-				playerName.setAlignmentX(Component.CENTER_ALIGNMENT); 
-				playerName.setBackground(Color.YELLOW);
-				playerName.setFont(new Font("Arial", Font.PLAIN, 12));
-				Jogadores.add(playerName);
-				playerNameTextFields.add(playerName);
+				CadastroJogador(Jogadores, playerName, Color.YELLOW);
 				break;
 			case 5:
-				playerName.setMaximumSize(textDimension);
-				playerName.setMinimumSize(textDimension);
-				playerName.setPreferredSize(textDimension);
-				playerName.setHorizontalAlignment(JTextField.LEFT);
-				playerName.setAlignmentX(Component.CENTER_ALIGNMENT); 
-				playerName.setBackground(Color.RED);
-				playerName.setFont(new Font("Arial", Font.PLAIN, 12));
-				Jogadores.add(playerName);
-				playerNameTextFields.add(playerName);
+				CadastroJogador(Jogadores, playerName, Color.RED);
 				break;
 			}
 		}
@@ -113,10 +70,57 @@ public class CadastroPanel extends JPanel {
 		
 		JButton submitButton = new JButton("Submit");
 		submitButton.setAlignmentX(Component.CENTER_ALIGNMENT); 
-		submitButton.addActionListener(null);
+		submitButton.addActionListener(this);
 		this.add(Jogadores);
 		this.add(Box.createRigidArea(new Dimension(0, 50)));
 		this.add(submitButton);
+	}
+	
+	
+	private void CadastroJogador(Container cont, JTextField pNome, Color c) {
+		pNome.setMaximumSize(textDimension);
+		pNome.setMinimumSize(textDimension);
+		pNome.setPreferredSize(textDimension);
+		pNome.setHorizontalAlignment(JTextField.LEFT);
+		pNome.setAlignmentX(Component.CENTER_ALIGNMENT); 
+		pNome.setBackground(c);
+		pNome.setFont(new Font("Arial", Font.PLAIN, 12));
+		cont.add(pNome);
+		playerNameTextFields.add(pNome);
+	}
+	
+	public Color adapataCor(String c) {
+		if(c.compareTo("preto") == 0)
+			return Color.BLACK;
+		if(c.compareTo("branco") == 0)
+			return Color.WHITE;
+		if(c.compareTo("azul") == 0)
+			return Color.BLUE;
+		if(c.compareTo("verde") == 0)
+			return Color.GREEN;
+		if(c.compareTo("amarelo") == 0)
+			return Color.YELLOW;
+		if(c.compareTo("vermelho") == 0)
+			return Color.RED;
+		
+		return null;
+	}
+	
+	private String adaptaCor(Color c) {
+		if(c == Color.BLACK)
+			return "preto";
+		if(c == Color.WHITE)
+			return "branco";
+		if(c == Color.BLUE)
+			return "azul";
+		if(c == Color.GREEN)
+			return "verde";
+		if(c == Color.YELLOW)
+			return "amarelo";
+		if(c == Color.RED)
+			return "vermelho";
+		
+		return null;
 	}
 	
 	protected void paintComponent(Graphics g) {
@@ -132,6 +136,22 @@ public class CadastroPanel extends JPanel {
 			return;
 		}
 	}
-
+	
+	public void actionPerformed(ActionEvent e) { 
+		
+	    for(JTextField i: playerNameTextFields) {
+	    	System.out.println(i.getText());
+	    	Partida.getInstance().entraJogador(
+	    			i.getText(), adaptaCor(i.getBackground()) );
+	    }
+	    
+	    /*
+	    JComponent comp = (JComponent) e.getSource();
+	    Window win = SwingUtilities.getWindowAncestor(comp);
+	    win.dispose();
+	    */
+	    this.setVisible(false);
+	    Partida.getInstance().encerraCadastro();
+	}
 	
 }
