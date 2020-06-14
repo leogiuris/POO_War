@@ -87,13 +87,7 @@ public class Partida{
 		if(estado == Estado.alocando) {
 			if(!Model.JOG_possuiTerritorio(id))
 				return;
-			//tratar por GUI
-			System.out.println("digite a quantidade de exercitos que vai colocar:");
-			naoAgir = true;
-			int qtd = ent.nextInt();
-			
-			Model.JOG_AlocaExercitos(id, qtd);
-			naoAgir = false;
+			f.alocaPanel(id);
 			f.refresh();
 			
 			if(Model.JOG_qtdExercRodada() + Model.JOG_getTotalBonusCont() == 0) {
@@ -198,27 +192,8 @@ public class Partida{
 		}
 	}
 	
-	void aloca() {
-		System.out.println("--- Alocar Exercitos ---\n");
-		//Scanner ent = new Scanner(System.in);
-	
-		System.out.println("digite o indice do territorio escolhido:");
-		int i = ent.nextInt();
-		
-		
-		// opção para pular jogadores (usar em testes)
-		if(i > 42) {
-			Model.JOG_TerminaJogada();
-			return;
-		}
-		
-		System.out.println("digite a quantidade de exercitos que vai colocar:");
-		int qtd = ent.nextInt();
-		
-		Model.JOG_AlocaExercitos(i, qtd);
-		//ent.close();
-		
-		return;
+	public void aloca(int i, int id) {
+		Model.JOG_AlocaExercitos(id, i);
 	}
 	
 	void Jogada() {
