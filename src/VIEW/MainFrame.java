@@ -1,6 +1,10 @@
 package VIEW;
 
 import javax.swing.*;
+
+import CONTROL.Partida;
+import MODEL.Model;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +21,31 @@ public class MainFrame extends JFrame{
 		setTitle("War");
 		setSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+
+		
 		this.add(boardPanel);
-		boardPanel.add(cadastroPanel);
+		//boardPanel.add(cadastroPanel);
+		
 		//Espera o submitButton do cadastroPanel
-		//boardPanel.add(tabuleiro);
+		tabuleiro.carregaNodes();
+		boardPanel.add(tabuleiro);
+	
 		
 	}  
 	
+	public void refresh() {
+		tabuleiro.updateNodes();
+		this.repaint();
+	}
+	
 	// Teste
-	public static void main(String[] args) {
-		MainFrame f=new MainFrame();
-		Insets ins=f.getInsets();
-		f.setSize(300+ins.left+ins.right,125+ins.top+ins.bottom);
-		
-		f.pack();
-		f.setVisible(true);
+	public void init() {
+		Insets ins=this.getInsets();
+		this.setSize(300+ins.left+ins.right,125+ins.top+ins.bottom);
+		this.setResizable(false);
+		this.pack();
+		this.setVisible(true);
 	}
 	
 }

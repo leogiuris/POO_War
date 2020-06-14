@@ -430,9 +430,9 @@ class Player {
 	public static void TESTE_criaJogadores() {
 		System.out.println("--- TESTE CRIA JOGADORES ---");
 
-		new Player("marcelo", "amarelo");
+		new Player("marcelo", "branco");
 		new Player("joao", "vermelho");
-		new Player("maria", "azul");
+		new Player("maria", "preto");
 		new Player("jorge", "verde");
 
 		//BaralhoTerritorio.criaCartas();
@@ -469,7 +469,7 @@ class Player {
 		System.out.println("Territorios:");
 		for(int i = 0; i<p.territorios.size(); i++) {
 			
-			System.out.println(p.territorios.get(i).index 
+			System.out.println(p.territorios.get(i).id 
 					+ " - " + p.territorios.get(i).nome
 					+ ", "+ p.territorios.get(i).exercitos.size()
 					+ " exercitos");

@@ -81,7 +81,7 @@ class DataPlayer{
 		tropas_t = new ArrayList<Integer>();
 		
 		for(Territorio t: p.territorios) {
-			id_territorios.add(t.index);
+			id_territorios.add(t.id);
 			tropas_t.add(t.getQtdExercitos());
 		}
 		

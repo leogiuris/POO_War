@@ -8,14 +8,14 @@ class Territorio {
 	
 	public String nome;
 	public Continente continente;
-	public int index;
+	public int id;
 	public List<Exercito> exercitos = new ArrayList<Exercito>();
 	static private int qtdTerritorios = 0;
 	
 	public Territorio(String nome, Continente continente) {
 		this.nome = nome;
 		this.continente = continente;
-		this.index = qtdTerritorios;
+		this.id = qtdTerritorios;
 		qtdTerritorios++;
 		continente.AddTerritorio(this);
 	}

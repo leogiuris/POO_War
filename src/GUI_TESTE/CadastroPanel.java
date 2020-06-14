@@ -89,6 +89,23 @@ public class CadastroPanel extends JPanel implements ActionListener {
 		playerNameTextFields.add(pNome);
 	}
 	
+	public Color adapataCor(String c) {
+		if(c.compareTo("preto") == 0)
+			return Color.BLACK;
+		if(c.compareTo("branco") == 0)
+			return Color.WHITE;
+		if(c.compareTo("azul") == 0)
+			return Color.BLUE;
+		if(c.compareTo("verde") == 0)
+			return Color.GREEN;
+		if(c.compareTo("amarelo") == 0)
+			return Color.YELLOW;
+		if(c.compareTo("vermelho") == 0)
+			return Color.RED;
+		
+		return null;
+	}
+	
 	private String adaptaCor(Color c) {
 		if(c == Color.BLACK)
 			return "preto";

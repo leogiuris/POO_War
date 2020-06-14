@@ -16,6 +16,10 @@ public class Model {
 		p.IniciarJogada();
 	}
 	
+	public static String JOG_getCor() {
+		return Player.getJogadorDaVez().getCor().toString();
+	}
+	
 	// Salva os dados do jogo num arquivo .json
 	public static void SAVE_salvarJogo() {
 		SaveData.saveGame();
@@ -83,6 +87,19 @@ public class Model {
 		return Board.territorios[id].getQtdExercitos();
 	}
 	
+	public static int TER_getIDbyName(String nome){
+		for(Territorio t: Board.territorios) {
+			if(t.nome.compareTo(nome) == 0) {
+				return t.id;
+			}
+		}
+		return -1;
+	}
+	
+	public static String TER_getNome(int id) {
+		return Board.territorios[id].nome;
+	}
+	
 	public static String TER_getCorDono(int id) {
 		return Board.territorios[id].getCor().toString();
 	}
@@ -101,7 +118,7 @@ public class Model {
 	//Retorna true se o jogador da vez possui o territorio 'id'
 	public static boolean JOG_possuiTerritorio(int id) {
 		for(Territorio t: Player.getJogadorDaVez().territorios) {
-			if(t.index == id) {
+			if(t.id == id) {
 				return true;
 			}
 		}
@@ -116,12 +133,12 @@ public class Model {
 	
 	//Função de teste.
 	//Retorna todos os territorios vizinhos de 'index'
-	public static void MAPA_imprimeVizinhos(int index) {
+	public static void MAPA_imprimeVizinhos(int id) {
 		Player p;
 		
 		System.out.println(">> Vizinhos:");
-		for(Territorio t: Board.getVizinhos(Board.territorios[index])) {
-			System.out.print("\t" + t.index + " - " + t.nome);
+		for(Territorio t: Board.getVizinhos(Board.territorios[id])) {
+			System.out.print("\t" + t.id + " - " + t.nome);
 			if((p = t.getDono()) != Player.getJogadorDaVez()) {
 				System.out.println(" - jogador " + p.getCor().toString());
 			}
