@@ -22,17 +22,18 @@ public class MainFrame extends JFrame{
 		setSize(java.awt.Toolkit.getDefaultToolkit().getScreenSize());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-
-		
 		this.add(boardPanel);
-		//boardPanel.add(cadastroPanel);
-		
-		//Espera o submitButton do cadastroPanel
+		boardPanel.add(cadastroPanel);
 		tabuleiro.carregaNodes();
 		boardPanel.add(tabuleiro);
 	
 		
 	}  
+	
+	public void alocaPanel(int id) {
+		AlocaPanel AP = new AlocaPanel(id);
+		this.add(AP);
+	}
 	
 	public void refresh() {
 		tabuleiro.updateNodes();
