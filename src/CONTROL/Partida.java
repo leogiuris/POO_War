@@ -27,13 +27,19 @@ public class Partida{
 		return Partida.singleton;
 	}
 	
-	
 	public enum Estado{
 		alocando,
 		atac_origem,
 		atac_destino,
 		fim_origem,
 		fim_destino
+	}
+
+	private Partida() {
+		
+		f = new MainFrame();
+		f.init();
+		teste1();
 	}
 	
 	
@@ -49,13 +55,6 @@ public class Partida{
 			else
 				return 0;
 		}
-	}
-	
-	private Partida() {
-		
-		f = new MainFrame();
-		f.init();
-		teste1();
 	}
 	
 	void CadastraJogadores() {
@@ -88,9 +87,15 @@ public class Partida{
 			if(!Model.JOG_possuiTerritorio(id))
 				return;
 			//tratar por GUI
-			System.out.println("digite a quantidade de exercitos que vai colocar:");
-			naoAgir = true;
-			int qtd = ent.nextInt();
+			//System.out.println("digite a quantidade de exercitos que vai colocar:");
+			//naoAgir = true;
+			//int qtd = ent.nextInt();
+			
+			//System.out.println("digite a quantidade de exercitos a realocar:");
+			//int qtd = ent.nextInt();
+			
+			//linha teste
+			int qtd = 6;
 			
 			Model.JOG_AlocaExercitos(id, qtd);
 			naoAgir = false;
@@ -119,6 +124,8 @@ public class Partida{
 		if(estado == Estado.atac_destino) {
 			if(Model.JOG_possuiTerritorio(id)) {
 				System.out.println("territorio aliado");
+				estado = Estado.fim_destino;
+				clicouTerritorio(id);
 				return;
 			}
 			t_dest = id;
@@ -128,6 +135,34 @@ public class Partida{
 			estado = Estado.atac_origem;
 			f.refresh();
 			return;
+		}
+		if(estado == Estado.fim_origem) {
+			if(!Model.JOG_possuiTerritorio(id)) {
+				System.out.println("nao possui territorio");
+				return;
+			}
+			
+			t_orig = id;
+			estado = Estado.fim_destino;
+			return;
+		}
+		if(estado == Estado.fim_destino) {
+			if(!Model.JOG_possuiTerritorio(id))
+				return;
+			
+			naoAgir = true;
+			t_dest = id;
+			
+			//System.out.println("digite a quantidade de exercitos a realocar:");
+			//int qtd = ent.nextInt();
+			
+			//linha teste
+			int qtd = Model.TER_getQtdExercitos(t_orig)/2;
+			
+			Model.JOG_moverExercitos(t_orig, t_dest, qtd);
+			naoAgir = false;
+			f.refresh();
+			estado = Estado.fim_origem;
 		}
 	}
 	
@@ -141,6 +176,12 @@ public class Partida{
 		}
 		if(estado == Estado.atac_destino) {
 			return ("Origem: " + Model.TER_getNome(t_orig));
+		}
+		if(estado == Estado.fim_origem) {
+			return ("Realocando exercitos.\n" + "Selecione origem:" + "\n(não pode mais atacar)");
+		}
+		if(estado == Estado.fim_destino) {
+			return ("Realocando exercitos.\n" + "Origem: " + Model.TER_getNome(t_orig) + "(não pode mais atacar)");
 		}
 		else
 			return	"aaaa";

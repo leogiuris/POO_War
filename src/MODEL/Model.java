@@ -64,6 +64,11 @@ public class Model {
 		return total;
 	}
 	
+	public static void JOG_moverExercitos(int origem, int destino, int qtd) {
+		Player.getJogadorDaVez().moverExercitos(Board.territorios[origem], 
+														Board.territorios[destino], qtd);
+	}
+	
 	//Jogador da vez passa a vez para o proximo
 	public static void JOG_TerminaJogada() {
 		Player.getJogadorDaVez().TerminarJogada();
