@@ -28,18 +28,19 @@ public class Partida{
 	}
 	
 	public enum Estado{
+		cadastrando,
 		alocando,
 		atac_origem,
 		atac_destino,
 		fim_origem,
 		fim_destino
 	}
-
+	
 	private Partida() {
-		
+		estado = Estado.cadastrando;
 		f = new MainFrame();
 		f.init();
-		teste1();
+		//teste1();
 	}
 	
 	
@@ -72,7 +73,9 @@ public class Partida{
 	
 	public void encerraCadastro() {
 		Model.BART_SorteiaCartas();
-		frame.PopTabuleiro();
+		estado = Estado.alocando;
+		f.refresh();
+
 	}
 	
 	
@@ -86,6 +89,7 @@ public class Partida{
 		if(estado == Estado.alocando) {
 			if(!Model.JOG_possuiTerritorio(id))
 				return;
+
 			//tratar por GUI
 			//System.out.println("digite a quantidade de exercitos que vai colocar:");
 			//naoAgir = true;
@@ -99,6 +103,9 @@ public class Partida{
 			
 			Model.JOG_AlocaExercitos(id, qtd);
 			naoAgir = false;
+
+			f.alocaPanel(id);
+
 			f.refresh();
 			
 			if(Model.JOG_qtdExercRodada() + Model.JOG_getTotalBonusCont() == 0) {
@@ -239,27 +246,8 @@ public class Partida{
 		}
 	}
 	
-	void aloca() {
-		System.out.println("--- Alocar Exercitos ---\n");
-		//Scanner ent = new Scanner(System.in);
-	
-		System.out.println("digite o indice do territorio escolhido:");
-		int i = ent.nextInt();
-		
-		
-		// opção para pular jogadores (usar em testes)
-		if(i > 42) {
-			Model.JOG_TerminaJogada();
-			return;
-		}
-		
-		System.out.println("digite a quantidade de exercitos que vai colocar:");
-		int qtd = ent.nextInt();
-		
-		Model.JOG_AlocaExercitos(i, qtd);
-		//ent.close();
-		
-		return;
+	public void aloca(int i, int id) {
+		Model.JOG_AlocaExercitos(id, i);
 	}
 	
 	void Jogada() {
@@ -274,7 +262,7 @@ public class Partida{
 		
 		while(Model.JOG_qtdExercRodada() + Model.JOG_getTotalBonusCont() > 0) {
 			Model.TESTE_jogadorVez();
-			aloca();
+			//aloca();
 			f.refresh();
 			// o jogador pode passar a vez na fase de alocar
 			// os exercitos, 

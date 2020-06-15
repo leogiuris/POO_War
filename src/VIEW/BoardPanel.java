@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import CONTROL.Partida;
+import CONTROL.Partida.Estado;
 import MODEL.Model;
 
 public class BoardPanel extends JPanel {
@@ -42,11 +43,14 @@ public class BoardPanel extends JPanel {
 		g.fillRect(20, 20, 200, 70);
 		
 		g.setColor(Color.black);
-		g.drawString("Vez de " + Model.JOG_getNomeJogadorVez(), 30, 35);
-		g.drawString(Partida.getInstance().getInfoJogador(), 30, 55);
+		if(Partida.getInstance().estado != Estado.cadastrando) {
+			g.drawString("Vez de " + Model.JOG_getNomeJogadorVez(), 30, 35);
+			g.drawString(Partida.getInstance().getInfoJogador(), 30, 55);
+			
+			g.setColor(utils.adapataCor(Model.JOG_getCor()));
+			g.fillOval(130, 20, 20, 20);
+		}
 		
-		g.setColor(utils.adapataCor(Model.JOG_getCor()));
-		g.fillOval(130, 20, 20, 20);
 		
 	}
 	
