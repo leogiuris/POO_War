@@ -176,24 +176,24 @@ class Player {
 		
 		//verificar se fazem fronteira
 		if(!Board.fazFronteira(origem, destino)) {
-			System.out.println("ERRO - ataque invalido (nao fazem fronteira)");
+			System.out.println("Player_ERRO - ataque invalido (nao fazem fronteira)");
 			return;
 		}
 		
 		//verificar se origem pertence ao jogador
 		if(origem.getCor() != cor) {
-			System.out.println("ERRO - territorio de origem nao pertence ao jogador");
+			System.out.println("Player_ERRO - territorio de origem nao pertence ao jogador");
 		}
 		
 		//verificar se origem possui mais de um exercito
 		if(origem.getQtdExercitos() <= qtd_tropas) {
-			System.out.println("ERRO - ataque invalido (ataque nao possui exercitos suficiente)");
+			System.out.println("Player_ERRO - ataque invalido (ataque nao possui exercitos suficiente)");
 			return;
 		}
 		
 		//verificar se destino pertence a outro jogador
 		if(destino.getCor() == this.cor) {
-			System.out.println("ERRO - ataque invalido (territorios do mesmo jogador)");
+			System.out.println("Player_ERRO - ataque invalido (territorios do mesmo jogador)");
 			return;
 		}
 		
@@ -313,6 +313,7 @@ class Player {
 		
 		if((qtd_tropas > exercitosRodada + bonusContinente[iBonus]) || !t.validaCor(cor)) {
 			System.out.print("Erro entrada botarExercitos");
+			TESTE_Status_JogadorVez();
 			return;
 		}
 		
@@ -340,6 +341,10 @@ class Player {
 	}
 	
 	public void moverExercitos(Territorio a, Territorio b, int qtd) {
+		if(!Board.fazFronteira(a, b)) {
+			System.out.println("Player_ERRO - territorios nao fazem fronteira");
+		}
+		
 		for (int i = 0; i < qtd; i++) {
 			b.exercitos.add(a.exercitos.remove(0));
 		}

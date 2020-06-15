@@ -3,6 +3,13 @@ package MODEL;
 public class Model {
 	
 	static Board b = Board.getInstance();
+	
+	
+	// Salva os dados do jogo num arquivo .json
+		public static void SAVE_salvarJogo() {
+			SaveData.saveGame();
+		}
+	
 
 	// Faz o jogador da vez colocar #qtd de exercitos em num territorio (pelo indice)
 	public static void JOG_AlocaExercitos(int index, int qtd) {
@@ -20,9 +27,18 @@ public class Model {
 		return Player.getJogadorDaVez().getCor().toString();
 	}
 	
-	// Salva os dados do jogo num arquivo .json
-	public static void SAVE_salvarJogo() {
-		SaveData.saveGame();
+	public static int JOG_getQtdJogadores() {
+		return Player.getNumJogadores();
+	}
+	
+	//Retorna true se o jogador da vez possui o territorio 'id'
+	public static boolean JOG_possuiTerritorio(int id) {
+		for(Territorio t: Player.getJogadorDaVez().territorios) {
+			if(t.id == id) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	// Adiciona uma instancia de jogador, automaticamente sorteando
@@ -116,19 +132,7 @@ public class Model {
 	}
 	
 	
-	public static int JOG_getQtdJogadores() {
-		return Player.getNumJogadores();
-	}
 	
-	//Retorna true se o jogador da vez possui o territorio 'id'
-	public static boolean JOG_possuiTerritorio(int id) {
-		for(Territorio t: Player.getJogadorDaVez().territorios) {
-			if(t.id == id) {
-				return true;
-			}
-		}
-		return false;
-	}
 	
 	//Verifica se dois territorios fazem fronteira
 	//Retorna true se fizerem

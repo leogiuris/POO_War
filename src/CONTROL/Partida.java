@@ -52,9 +52,12 @@ public class Partida{
 		}
 		else {
 			if(qtd>1)
-				return qtd;
-			else
+				return qtd - 1;
+			else {
+				System.out.println("Partida_ERRO - nao possui exerc suficiente");
 				return 0;
+			}
+				
 		}
 	}
 	
@@ -73,7 +76,9 @@ public class Partida{
 	
 	public void encerraCadastro() {
 		Model.BART_SorteiaCartas();
+		Model.JOG_ComeçaJogada();
 		estado = Estado.alocando;
+		
 		f.refresh();
 
 	}
@@ -99,7 +104,7 @@ public class Partida{
 			//int qtd = ent.nextInt();
 			
 			//linha teste
-			int qtd = 6;
+			int qtd = Model.JOG_qtdExercRodada();
 			
 			Model.JOG_AlocaExercitos(id, qtd);
 			naoAgir = false;
@@ -114,6 +119,7 @@ public class Partida{
 			}
 			return;
 		}
+		
 		if(estado == Estado.atac_origem) {
 			if(!Model.JOG_possuiTerritorio(id)) {
 				System.out.println("nao possui territorio");
@@ -128,6 +134,7 @@ public class Partida{
 			estado = Estado.atac_destino;
 			return;
 		}
+		
 		if(estado == Estado.atac_destino) {
 			if(Model.JOG_possuiTerritorio(id)) {
 				System.out.println("territorio aliado");
@@ -138,11 +145,16 @@ public class Partida{
 			t_dest = id;
 			
 			int qtd = maxExercAtaque(t_orig);
+			
+			if(qtd == 0)
+				return;
+			
 			Model.JOG_Atacar(t_orig, t_dest, qtd);
 			estado = Estado.atac_origem;
 			f.refresh();
 			return;
 		}
+		
 		if(estado == Estado.fim_origem) {
 			if(!Model.JOG_possuiTerritorio(id)) {
 				System.out.println("nao possui territorio");
