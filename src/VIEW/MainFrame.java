@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MainFrame extends JFrame{
 	
-	private BoardPanel boardPanel = new BoardPanel();
+	static BoardPanel boardPanel = new BoardPanel();
 	private CadastroPanel cadastroPanel = new CadastroPanel();
 	private Tabuleiro tabuleiro = new Tabuleiro();
 	
