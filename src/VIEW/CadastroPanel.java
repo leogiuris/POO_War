@@ -145,11 +145,25 @@ public class CadastroPanel extends JPanel implements ActionListener {
 	    			i.getText(), adaptaCor(i.getBackground()) );
 	    }
 	    
-	    /*
-	    JComponent comp = (JComponent) e.getSource();
-	    Window win = SwingUtilities.getWindowAncestor(comp);
-	    win.dispose();
-	    */
+	    JButton vObjetivo = new JButton("Objetivo"); 
+		vObjetivo.addActionListener(new ActionListener() {
+			 public void actionPerformed(ActionEvent e) {
+				 ObjPanel oPanel = new ObjPanel(Partida.getInstance().getObjJogador());
+				 VIEW.MainFrame.boardPanel.add(oPanel);
+			 }
+			 });
+		vObjetivo.setBounds(25, 65, 80, 20);
+		VIEW.MainFrame.boardPanel.add(vObjetivo);
+		
+		JButton pVez = new JButton("Passar Vez"); 
+		pVez.addActionListener(new ActionListener() {
+			 public void actionPerformed(ActionEvent e) {
+				Partida.getInstance().PassarVez();
+			 }
+			 });
+		pVez.setBounds(115, 65, 100, 20);
+		VIEW.MainFrame.boardPanel.add(pVez);
+		
 	    this.setVisible(false);
 	    Partida.getInstance().encerraCadastro();
 	}

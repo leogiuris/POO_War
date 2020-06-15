@@ -40,6 +40,7 @@ public class BoardPanel extends JPanel{
 		this.setMinimumSize(MapaDimension);
 		this.setPreferredSize(MapaDimension);
 		
+		/*
 		JButton vObjetivo = new JButton("Objetivo"); 
 		vObjetivo.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
@@ -58,7 +59,8 @@ public class BoardPanel extends JPanel{
 			 });
 		pVez.setBounds(115, 65, 100, 20);
 		this.add(pVez);
-	
+		 */
+		
 	}
 
 	protected void paintComponent(Graphics g) {
