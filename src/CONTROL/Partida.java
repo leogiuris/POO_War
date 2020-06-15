@@ -84,6 +84,7 @@ public class Partida{
 	}
 	
 	
+	
 	public void clicouTerritorio(int id){
 		
 		if(naoAgir) {
@@ -165,6 +166,7 @@ public class Partida{
 			estado = Estado.fim_destino;
 			return;
 		}
+		
 		if(estado == Estado.fim_destino) {
 			if(!Model.JOG_possuiTerritorio(id))
 				return;
@@ -184,6 +186,7 @@ public class Partida{
 			estado = Estado.fim_origem;
 		}
 	}
+	
 	
 	
 	public String getInfoJogador() {

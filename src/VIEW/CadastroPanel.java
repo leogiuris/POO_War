@@ -89,60 +89,21 @@ public class CadastroPanel extends JPanel implements ActionListener {
 		playerNameTextFields.add(pNome);
 	}
 	
-	public Color adapataCor(String c) {
-		if(c.compareTo("preto") == 0)
-			return Color.BLACK;
-		if(c.compareTo("branco") == 0)
-			return Color.WHITE;
-		if(c.compareTo("azul") == 0)
-			return Color.BLUE;
-		if(c.compareTo("verde") == 0)
-			return Color.GREEN;
-		if(c.compareTo("amarelo") == 0)
-			return Color.YELLOW;
-		if(c.compareTo("vermelho") == 0)
-			return Color.RED;
-		
-		return null;
-	}
 	
-	private String adaptaCor(Color c) {
-		if(c == Color.BLACK)
-			return "preto";
-		if(c == Color.WHITE)
-			return "branco";
-		if(c == Color.BLUE)
-			return "azul";
-		if(c == Color.GREEN)
-			return "verde";
-		if(c == Color.YELLOW)
-			return "amarelo";
-		if(c == Color.RED)
-			return "vermelho";
-		
-		return null;
-	}
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
 	}
 	
-	public void setBackgroundImage(String path) {
-		try {
-			this.bg = new ImageIcon(path).getImage();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return;
-		}
-	}
+
 	
 	public void actionPerformed(ActionEvent e) { 
 		
 	    for(JTextField i: playerNameTextFields) {
 	    	System.out.println(i.getText());
 	    	Partida.getInstance().entraJogador(
-	    			i.getText(), adaptaCor(i.getBackground()) );
+	    			i.getText(), utils.adaptaCor(i.getBackground()) );
 	    }
 	    
 	    /*

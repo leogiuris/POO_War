@@ -84,6 +84,10 @@ public class CadastroPanel extends JPanel implements ActionListener {
 		pNome.setHorizontalAlignment(JTextField.LEFT);
 		pNome.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		pNome.setBackground(c);
+		
+		if(c == Color.BLACK)
+			pNome.setCaretColor(Color.WHITE);
+		
 		pNome.setFont(new Font("Arial", Font.PLAIN, 12));
 		cont.add(pNome);
 		playerNameTextFields.add(pNome);

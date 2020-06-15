@@ -51,7 +51,6 @@ public class BoardPanel extends JPanel {
 			g.fillOval(130, 20, 20, 20);
 		}
 		
-		
 	}
 	
 

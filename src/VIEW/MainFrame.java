@@ -32,7 +32,9 @@ public class MainFrame extends JFrame{
 	
 	public void alocaPanel(int id) {
 		AlocaPanel AP = new AlocaPanel(id);
-		this.add(AP);
+		//boardPanel.add(AP);
+		
+		this.repaint();
 	}
 	
 	public void refresh() {
