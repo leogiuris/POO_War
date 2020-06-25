@@ -13,6 +13,9 @@ public class BaralhoTerritorio {
 	}
 	
 	static public CartaTerritorio pegarCarta() {
+		if(baralho.isEmpty()) {
+			criaCartas();
+		}
 		return baralho.remove(0);
 	}
 	
@@ -49,6 +52,11 @@ public class BaralhoTerritorio {
 	
 	
 	static public CartaTerritorio loadCarta(int id) {
+		if(baralho.isEmpty()) {
+			criaCartas();
+			Collections.shuffle(baralho);
+		}
+		
 		for(CartaTerritorio c: baralho) {
 			if(c.id == id) {
 				int index = baralho.indexOf(c);
@@ -56,7 +64,8 @@ public class BaralhoTerritorio {
 			}
 		}
 		
-		return new CartaTerritorio(Board.territorios[id]);
+		System.out.println("ERRO - load carta");
+		return null;
 	}
 	
 	static public void TESTE_imprimeBaralho() {

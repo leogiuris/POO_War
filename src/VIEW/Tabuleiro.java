@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import CONTROL.Partida;
+import CONTROL.Partida.Estado;
 import MODEL.Model;
 
 public class Tabuleiro extends JPanel {
@@ -100,30 +101,50 @@ public class Tabuleiro extends JPanel {
     
      // draw the nodes
     public void paint(Graphics g) {
-    	
+    	Partida p = Partida.getInstance();
 		FontMetrics f = g.getFontMetrics();
 		
-		g.setColor(Color.black);
+		
 		for (Node n : nodes) {
+			if(p.estado == Estado.atac_destino || p.estado == Estado.fim_destino) {
+				if(n.id == p.t_orig) {
+					g.setColor(p.estado == Estado.atac_destino? Color.red : Color.green);
+				    g.drawOval(n.x - 13, n.y - 13,nodeDimension.width + 6, nodeDimension.height + 6);
+				}
+
+			    if(Model.MAPA_FazFronteira(n.id, p.t_orig)) {
+			    	System.out.println("print vizinhos");
+					g.setColor(Color.WHITE);
+				    g.drawOval(n.x - 13, n.y - 13,nodeDimension.width + 6, nodeDimension.height + 6);
+				}
+			}
+			
+			
+			
 		    g.setColor(utils.adapataCor(n.cor));
+
 		    g.fillOval(n.x-10, n.y-10,nodeDimension.width, nodeDimension.height);
+		    g.setColor(Color.black);
+			g.drawOval(n.x-10, n.y-10,nodeDimension.width, nodeDimension.height);
+		  
+		    	
 		    g.setColor(Color.black);
 		    g.drawOval(n.x-10, n.y-10,nodeDimension.width, nodeDimension.height);
 		    
-		    if(n.cor == "preto")
+		    if(n.cor == "preto" || n.cor == "azul")
 		    	g.setColor(Color.white);
 		    
 		    g.drawString(Integer.toString(n.qtdExercito), n.x-3,n.y+5);
 		    g.setColor(Color.black);
 		    g.drawString(n.name, n.x-16,n.y+17);
 		}
-
     }
     
     class Node implements MouseListener{
 		int x, y;
 		int qtdExercito;
 		int id;
+		
 		String cor;
 		String name;
 		
@@ -146,7 +167,7 @@ public class Tabuleiro extends JPanel {
     	}
 		
 		public void mouseClicked(MouseEvent e) {
-			int xx=e.getX(),yy=e.getY();
+			int xx=e.getX(), yy=e.getY();
 			//System.out.println("x = " + xx + ",yy = " + yy);
 			if(xx >= this.x-11 && xx < (this.x + 11))
 				if(yy >= this.y-11 && yy < (this.y + 11)) {

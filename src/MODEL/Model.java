@@ -1,14 +1,20 @@
 package MODEL;
 
+import java.io.File;
+
 public class Model {
 	
 	static Board b = Board.getInstance();
 	
 	
 	// Salva os dados do jogo num arquivo .json
-		public static void SAVE_salvarJogo() {
-			SaveData.saveGame();
+		public static void SAVE_salvarJogo(File f) {
+			SaveData.saveGame(f);
 		}
+		
+	public static void SAVE_carregarJogo(File f) {	
+		SaveData.loadGame(f);
+	}
 	
 
 	// Faz o jogador da vez colocar #qtd de exercitos em num territorio (pelo indice)
@@ -66,6 +72,7 @@ public class Model {
 		return Player.getJogadorDaVez().jogando;
 	}
 	
+	
 	public static String JOG_getNomeJogadorVez() {
 		return Player.getJogadorDaVez().nome;
 	}
@@ -78,6 +85,10 @@ public class Model {
 			total += i;
 		}
 		return total;
+	}
+	
+	public static int[] JOG_getBonusCont() {
+		return Player.getJogadorDaVez().bonusContinente;
 	}
 	
 	public static void JOG_moverExercitos(int origem, int destino, int qtd) {

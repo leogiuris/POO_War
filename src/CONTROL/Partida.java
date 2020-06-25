@@ -2,20 +2,22 @@ package CONTROL;
 
 
 
+import java.io.File;
 import java.util.*;
 import MODEL.Model;
 import VIEW.*;
-import GUI_TESTE.*;
+
 
 public class Partida{
 	static Scanner ent = new Scanner(System.in);
 	static boolean temVencedor = false;
 	private static Partida singleton = null;
-	private Frame_simples frame;
+
 	private MainFrame f;
 	
 	public boolean naoAgir = false;
 	public Estado estado;
+	
 	public int t_orig = 99;
 	public int t_dest = 99;
 	public int qtd;
@@ -61,10 +63,6 @@ public class Partida{
 		}
 	}
 	
-	void CadastraJogadores() {
-		frame = new Frame_simples();
-		frame.PopCadastro();	
-	}
 	
 	public void entraJogador(String nome, String cor) {
 		if(cor == null || nome.compareTo("") == 0) {
@@ -78,14 +76,25 @@ public class Partida{
 		Model.BART_SorteiaCartas();
 		Model.JOG_ComeçaJogada();
 		estado = Estado.alocando;
-		
+		ChecaObjetivo();
 		f.refresh();
-
 	}
 	
+	public void carregaSave(File file) {
+		
+		Model.SAVE_carregarJogo(file);
+		Model.JOG_ComeçaJogada();
+		estado = Estado.alocando;
+		ChecaObjetivo();
+		f.refresh();
+	}
 	
+	//função chamada por fora
+	public void refresh() {
+		f.refresh();
+	}
 	
-	public void clicouTerritorio(int id){
+ 	public void clicouTerritorio(int id){
 		
 		if(naoAgir) {
 			System.out.println("para de clicar");
@@ -96,18 +105,7 @@ public class Partida{
 			if(!Model.JOG_possuiTerritorio(id))
 				return;
 
-			//tratar por GUI
-			//System.out.println("digite a quantidade de exercitos que vai colocar:");
-			//naoAgir = true;
-			//int qtd = ent.nextInt();
-			
-			//System.out.println("digite a quantidade de exercitos a realocar:");
-			//int qtd = ent.nextInt();
-			
-			//linha teste
-			int qtd = Model.JOG_qtdExercRodada();
-			
-			Model.JOG_AlocaExercitos(id, qtd);
+			Model.JOG_AlocaExercitos(id, 1);
 			naoAgir = false;
 
 			f.alocaPanel(id);
@@ -131,13 +129,17 @@ public class Partida{
 				return;
 			}
 			
+			
 			t_orig = id;
 			estado = Estado.atac_destino;
+			f.refresh();
+			ChecaObjetivo();
 			return;
 		}
 		
 		if(estado == Estado.atac_destino) {
-			if(Model.JOG_possuiTerritorio(id)) {
+			if(id == t_orig) return;
+			if(Model.JOG_possuiTerritorio(id)) {				
 				System.out.println("territorio aliado");
 				estado = Estado.fim_destino;
 				clicouTerritorio(id);
@@ -153,6 +155,7 @@ public class Partida{
 			Model.JOG_Atacar(t_orig, t_dest, qtd);
 			estado = Estado.atac_origem;
 			f.refresh();
+			ChecaObjetivo();
 			return;
 		}
 		
@@ -164,6 +167,7 @@ public class Partida{
 			
 			t_orig = id;
 			estado = Estado.fim_destino;
+			ChecaObjetivo();
 			return;
 		}
 		
@@ -187,11 +191,18 @@ public class Partida{
 		}
 	}
 	
-	
+	public void EncerrarJogada() {
+		ChecaObjetivo();
+		Model.JOG_TerminaJogada();
+		
+		Model.JOG_ComeçaJogada();
+		estado = Estado.alocando;
+		f.refresh();
+	}
 	
 	public String getInfoJogador() {
 		if(estado == Estado.alocando) {
-			return ("tropas para distribuir: " + Model.JOG_qtdExercRodada());
+			return ("Tropas para distribuir: " + Model.JOG_qtdExercRodada());
 		}
 		if(estado == Estado.atac_origem) {
 			return ("Escolha origem de ataque");
@@ -209,118 +220,26 @@ public class Partida{
 			return	"aaaa";
 	}
 	
-
-	void MenuJogada() {
-		
-		Model.TESTE_jogadorVez();
-		
-		
-		System.out.println("Selecione a sua ação:"
-				+ "\n[1 - atacar oponente] [2 - passar a vez] [3 - salvar jogo]: ");
-		
-		int i = ent.nextInt();
-		if(i == 1) {
-			System.out.println("digite o indice do territorio escolhido:");
-			int origem = ent.nextInt();
-			if(!Model.JOG_possuiTerritorio(origem)) {
-				MenuJogada();
-				return;
-			}
-			
-			Model.MAPA_imprimeVizinhos(origem);
-			
-			System.out.println("digite o indice do territorio a ser atacado:");
-			int destino = ent.nextInt();
-			
-			int qtd = maxExercAtaque(origem);
-			
-			if(Model.TER_getQtdExercitos(origem) <= qtd) {
-				System.out.println("ERRO - nao possui exercitos suficiente\n");
-				MenuJogada();
-				return;
-			}
-			
-			Model.JOG_Atacar(origem, destino, qtd);
-			f.refresh();
-			
-			if(Model.JOG_cumpriuObjetivo()) {
-				temVencedor = true;
-				return;
-			}
-			
-			MenuJogada();
-		}
-		else if(i == 2){
-			System.out.println("passou a vez...");
-			Model.JOG_TerminaJogada();
-			return;
-		}
-		else {
-			Model.SAVE_salvarJogo();
-			MenuJogada();
-		}
+	
+	public void ChecaObjetivo() {
+		if(Model.JOG_cumpriuObjetivo())
+			fim();
 	}
 	
+	public void fim() {
+		System.out.println("\nJogador " + Model.JOG_getNomeJogadorVez() + " é o vencedor!");
+		System.out.println("\n\n\t----- FIM DE JOGO -----\n\n");
+		return;
+	}
+
 	public void aloca(int i, int id) {
 		Model.JOG_AlocaExercitos(id, i);
 	}
 	
-	void Jogada() {
-		System.out.println("\n\n\n------------- TURNO -------------\n");
-		
-		Model.JOG_ComeçaJogada();
-		
-		if(Model.JOG_cumpriuObjetivo()) {
-			temVencedor = true;
-			return;     
-		}
-		
-		while(Model.JOG_qtdExercRodada() + Model.JOG_getTotalBonusCont() > 0) {
-			Model.TESTE_jogadorVez();
-			//aloca();
-			f.refresh();
-			// o jogador pode passar a vez na fase de alocar
-			// os exercitos, 
-			if(!Model.JOG_jogando()) {
-				Jogada();
-			}
-				
-		}
-		
-		MenuJogada();	
-	}
-	
-	void cicloGeral() {
-		while(!temVencedor)
-			Jogada();
-		System.out.println("\nJogador " + Model.JOG_getNomeJogadorVez() + " é o vencedor!");
-		System.out.println("\n\n\t----- FIM DE JOGO -----\n\n");
-	}
-	
-	void teste1() {
-		
+
+
+	public void TESTE_CriaJogadores() {
 		Model.TESTE_criaJogadores();
-		Model.JOG_ComeçaJogada();
-		Model.TESTE_jogadorVez();
-		estado = Estado.alocando;
-		f.refresh();
-		
 	}
-	
-	void teste2()  {
-		
-		Model.TESTE_criaJogadores();
-		estado = Estado.alocando;
-		f.refresh();
-		
-		while(!temVencedor) {
-			System.out.println("Vez do jogador " + Model.JOG_getCor());
-			Jogada();
-		}
-			
-		System.out.println("\nJogador " + Model.JOG_getNomeJogadorVez() + " é o vencedor!");
-		System.out.println("\n\n\t----- FIM DE JOGO -----\n\n");
-	}
-	
-	
+
 }

@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -24,7 +25,8 @@ public class BoardPanel extends JPanel{
 
 	private Image bg;
 	private Image mapa;
-	private Image obj;
+	//private Image obj;
+	private boolean mostraObj = false;
 	Dimension textDimension = new Dimension(100, 30);
 	
 	
@@ -40,47 +42,96 @@ public class BoardPanel extends JPanel{
 		this.setMinimumSize(MapaDimension);
 		this.setPreferredSize(MapaDimension);
 		
-		/*
+		
 		JButton vObjetivo = new JButton("Objetivo"); 
 		vObjetivo.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
-				 ObjPanel oPanel = new ObjPanel(Partida.getInstance().getObjJogador());
-				 VIEW.MainFrame.boardPanel.add(oPanel);
+				 if(!mostraObj)
+					 mostraObj = true;
+				 else
+					 mostraObj = false;
+				 Partida.getInstance().refresh();
 			 }
-			 });
+		});
+		
 		vObjetivo.setBounds(25, 65, 80, 20);
 		this.add(vObjetivo);
 		
 		JButton pVez = new JButton("Passar Vez"); 
 		pVez.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
-				Partida.getInstance().PassarVez();
+				Partida.getInstance().EncerrarJogada();
+				mostraObj = false;
 			 }
-			 });
+		});
+		
 		pVez.setBounds(115, 65, 100, 20);
 		this.add(pVez);
-		 */
+		
+		JButton salvar = new JButton("Salvar");
+		salvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				final JFileChooser fc = new JFileChooser("./saves");
+				int returnVal = fc.showSaveDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+			        try {
+			        	Model.SAVE_salvarJogo(fc.getSelectedFile());
+			        } catch (Exception ex) {
+			            ex.printStackTrace();
+			        }
+			    }
+				
+				
+			}
+		});
+		salvar.setBounds(20, 675, 100, 50);
+		this.add(salvar);
 		
 	}
+	
 
+	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
 		g.drawImage(mapa, 0, 0, getWidth(), getHeight(), this);
 		g.setColor(Color.white);
 		
-		g.fillRect(20, 20, 200, 70);
-		
+		g.fillRect(10, 10, 220, 80);
+
+	
 		g.setColor(Color.black);
-		if(Partida.getInstance().estado != Estado.cadastrando) {
-			g.drawString("Vez de " + Model.JOG_getNomeJogadorVez(), textDimension.width, textDimension.height);
-			g.drawString(Partida.getInstance().getInfoJogador(), textDimension.width, textDimension.height);
+
+		if(Partida.getInstance().estado == Estado.cadastrando)
+			return;
+		
+		// informações gerais do jogador
+		g.drawString("Vez de " + Model.JOG_getNomeJogadorVez(), 20, 30);
+		g.drawString(Partida.getInstance().getInfoJogador(), 20, 45);
+		if(mostraObj) {
+			g.drawString(Model.JOG_getObjetivo(),20, 60);
 			
-			g.setColor(utils.adapataCor(Model.JOG_getCor()));
-			g.fillOval(130, 20, 20, 20);
 		}
 		
+		//cor do jogador
+		g.setColor(utils.adapataCor(Model.JOG_getCor()));
+		g.fillOval(160, 18, 20, 20);
+		g.setColor(Color.BLACK);
+		g.drawOval(160, 18, 20, 20);
+		
+		if(Model.JOG_getTotalBonusCont() > 0) {
+			int alt = 45;
+			g.setColor(Color.white);
+			g.fillRect(700, 10, 300, 80);
+			g.setColor(Color.black);
+			g.drawString("Bonus por Continente", 710, alt-15);
+			g.drawString("America do Sul: " + Model.JOG_getBonusCont()[0], 710, alt);
+			g.drawString("America do Norte: " + Model.JOG_getBonusCont()[1], 850, alt + 15);
+			g.drawString("Africa: " + Model.JOG_getBonusCont()[2], 710, alt + 30);
+			g.drawString("Europa: " + Model.JOG_getBonusCont()[3], 850, alt);
+			g.drawString("Asia: " + Model.JOG_getBonusCont()[4], 710, alt + 15);
+			g.drawString("Oceania: " + Model.JOG_getBonusCont()[5], 850, alt + 30);
+		}
 	}
-	
 	
 }

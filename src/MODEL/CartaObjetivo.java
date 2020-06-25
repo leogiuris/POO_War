@@ -14,19 +14,19 @@ public class CartaObjetivo {
 	
 	
 	protected enum Objetivos{
-		ConquistarAsia,
-		ConquistarEuropa,
-		ConquistarAmericaDoSul,
-		ConquistarAmericaDoNorte,
-		ConquistarAfrica,
-		ConquistarOceania,
-		EliminarJogadorAzul,
-		EliminarJogadorBranco,
-		EliminarJogadorVerde,
-		EliminarJogadorAmarelo,
-		EliminarJogadorPreto,
-		EliminarJogadorVermelho,
-		Conquistar24Territorios
+		Conquistar_Asia,
+		Conquistar_Europa,
+		Conquistar_America_Do_Sul,
+		Conquistar_America_Do_Norte,
+		Conquistar_Africa,
+		Conquistar_Oceania,
+		Eliminar_Jogador_Azul,
+		Eliminar_Jogador_Branco,
+		Eliminar_Jogador_Verde,
+		Eliminar_Jogador_Amarelo,
+		Eliminar_Jogador_Preto,
+		Eliminar_Jogador_Vermelho,
+		Conquistar_24_Territorios
 	}
 	
 	private CartaObjetivo(Objetivos o) {
@@ -76,7 +76,7 @@ public class CartaObjetivo {
 	 // Checagem para todos os objetivos
 	public boolean cumpriuObjetivo() {
 		Player p = Player.getJogadorDaVez();
-		if(this.descricao == Objetivos.Conquistar24Territorios) {
+		if(this.descricao == Objetivos.Conquistar_24_Territorios) {
 			
 			if(p.territorios.size() >= 24) {
 				return true;
@@ -85,7 +85,7 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.ConquistarAsia) {
+		if(this.descricao == Objetivos.Conquistar_Asia) {
 			if(Board.continentes[4].getDono() == p) {
 				return true;
 			}
@@ -93,7 +93,7 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.ConquistarEuropa) {
+		if(this.descricao == Objetivos.Conquistar_Europa) {
 			if(Board.continentes[3].getDono() == p) {
 				return true;
 			}
@@ -101,7 +101,7 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.ConquistarAmericaDoSul) {
+		if(this.descricao == Objetivos.Conquistar_America_Do_Sul) {
 			if(Board.continentes[0].getDono() == p) {
 				return true;
 			}
@@ -109,7 +109,7 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.ConquistarAmericaDoNorte) {
+		if(this.descricao == Objetivos.Conquistar_America_Do_Norte) {
 			if(Board.continentes[1].getDono() == p) {
 				return true;
 			}
@@ -117,7 +117,7 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.ConquistarAfrica) {
+		if(this.descricao == Objetivos.Conquistar_Africa) {
 			if(Board.continentes[2].getDono() == p) {
 				return true;
 			}
@@ -125,7 +125,7 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.ConquistarOceania) {
+		if(this.descricao == Objetivos.Conquistar_Oceania) {
 			if(Board.continentes[5].getDono() == p) {
 				return true;
 			}
@@ -133,11 +133,11 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.EliminarJogadorAzul) {
+		if(this.descricao == Objetivos.Eliminar_Jogador_Azul) {
 			Player op = Player.getJogadorPorCor(Cor.azul);
 			
 			if(op == null || op == this.dono) {
-				descricao = Objetivos.Conquistar24Territorios;
+				descricao = Objetivos.Conquistar_24_Territorios;
 				return cumpriuObjetivo();
 			}
 			
@@ -146,7 +146,7 @@ public class CartaObjetivo {
 					return true;
 				}
 				else {
-					descricao = Objetivos.Conquistar24Territorios;
+					descricao = Objetivos.Conquistar_24_Territorios;
 					return cumpriuObjetivo();
 				}	
 			}
@@ -154,11 +154,11 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.EliminarJogadorAmarelo) {
+		if(this.descricao == Objetivos.Eliminar_Jogador_Amarelo) {
 			Player op = Player.getJogadorPorCor(Cor.amarelo);
 			
 			if(op == null || op == this.dono) {
-				descricao = Objetivos.Conquistar24Territorios;
+				descricao = Objetivos.Conquistar_24_Territorios;
 				return cumpriuObjetivo();
 			}
 			
@@ -167,7 +167,7 @@ public class CartaObjetivo {
 					return true;
 				}
 				else {
-					descricao = Objetivos.Conquistar24Territorios;
+					descricao = Objetivos.Conquistar_24_Territorios;
 					return cumpriuObjetivo();
 				}	
 			}
@@ -175,11 +175,11 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.EliminarJogadorBranco) {
+		if(this.descricao == Objetivos.Eliminar_Jogador_Branco) {
 			Player op = Player.getJogadorPorCor(Cor.branco);
 			
 			if(op == null || op == this.dono) {
-				descricao = Objetivos.Conquistar24Territorios;
+				descricao = Objetivos.Conquistar_24_Territorios;
 				return cumpriuObjetivo();
 			}
 			
@@ -188,7 +188,7 @@ public class CartaObjetivo {
 					return true;
 				}
 				else {
-					descricao = Objetivos.Conquistar24Territorios;
+					descricao = Objetivos.Conquistar_24_Territorios;
 					return cumpriuObjetivo();
 				}	
 			}
@@ -196,11 +196,11 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.EliminarJogadorPreto) {
+		if(this.descricao == Objetivos.Eliminar_Jogador_Preto) {
 			Player op = Player.getJogadorPorCor(Cor.preto);
 			
 			if(op == null || op == this.dono) {
-				descricao = Objetivos.Conquistar24Territorios;
+				descricao = Objetivos.Conquistar_24_Territorios;
 				return cumpriuObjetivo();
 			}
 			
@@ -209,7 +209,7 @@ public class CartaObjetivo {
 					return true;
 				}
 				else {
-					descricao = Objetivos.Conquistar24Territorios;
+					descricao = Objetivos.Conquistar_24_Territorios;
 					return cumpriuObjetivo();
 				}	
 			}
@@ -217,11 +217,11 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.EliminarJogadorVerde) {
+		if(this.descricao == Objetivos.Eliminar_Jogador_Verde) {
 			Player op = Player.getJogadorPorCor(Cor.verde);
 			
 			if(op == null || op == this.dono) {
-				descricao = Objetivos.Conquistar24Territorios;
+				descricao = Objetivos.Conquistar_24_Territorios;
 				return cumpriuObjetivo();
 			}
 			
@@ -230,7 +230,7 @@ public class CartaObjetivo {
 					return true;
 				}
 				else {
-					descricao = Objetivos.Conquistar24Territorios;
+					descricao = Objetivos.Conquistar_24_Territorios;
 					return cumpriuObjetivo();
 				}	
 			}
@@ -238,11 +238,11 @@ public class CartaObjetivo {
 				return false;
 		}
 		
-		if(this.descricao == Objetivos.EliminarJogadorVermelho) {
+		if(this.descricao == Objetivos.Eliminar_Jogador_Vermelho) {
 			Player op = Player.getJogadorPorCor(Cor.vermelho);
 			
 			if(op == null || op == this.dono) {
-				descricao = Objetivos.Conquistar24Territorios;
+				descricao = Objetivos.Conquistar_24_Territorios;
 				return cumpriuObjetivo();
 			}
 			
@@ -251,7 +251,7 @@ public class CartaObjetivo {
 					return true;
 				}
 				else {
-					descricao = Objetivos.Conquistar24Territorios;
+					descricao = Objetivos.Conquistar_24_Territorios;
 					return cumpriuObjetivo();
 				}	
 			}

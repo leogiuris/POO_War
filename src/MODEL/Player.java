@@ -171,7 +171,7 @@ class Player {
 	public boolean cumpriuObjetivo() {
 		return objetivo.cumpriuObjetivo();
 	}
-	
+		
 	public void Atacar(Territorio origem, Territorio destino, int qtd_tropas) {
 		
 		//verificar se fazem fronteira
@@ -243,13 +243,7 @@ class Player {
 			
 		for (int i = 0, j = 0; !destino.exercitos.isEmpty() && i < valoresAtaque.length; i++) {
 			
-			//pausa dramatica
-			try {
-				Thread.sleep(700);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
 			
 			if(i<valoresDefesa.length)
 				System.out.println(valoresAtaque[i] + "\t" + valoresDefesa[i]);
@@ -284,13 +278,7 @@ class Player {
 			Eliminar(oponente);
 		}
 		
-		//pausa dramatica
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		
 	}
 	
@@ -312,8 +300,9 @@ class Player {
 		int iBonus = getBonusIndex(t);
 		
 		if((qtd_tropas > exercitosRodada + bonusContinente[iBonus]) || !t.validaCor(cor)) {
-			System.out.print("Erro entrada botarExercitos");
-			TESTE_Status_JogadorVez();
+			System.out.println("Erro entrada botarExercitos\nnome: " 
+		+ this.nome + "\nterritorio: " + t.nome + "\nqtd: " + qtd_tropas + "\n");
+			//TESTE_Status_JogadorVez();
 			return;
 		}
 		
@@ -350,7 +339,7 @@ class Player {
 		}
 	}
 	
-	private int getBonusIndex(Territorio t) {
+	public int getBonusIndex(Territorio t) {
 		for (int i = 0; i < bonusContinente.length; i++) {
 			if(t.continente == Board.continentes[i]) {
 				return i;
@@ -412,13 +401,13 @@ class Player {
 		if(maoCartas.size()<3)
 			return;
 		
-		Scanner ent=new Scanner(System.in);
-		System.out.println("Deseja fazer a troca de cartas?(Sim/Nao)"); 
-		String troca=ent.nextLine();
-		if(troca == "s" || maoCartas.size()>=5) {
-			trocarCartas();
-		}
-		ent.close();
+		//Scanner ent=new Scanner(System.in);
+		//System.out.println("Deseja fazer a troca de cartas?(Sim/Nao)"); 
+		//String troca=ent.nextLine();
+		//if(troca == "s" || maoCartas.size()>=5) {
+		//	trocarCartas();
+		//}
+		//ent.close();
 	}
 	
 	public String getObjetivo() {
@@ -441,7 +430,7 @@ class Player {
 		new Player("jorge", "verde");
 
 		//BaralhoTerritorio.criaCartas();
-		BaralhoTerritorio.sorteiaCartas();
+		//BaralhoTerritorio.sorteiaCartas();
 		System.out.println("Ordem dos Jogadores:");
 		
 		for(int i = 0; i<jogadores.size(); i++) {

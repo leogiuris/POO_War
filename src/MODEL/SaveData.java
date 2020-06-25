@@ -1,9 +1,13 @@
 package MODEL;
+
+import java.awt.Desktop;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
+import java.nio.file.*;
 
 
 import com.google.gson.*;
@@ -11,9 +15,8 @@ import com.google.gson.*;
 public class SaveData {
 
 	
-	public static void saveGame() {
-		
-		
+	public static boolean saveGame(File f) {
+
 		DataPlayer[] d_array = new DataPlayer[Player.getNumJogadores()];
 		
 		Gson gobj = new GsonBuilder().create();
@@ -23,9 +26,10 @@ public class SaveData {
 		}
 		
 		System.out.println("salvando...");
-		
+
 		try {
-			Writer writer = new FileWriter("save1.json");
+			Writer writer = new FileWriter(f.getPath());
+			
 			gobj.toJson(d_array, writer);
 			writer.flush();
 			writer.close();
@@ -36,10 +40,30 @@ public class SaveData {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return true;
 	}
 
 	
-	public static void loadGame() {
+	public static void loadGame(File f) {
+		
+		Player.ResetPlayers();
+		
+		Gson gson = new Gson();
+		String json;
+		try {
+			json = Files.readString(f.toPath());
+			DataPlayer[] dp_array = gson.fromJson(json , DataPlayer[].class);
+			System.out.println(json);
+			for(DataPlayer dp: dp_array) {
+				dp.teste_print_obj();
+				dp.loadData();
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

@@ -11,11 +11,15 @@ import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+
 import javax.swing.*;
 import CONTROL.Partida;
+import MODEL.Model;
+
 import java.util.*;
 
-public class CadastroPanel extends JPanel implements ActionListener {
+public class CadastroPanel extends JPanel  {
 	
 	private List<JTextField> playerNameTextFields = new ArrayList<JTextField>();
 	private Image bg;
@@ -40,7 +44,7 @@ public class CadastroPanel extends JPanel implements ActionListener {
 		Jogadores.setMinimumSize(jogadoresDimension);
 		Jogadores.setPreferredSize(jogadoresDimension);
 		
-		this.add(Box.createRigidArea(new Dimension(0, 200)));
+		this.add(Box.createRigidArea(new Dimension(0, 180)));
 		
 		for (int i = 0; i < 6; i++) {
 			JTextField playerName = new JTextField(20);
@@ -68,12 +72,60 @@ public class CadastroPanel extends JPanel implements ActionListener {
 		}
 		
 		
-		JButton submitButton = new JButton("Submit");
-		submitButton.setAlignmentX(Component.CENTER_ALIGNMENT); 
-		submitButton.addActionListener(this);
+		JButton submitButton = new JButton("Gerar Nova Partida");
+		JButton loadGameButton = new JButton("Continuar Partida");
+		
+		submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		//submitButton.setBounds(0,0,30,20);
+		loadGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		
+		submitButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) { 
+				System.out.println("entrou aqui");
+				boolean vazio = true;
+				Partida p = Partida.getInstance();
+				for(JTextField i: playerNameTextFields) {
+				   	if(!i.getText().isBlank())
+				   		vazio = false;
+				   	p.entraJogador(
+				   			i.getText(), utils.adaptaCor(i.getBackground()) );
+				}
+				
+				if(vazio) {
+					p.TESTE_CriaJogadores();
+				}
+			    
+			    fechaPainel();
+			    p.encerraCadastro();
+			}
+		});
+		
+		loadGameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Partida p = Partida.getInstance();
+				final JFileChooser fc = new JFileChooser("./saves");
+				int returnVal = fc.showOpenDialog(getParent());
+				
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+		            File file = fc.getSelectedFile();
+		            //This is where a real application would open the file.
+		            p.carregaSave(file);
+		            fechaPainel();
+		            //log.append("Opening: " + file.getName() + "." + newline);
+		        } else {
+		            //log.append("Open command cancelled by user." + newline);
+		        }
+				
+			}
+		});
+		
 		this.add(Jogadores);
-		this.add(Box.createRigidArea(new Dimension(0, 50)));
+		this.add(Box.createRigidArea(new Dimension(0, 10)));
 		this.add(submitButton);
+		this.add(Box.createRigidArea(new Dimension(0, 40)));
+		this.add(loadGameButton);
 	}
 	
 	
@@ -84,7 +136,11 @@ public class CadastroPanel extends JPanel implements ActionListener {
 		pNome.setHorizontalAlignment(JTextField.LEFT);
 		pNome.setAlignmentX(Component.CENTER_ALIGNMENT); 
 		pNome.setBackground(c);
-		pNome.setFont(new Font("Arial", Font.PLAIN, 12));
+
+		if(c == Color.BLACK || c == Color.BLUE)
+			pNome.setForeground(Color.WHITE);
+		
+		pNome.setFont(new Font("Arial", Font.PLAIN, 14));
 		cont.add(pNome);
 		playerNameTextFields.add(pNome);
 	}
@@ -97,36 +153,10 @@ public class CadastroPanel extends JPanel implements ActionListener {
 	}
 	
 
-	
-	public void actionPerformed(ActionEvent e) { 
-		
-	    for(JTextField i: playerNameTextFields) {
-	    	System.out.println(i.getText());
-	    	Partida.getInstance().entraJogador(
-	    			i.getText(), utils.adaptaCor(i.getBackground()) );
-	    }
-	    
-	    JButton vObjetivo = new JButton("Objetivo"); 
-		vObjetivo.addActionListener(new ActionListener() {
-			 public void actionPerformed(ActionEvent e) {
-				 ObjPanel oPanel = new ObjPanel(Partida.getInstance().getObjJogador());
-				 VIEW.MainFrame.boardPanel.add(oPanel);
-			 }
-			 });
-		vObjetivo.setBounds(25, 65, 80, 20);
-		VIEW.MainFrame.boardPanel.add(vObjetivo);
-		
-		JButton pVez = new JButton("Passar Vez"); 
-		pVez.addActionListener(new ActionListener() {
-			 public void actionPerformed(ActionEvent e) {
-				Partida.getInstance().PassarVez();
-			 }
-			 });
-		pVez.setBounds(115, 65, 100, 20);
-		VIEW.MainFrame.boardPanel.add(pVez);
-		
-	    this.setVisible(false);
-	    Partida.getInstance().encerraCadastro();
+	public void fechaPainel() {
+		this.setVisible(false);
 	}
+	
+	
 	
 }
