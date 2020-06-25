@@ -29,6 +29,10 @@ public class BoardPanel extends JPanel{
 	private boolean mostraObj = false;
 	Dimension textDimension = new Dimension(100, 30);
 	
+	JButton pVez = new JButton("Passar Vez"); 
+	JButton vObjetivo = new JButton("Objetivo"); 
+	JButton salvar = new JButton("Salvar");
+	
 	
 	public BoardPanel() {
 		Toolkit tk=Toolkit.getDefaultToolkit();
@@ -43,7 +47,7 @@ public class BoardPanel extends JPanel{
 		this.setPreferredSize(MapaDimension);
 		
 		
-		JButton vObjetivo = new JButton("Objetivo"); 
+		
 		vObjetivo.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 				 if(!mostraObj)
@@ -57,7 +61,7 @@ public class BoardPanel extends JPanel{
 		vObjetivo.setBounds(25, 65, 80, 20);
 		this.add(vObjetivo);
 		
-		JButton pVez = new JButton("Passar Vez"); 
+		 
 		pVez.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 				Partida.getInstance().EncerrarJogada();
@@ -68,7 +72,7 @@ public class BoardPanel extends JPanel{
 		pVez.setBounds(115, 65, 100, 20);
 		this.add(pVez);
 		
-		JButton salvar = new JButton("Salvar");
+		
 		salvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final JFileChooser fc = new JFileChooser("./saves");
@@ -93,6 +97,7 @@ public class BoardPanel extends JPanel{
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 		g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
 		g.drawImage(mapa, 0, 0, getWidth(), getHeight(), this);
 		g.setColor(Color.white);
@@ -102,12 +107,18 @@ public class BoardPanel extends JPanel{
 	
 		g.setColor(Color.black);
 
-		if(Partida.getInstance().estado == Estado.cadastrando)
+		Partida p = Partida.getInstance();
+		
+		pVez.setVisible(!(p.estado == Estado.cadastrando));
+		vObjetivo.setVisible(!(p.estado == Estado.cadastrando));
+		salvar.setVisible(!(p.estado == Estado.cadastrando));
+			
+		if(p.estado == Estado.cadastrando)
 			return;
 		
 		// informações gerais do jogador
 		g.drawString("Vez de " + Model.JOG_getNomeJogadorVez(), 20, 30);
-		g.drawString(Partida.getInstance().getInfoJogador(), 20, 45);
+		g.drawString(p.getInfoJogador(), 20, 45);
 		if(mostraObj) {
 			g.drawString(Model.JOG_getObjetivo(),20, 60);
 			

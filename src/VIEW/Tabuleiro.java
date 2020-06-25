@@ -101,7 +101,11 @@ public class Tabuleiro extends JPanel {
     
      // draw the nodes
     public void paint(Graphics g) {
+    	
     	Partida p = Partida.getInstance();
+    	if(p.estado == Estado.cadastrando) 
+    		return;
+    	
 		FontMetrics f = g.getFontMetrics();
 		
 		
