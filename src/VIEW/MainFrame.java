@@ -42,6 +42,10 @@ public class MainFrame extends JFrame{
 		this.repaint();
 	}
 	
+	public void menuFim() {
+		
+	}
+	
 	// Teste
 	public void init() {
 		Insets ins=this.getInsets();

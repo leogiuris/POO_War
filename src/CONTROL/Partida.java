@@ -14,6 +14,7 @@ public class Partida{
 	private static Partida singleton = null;
 
 	private MainFrame f;
+	private UI_Manager ui;
 	
 	public boolean naoAgir = false;
 	public Estado estado;
@@ -35,13 +36,16 @@ public class Partida{
 		atac_origem,
 		atac_destino,
 		fim_origem,
-		fim_destino
+		fim_destino,
+		fim_jogo
 	}
 	
 	private Partida() {
 		estado = Estado.cadastrando;
-		f = new MainFrame();
-		f.init();
+		//f = new MainFrame();
+		ui = new UI_Manager();
+		
+		//f.init();
 		//teste1();
 	}
 	
@@ -77,7 +81,7 @@ public class Partida{
 		Model.JOG_ComeçaJogada();
 		estado = Estado.alocando;
 		ChecaObjetivo();
-		f.refresh();
+		refresh();
 	}
 	
 	public void carregaSave(File file) {
@@ -86,12 +90,13 @@ public class Partida{
 		Model.JOG_ComeçaJogada();
 		estado = Estado.alocando;
 		ChecaObjetivo();
-		f.refresh();
+		refresh();
 	}
 	
 	//função chamada por fora
 	public void refresh() {
-		f.refresh();
+		//f.refresh();
+		ui.refreshMain();
 	}
 	
  	public void clicouTerritorio(int id){
@@ -108,9 +113,9 @@ public class Partida{
 			Model.JOG_AlocaExercitos(id, 1);
 			naoAgir = false;
 
-			f.alocaPanel(id);
+			//f.alocaPanel(id);
 
-			f.refresh();
+			refresh();
 			
 			if(Model.JOG_qtdExercRodada() + Model.JOG_getTotalBonusCont() == 0) {
 				estado = Estado.atac_origem;
@@ -132,7 +137,7 @@ public class Partida{
 			
 			t_orig = id;
 			estado = Estado.atac_destino;
-			f.refresh();
+			refresh();
 			ChecaObjetivo();
 			return;
 		}
@@ -154,7 +159,7 @@ public class Partida{
 			
 			Model.JOG_Atacar(t_orig, t_dest, qtd);
 			estado = Estado.atac_origem;
-			f.refresh();
+			refresh();
 			ChecaObjetivo();
 			return;
 		}
@@ -186,7 +191,7 @@ public class Partida{
 			
 			Model.JOG_moverExercitos(t_orig, t_dest, qtd);
 			naoAgir = false;
-			f.refresh();
+			refresh();
 			estado = Estado.fim_origem;
 		}
 	}
@@ -197,7 +202,7 @@ public class Partida{
 		
 		Model.JOG_ComeçaJogada();
 		estado = Estado.alocando;
-		f.refresh();
+		refresh();
 	}
 	
 	public String getInfoJogador() {
@@ -227,6 +232,8 @@ public class Partida{
 	}
 	
 	public void fim() {
+		estado = Estado.fim_jogo;
+		ui.mostrarFimDialogo();
 		System.out.println("\nJogador " + Model.JOG_getNomeJogadorVez() + " é o vencedor!");
 		System.out.println("\n\n\t----- FIM DE JOGO -----\n\n");
 		return;

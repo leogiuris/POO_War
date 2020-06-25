@@ -71,6 +71,7 @@ public class SaveData {
 
 class DataPlayer{
 	
+	
 	String[] data = new String[3];
 	
 	boolean[] estado = new boolean[3];

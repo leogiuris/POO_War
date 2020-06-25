@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import CONTROL.Partida;
 import CONTROL.Partida.Estado;
@@ -32,13 +33,11 @@ public class BoardPanel extends JPanel{
 	JButton pVez = new JButton("Passar Vez"); 
 	JButton vObjetivo = new JButton("Objetivo"); 
 	JButton salvar = new JButton("Salvar");
-	
+	Dimension MapaDimension = new Dimension(1024, 768);
 	
 	public BoardPanel() {
 		Toolkit tk=Toolkit.getDefaultToolkit();
-		
-		Dimension MapaDimension = new Dimension(1024, 768);
-		
+
 		this.setLayout(null);
 		mapa = tk.getImage("./images/war_tabuleiro_mapa_copy.png");
 		bg = tk.getImage("./images/war_tabuleiro_fundo.png");
@@ -76,9 +75,14 @@ public class BoardPanel extends JPanel{
 		salvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final JFileChooser fc = new JFileChooser("./saves");
+				FileNameExtensionFilter jsonFilter 
+					= new FileNameExtensionFilter("json files (*.json)", "json");
+				fc.addChoosableFileFilter(jsonFilter);
+		        fc.setFileFilter(jsonFilter);
 				int returnVal = fc.showSaveDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 			        try {
+			        	
 			        	Model.SAVE_salvarJogo(fc.getSelectedFile());
 			        } catch (Exception ex) {
 			            ex.printStackTrace();
@@ -100,9 +104,7 @@ public class BoardPanel extends JPanel{
 		
 		g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
 		g.drawImage(mapa, 0, 0, getWidth(), getHeight(), this);
-		g.setColor(Color.white);
 		
-		g.fillRect(10, 10, 220, 80);
 
 	
 		g.setColor(Color.black);
@@ -116,6 +118,18 @@ public class BoardPanel extends JPanel{
 		if(p.estado == Estado.cadastrando)
 			return;
 		
+		if(p.estado == Estado.fim_jogo) {
+			int alt = MapaDimension.height/2, larg = MapaDimension.width/2;
+			g.setColor(Color.white);
+			g.fillRect(larg - 110, alt - 40, 220, 80);
+			g.setColor(Color.black);
+			g.drawString("Bonus por Continente", larg + 20, alt + 15);
+			return;
+		}
+		
+		g.setColor(Color.white);		
+		g.fillRect(10, 10, 220, 80);
+		g.setColor(Color.black);
 		// informações gerais do jogador
 		g.drawString("Vez de " + Model.JOG_getNomeJogadorVez(), 20, 30);
 		g.drawString(p.getInfoJogador(), 20, 45);
@@ -143,6 +157,7 @@ public class BoardPanel extends JPanel{
 			g.drawString("Asia: " + Model.JOG_getBonusCont()[4], 710, alt + 15);
 			g.drawString("Oceania: " + Model.JOG_getBonusCont()[5], 850, alt + 30);
 		}
+		
 	}
 	
 }

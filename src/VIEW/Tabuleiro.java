@@ -110,7 +110,7 @@ public class Tabuleiro extends JPanel {
 		
 		
 		for (Node n : nodes) {
-			if(p.estado == Estado.atac_destino || p.estado == Estado.fim_destino) {
+			if(p.estado == Estado.atac_destino) {
 				if(n.id == p.t_orig) {
 					g.setColor(p.estado == Estado.atac_destino? Color.red : Color.green);
 				    g.drawOval(n.x - 13, n.y - 13,nodeDimension.width + 6, nodeDimension.height + 6);
@@ -171,6 +171,11 @@ public class Tabuleiro extends JPanel {
     	}
 		
 		public void mouseClicked(MouseEvent e) {
+			
+			if(Partida.getInstance().estado == Estado.fim_jogo) {
+				return;
+			}
+			
 			int xx=e.getX(), yy=e.getY();
 			//System.out.println("x = " + xx + ",yy = " + yy);
 			if(xx >= this.x-11 && xx < (this.x + 11))
