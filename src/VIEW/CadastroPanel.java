@@ -76,29 +76,29 @@ public class CadastroPanel extends JPanel  {
 		JButton loadGameButton = new JButton("Continuar Partida");
 		
 		submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		//submitButton.setBounds(0,0,30,20);
 		loadGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		
 		submitButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) { 
-				System.out.println("entrou aqui");
+				
 				boolean vazio = true;
 				Partida p = Partida.getInstance();
+				
 				for(JTextField i: playerNameTextFields) {
 				   	if(!i.getText().isBlank())
 				   		vazio = false;
-				   	p.entraJogador(
-				   			i.getText(), utils.adaptaCor(i.getBackground()) );
+				   	p.entraJogador( i.getText(), 
+				   			utils.adaptaCor(i.getBackground()) );
 				}
 				
 				if(vazio) {
 					p.TESTE_CriaJogadores();
 				}
 			    
+				p.encerraCadastro();
 			    fechaPainel();
-			    p.encerraCadastro();
 			}
 		});
 		

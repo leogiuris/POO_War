@@ -8,15 +8,14 @@ public class Model {
 	
 	
 	// Salva os dados do jogo num arquivo .json
-		public static void SAVE_salvarJogo(File f) {
-			SaveData.saveGame(f);
-		}
+	public static void SAVE_salvarJogo(File f) {
+		SaveData.saveGame(f);
+	}
 		
 	public static void SAVE_carregarJogo(File f) {	
 		SaveData.loadGame(f);
 	}
 	
-
 	// Faz o jogador da vez colocar #qtd de exercitos em num territorio (pelo indice)
 	public static void JOG_AlocaExercitos(int index, int qtd) {
 		Player p = Player.getJogadorDaVez();
@@ -31,6 +30,14 @@ public class Model {
 	
 	public static String JOG_getCor() {
 		return Player.getJogadorDaVez().getCor().toString();
+	}
+	
+	public static String JOG_getCor(int i) {
+		return Player.jogadores.get(i).getCor().toString();
+	}
+	
+	public static int getNumJogada() {
+		return Player.jogada;
 	}
 	
 	public static int JOG_getQtdJogadores() {

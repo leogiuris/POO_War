@@ -14,7 +14,6 @@ public class Tabuleiro extends JPanel {
 	Dimension nodeDimension = new Dimension(20, 20);
     ArrayList<Node> nodes;
     
-    
     //Construtor
     public Tabuleiro() { 
 		nodes = new ArrayList<Node>();
@@ -79,8 +78,8 @@ public class Tabuleiro extends JPanel {
     	this.addNode("Mongolia",857,257);
     	this.addNode("Japao",950,273);
     	this.addNode("China",800,294);
-    	this.addNode("Correia Do Norte",867,310);
-    	this.addNode("Correia Do Sul",864,335);
+    	this.addNode("Correia Do Norte",860,310);
+    	this.addNode("Correia Do Sul",880,335);
     	this.addNode("Tailandia",885,413);
     	this.addNode("Bangladesh",852,369);
     	this.addNode("India",801,378);
@@ -110,16 +109,19 @@ public class Tabuleiro extends JPanel {
 		
 		
 		for (Node n : nodes) {
-			if(p.estado == Estado.atac_destino) {
+			
+			int tam =  nodeDimension.width;
+			
+			
+			if(p.estado == Estado.atac_destino || p.estado == Estado.desloc_destino) {
 				if(n.id == p.t_orig) {
 					g.setColor(p.estado == Estado.atac_destino? Color.red : Color.green);
-				    g.drawOval(n.x - 13, n.y - 13,nodeDimension.width + 6, nodeDimension.height + 6);
+				    g.drawOval(n.x - 13, n.y - 13, tam + 6, tam + 6);
 				}
 
 			    if(Model.MAPA_FazFronteira(n.id, p.t_orig)) {
-			    	System.out.println("print vizinhos");
 					g.setColor(Color.WHITE);
-				    g.drawOval(n.x - 13, n.y - 13,nodeDimension.width + 6, nodeDimension.height + 6);
+				    g.drawOval(n.x - 13, n.y - 13, tam + 6, tam + 6);
 				}
 			}
 			
@@ -127,20 +129,16 @@ public class Tabuleiro extends JPanel {
 			
 		    g.setColor(utils.adapataCor(n.cor));
 
-		    g.fillOval(n.x-10, n.y-10,nodeDimension.width, nodeDimension.height);
+		    g.fillOval(n.x-10, n.y-10,tam, tam);    	
 		    g.setColor(Color.black);
-			g.drawOval(n.x-10, n.y-10,nodeDimension.width, nodeDimension.height);
-		  
-		    	
-		    g.setColor(Color.black);
-		    g.drawOval(n.x-10, n.y-10,nodeDimension.width, nodeDimension.height);
+		    g.drawOval(n.x-10, n.y-10,tam, tam);
 		    
 		    if(n.cor == "preto" || n.cor == "azul")
 		    	g.setColor(Color.white);
 		    
 		    g.drawString(Integer.toString(n.qtdExercito), n.x-3,n.y+5);
-		    g.setColor(Color.black);
-		    g.drawString(n.name, n.x-16,n.y+17);
+		    g.setColor(Color.white);
+		    g.drawString(n.name, n.x-16,n.y+20);
 		}
     }
     
@@ -148,7 +146,8 @@ public class Tabuleiro extends JPanel {
 		int x, y;
 		int qtdExercito;
 		int id;
-		
+
+
 		String cor;
 		String name;
 		
@@ -159,6 +158,8 @@ public class Tabuleiro extends JPanel {
 		    id = Model.TER_getIDbyName(name);
 		    qtdExercito = Model.TER_getQtdExercitos(id);
 		    cor = Model.TER_getCorDono(id);
+
+		    
 		    addMouseListener(this);
 		}
 	
@@ -178,8 +179,8 @@ public class Tabuleiro extends JPanel {
 			
 			int xx=e.getX(), yy=e.getY();
 			//System.out.println("x = " + xx + ",yy = " + yy);
-			if(xx >= this.x-11 && xx < (this.x + 11))
-				if(yy >= this.y-11 && yy < (this.y + 11)) {
+			if(xx >= this.x-15 && xx < (this.x + 15))
+				if(yy >= this.y-15 && yy < (this.y + 15)) {
 					Partida.getInstance().clicouTerritorio(id);
 				}
 			repaint();

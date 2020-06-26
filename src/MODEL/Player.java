@@ -102,12 +102,12 @@ class Player {
 		jogadores.clear();
 	}
 	
-	public static void loadJogador(String[] data, boolean[] estado, int[] tropas_d, int ordem,
-			List<Integer> s_territorios, List<Integer> tropas_t, List<Integer> idCartasT ) {
+	public static void loadJogador(String[] data, boolean[] estado, int[] tropas_d, int jogada_d, 
+			int ordem, List<Integer> s_territorios, List<Integer> tropas_t, List<Integer> idCartasT ) {
 		
 		Player p = new Player();
 		jogadores.add(ordem, p);
-		
+		jogada = jogada_d;
 		p.nome = data[0];
 		p.cor = getCor(data[1]);
 		p.objetivo = CartaObjetivo.loadCarta(data[2]);
@@ -208,9 +208,11 @@ class Player {
 		//instanciar dados de acordo c qtd_tropas
 		Dado []dadosAtaque = new Dado[qtd_tropas];
 		Dado []dadosDefesa;
-		if(qtd_def > 3)
+		if(qtd_def > 3) {
 			dadosDefesa = new Dado[3];
-		
+			qtd_def = 3;
+		}
+			
 		else
 			dadosDefesa = new Dado[qtd_def];
 

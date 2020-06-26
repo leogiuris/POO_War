@@ -21,6 +21,8 @@ public class SaveData {
 		
 		Gson gobj = new GsonBuilder().create();
 		
+		
+		
 		for (int i = 0; i < Player.jogadores.size(); i++) {
 			d_array[i] = new DataPlayer( Player.jogadores.get(i) );
 		}
@@ -31,6 +33,7 @@ public class SaveData {
 			Writer writer = new FileWriter(f.getPath());
 			
 			gobj.toJson(d_array, writer);
+			
 			writer.flush();
 			writer.close();
 		} catch (JsonIOException e) {
@@ -78,6 +81,8 @@ class DataPlayer{
 	
 	int[] tropas_d = new int[7]; 
 	
+	//esta é uma variavel estatica, idealmente deveria ser armazenada de outra forma
+	int jogada;
 	int ordem;
 	
 	List<Integer> id_territorios;
@@ -100,6 +105,7 @@ class DataPlayer{
 				p.bonusContinente[5]				
 		};
 
+		jogada = Player.jogada;
 		ordem = Player.jogadores.indexOf(p);
 		
 		id_territorios = new ArrayList<Integer>();
@@ -140,8 +146,8 @@ class DataPlayer{
 	}
 	
 	void loadData() {
-		Player.loadJogador(this.data, this.estado, this.tropas_d, this.ordem,
-				this.id_territorios, this.tropas_t, this.idCartas_t);
+		Player.loadJogador(this.data, this.estado, this.tropas_d, this.jogada,
+				this.ordem, this.id_territorios, this.tropas_t, this.idCartas_t);
 	}
 	
 }

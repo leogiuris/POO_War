@@ -9,8 +9,7 @@ import VIEW.*;
 
 
 public class Partida{
-	static Scanner ent = new Scanner(System.in);
-	static boolean temVencedor = false;
+	
 	private static Partida singleton = null;
 
 	private MainFrame f;
@@ -21,6 +20,7 @@ public class Partida{
 	
 	public int t_orig = 99;
 	public int t_dest = 99;
+	public List<Integer> t_desloc = new ArrayList<Integer>();
 	public int qtd;
 	
 	public static Partida getInstance() {
@@ -35,8 +35,8 @@ public class Partida{
 		alocando,
 		atac_origem,
 		atac_destino,
-		fim_origem,
-		fim_destino,
+		desloc_origem,
+		desloc_destino,
 		fim_jogo
 	}
 	
@@ -67,7 +67,6 @@ public class Partida{
 		}
 	}
 	
-	
 	public void entraJogador(String nome, String cor) {
 		if(cor == null || nome.compareTo("") == 0) {
 			return;
@@ -87,16 +86,29 @@ public class Partida{
 	public void carregaSave(File file) {
 		
 		Model.SAVE_carregarJogo(file);
-		Model.JOG_ComeçaJogada();
-		estado = Estado.alocando;
+		//Model.JOG_ComeçaJogada();
+		
+		if((Model.JOG_getTotalBonusCont() + Model.JOG_qtdExercRodada()) > 0)
+			estado = Estado.alocando;
+		else
+			estado = Estado.atac_origem;
+		
+		
 		ChecaObjetivo();
 		refresh();
 	}
 	
-	//função chamada por fora
 	public void refresh() {
 		//f.refresh();
 		ui.refreshMain();
+	}
+	
+	public void cancelarAcao() {
+		if(estado == Estado.atac_destino)
+			estado = Estado.atac_origem;
+		if(estado == Estado.desloc_destino)
+			estado = Estado.desloc_origem;
+		refresh();
 	}
 	
  	public void clicouTerritorio(int id){
@@ -146,8 +158,6 @@ public class Partida{
 			if(id == t_orig) return;
 			if(Model.JOG_possuiTerritorio(id)) {				
 				System.out.println("territorio aliado");
-				estado = Estado.fim_destino;
-				clicouTerritorio(id);
 				return;
 			}
 			t_dest = id;
@@ -164,27 +174,30 @@ public class Partida{
 			return;
 		}
 		
-		if(estado == Estado.fim_origem) {
-			if(!Model.JOG_possuiTerritorio(id)) {
-				System.out.println("nao possui territorio");
+		if(estado == Estado.desloc_origem) {
+			if(!Model.JOG_possuiTerritorio(id) || t_desloc.contains(id)) {
+				refresh();
 				return;
 			}
 			
 			t_orig = id;
-			estado = Estado.fim_destino;
+			estado = Estado.desloc_destino;
 			ChecaObjetivo();
 			return;
 		}
 		
-		if(estado == Estado.fim_destino) {
-			if(!Model.JOG_possuiTerritorio(id))
+		if(estado == Estado.desloc_destino) {
+			if(!Model.JOG_possuiTerritorio(id) || !Model.MAPA_FazFronteira(t_orig, id)) {
+				refresh();
+				estado = Estado.desloc_origem;
 				return;
-			
+			}
+				
 			naoAgir = true;
-			t_dest = id;
 			
-			//System.out.println("digite a quantidade de exercitos a realocar:");
-			//int qtd = ent.nextInt();
+			
+			t_desloc.add(id);
+			t_dest = id;
 			
 			//linha teste
 			int qtd = Model.TER_getQtdExercitos(t_orig)/2;
@@ -192,7 +205,7 @@ public class Partida{
 			Model.JOG_moverExercitos(t_orig, t_dest, qtd);
 			naoAgir = false;
 			refresh();
-			estado = Estado.fim_origem;
+			estado = Estado.desloc_origem;
 		}
 	}
 	
@@ -202,6 +215,8 @@ public class Partida{
 		
 		Model.JOG_ComeçaJogada();
 		estado = Estado.alocando;
+		
+		//Model.SAVE_autosave();
 		refresh();
 	}
 	
@@ -215,16 +230,15 @@ public class Partida{
 		if(estado == Estado.atac_destino) {
 			return ("Origem: " + Model.TER_getNome(t_orig));
 		}
-		if(estado == Estado.fim_origem) {
-			return ("Realocando exercitos.\n" + "Selecione origem:" + "\n(não pode mais atacar)");
+		if(estado == Estado.desloc_origem) {
+			return ("Deslocando exercitos.");
 		}
-		if(estado == Estado.fim_destino) {
-			return ("Realocando exercitos.\n" + "Origem: " + Model.TER_getNome(t_orig) + "(não pode mais atacar)");
+		if(estado == Estado.desloc_destino) {
+			return ("Deslocando exercitos.\n" + "Origem: " + Model.TER_getNome(t_orig));
 		}
 		else
-			return	"aaaa";
+			return	"ERRO - getInfo";
 	}
-	
 	
 	public void ChecaObjetivo() {
 		if(Model.JOG_cumpriuObjetivo())
