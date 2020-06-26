@@ -111,8 +111,7 @@ public class Tabuleiro extends JPanel {
 		for (Node n : nodes) {
 			
 			int tam =  nodeDimension.width;
-			
-			
+					
 			if(p.estado == Estado.atac_destino || p.estado == Estado.desloc_destino) {
 				if(n.id == p.t_orig) {
 					g.setColor(p.estado == Estado.atac_destino? Color.red : Color.green);
@@ -124,9 +123,7 @@ public class Tabuleiro extends JPanel {
 				    g.drawOval(n.x - 13, n.y - 13, tam + 6, tam + 6);
 				}
 			}
-			
-			
-			
+
 		    g.setColor(utils.adapataCor(n.cor));
 
 		    g.fillOval(n.x-10, n.y-10,tam, tam);    	
@@ -158,8 +155,7 @@ public class Tabuleiro extends JPanel {
 		    id = Model.TER_getIDbyName(name);
 		    qtdExercito = Model.TER_getQtdExercitos(id);
 		    cor = Model.TER_getCorDono(id);
-
-		    
+	    
 		    addMouseListener(this);
 		}
 	

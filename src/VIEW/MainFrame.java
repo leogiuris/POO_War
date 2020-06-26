@@ -26,27 +26,22 @@ public class MainFrame extends JFrame{
 		boardPanel.add(cadastroPanel);
 		tabuleiro.carregaNodes();
 		boardPanel.add(tabuleiro);
-	
-		
+
 	}  
 	
-	public void alocaPanel(int id) {
-		AlocaPanel AP = new AlocaPanel(id);
-		//boardPanel.add(AP);
-		
-		this.repaint();
+	
+	public void cadastro() {
+		cadastroPanel.setVisible(true);
 	}
+	
 	
 	public void refresh() {
 		tabuleiro.updateNodes();
 		this.repaint();
 	}
+
 	
-	public void menuFim() {
-		
-	}
-	
-	// Teste
+
 	public void init() {
 		Insets ins=this.getInsets();
 		this.setSize(300+ins.left+ins.right,125+ins.top+ins.bottom);

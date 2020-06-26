@@ -23,8 +23,13 @@ import CONTROL.Partida;
 import CONTROL.Partida.Estado;
 import MODEL.Model;
 
-public class BoardPanel extends JPanel{
+/*
+	Essa classe contém o mapa e a maioria dos botoes
+	e informações que compoem o UI do jogo.
 
+*/
+
+public class BoardPanel extends JPanel{
 	private Image bg;
 	private Image mapa;
 	//private Image obj;
@@ -53,6 +58,7 @@ public class BoardPanel extends JPanel{
 		
 		vObjetivo.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
+				 Partida.getInstance().ChecaObjetivo();
 				 if(!mostraObj)
 					 mostraObj = true;
 				 else
@@ -76,10 +82,7 @@ public class BoardPanel extends JPanel{
 			
 			public void actionPerformed(ActionEvent e) {
 				final JFileChooser fc = new JFileChooser("./saves");
-				//FileNameExtensionFilter jsonFilter 
-			//		= new FileNameExtensionFilter("json files (*.json)", "json");
-			//	fc.addChoosableFileFilter(jsonFilter);
-		        //fc.setFileFilter(jsonFilter);
+
 				int returnVal = fc.showSaveDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 			        try {

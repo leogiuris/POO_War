@@ -437,11 +437,12 @@ class Player {
 		
 		for(int i = 0; i<jogadores.size(); i++) {
 
-			System.out.println((i+1) + " : " + jogadores.get(i).nome + "\tcor: " + jogadores.get(i).cor+ "\tobjetivo: " + jogadores.get(i).objetivo.descricao); 
+			System.out.println((i+1) + " : " + jogadores.get(i).nome 
+					+ "\tcor: " + jogadores.get(i).cor
+					+ "\tobjetivo: " + jogadores.get(i).objetivo.descricao); 
 
 		}
-		System.out.println("Territorios sorteados...");
-		
+				
 		System.out.println();
 	}
 	

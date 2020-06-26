@@ -28,7 +28,6 @@ public class CadastroPanel extends JPanel  {
 	Dimension jogadoresDimension = new Dimension(100,180);
 	
 	
-	
 	public CadastroPanel() {
 		Toolkit tk=Toolkit.getDefaultToolkit();
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -144,8 +143,7 @@ public class CadastroPanel extends JPanel  {
 		cont.add(pNome);
 		playerNameTextFields.add(pNome);
 	}
-	
-	
+		
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -156,7 +154,5 @@ public class CadastroPanel extends JPanel  {
 	public void fechaPainel() {
 		this.setVisible(false);
 	}
-	
-	
-	
+		
 }

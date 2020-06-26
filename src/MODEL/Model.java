@@ -7,6 +7,14 @@ public class Model {
 	static Board b = Board.getInstance();
 	
 	
+	public static void Reiniciar() {
+		Player.ResetPlayers();
+		for(Territorio t: Board.territorios) {
+			t.resetTerritorio();
+		}
+		BaralhoTerritorio.criaCartas();
+	}
+	
 	// Salva os dados do jogo num arquivo .json
 	public static void SAVE_salvarJogo(File f) {
 		SaveData.saveGame(f);
@@ -69,7 +77,7 @@ public class Model {
 	// Retorna o objetivo do jogador da vez
 	public static String JOG_getObjetivo() {
 		Player p = Player.getJogadorDaVez();
-		return p.getObjetivo();
+		return p.getObjetivo().replace("_", " ");
 	}
 
 	// Retorna o estado do jogador da vez (se está jogando ou não)
@@ -142,6 +150,8 @@ public class Model {
 	public static String TER_getCorDono(int id) {
 		return Board.territorios[id].getCor().toString();
 	}
+	
+
 	
 	//Retorna o numero de jogadas desde o inicio
 	//(começa com 0 e incrementa quando um jogador termina sua jogada)

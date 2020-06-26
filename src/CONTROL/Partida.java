@@ -12,7 +12,6 @@ public class Partida{
 	
 	private static Partida singleton = null;
 
-	private MainFrame f;
 	private UI_Manager ui;
 	
 	public boolean naoAgir = false;
@@ -21,7 +20,7 @@ public class Partida{
 	public int t_orig = 99;
 	public int t_dest = 99;
 	public List<Integer> t_desloc = new ArrayList<Integer>();
-	public int qtd;
+
 	
 	public static Partida getInstance() {
 		if(singleton == null) {
@@ -48,8 +47,13 @@ public class Partida{
 		//f.init();
 		//teste1();
 	}
+
 	
-	
+	public void Recomeçar() {
+		Model.Reiniciar();
+		estado = Estado.cadastrando;
+		ui.mostrarCadastro();
+	}
 	
 	private int maxExercAtaque(int id_ter) {
 		int qtd = Model.TER_getQtdExercitos(id_ter);
@@ -76,11 +80,12 @@ public class Partida{
 	}
 	
 	public void encerraCadastro() {
-		Model.BART_SorteiaCartas();
+		Model.BART_SorteiaCartas();		
 		Model.JOG_ComeçaJogada();
-		estado = Estado.alocando;
 		ChecaObjetivo();
-		refresh();
+		estado = Estado.alocando;
+		
+		refresh();		
 	}
 	
 	public void carregaSave(File file) {
@@ -111,19 +116,13 @@ public class Partida{
 		refresh();
 	}
 	
- 	public void clicouTerritorio(int id){
-		
-		if(naoAgir) {
-			System.out.println("para de clicar");
-			return;
-		}
+ 	public void clicouTerritorio(int id){		
 		
 		if(estado == Estado.alocando) {
 			if(!Model.JOG_possuiTerritorio(id))
 				return;
 
 			Model.JOG_AlocaExercitos(id, 1);
-			naoAgir = false;
 
 			//f.alocaPanel(id);
 
@@ -193,7 +192,6 @@ public class Partida{
 				return;
 			}
 				
-			naoAgir = true;
 			
 			
 			t_desloc.add(id);
@@ -203,20 +201,20 @@ public class Partida{
 			int qtd = Model.TER_getQtdExercitos(t_orig)/2;
 			
 			Model.JOG_moverExercitos(t_orig, t_dest, qtd);
-			naoAgir = false;
+
 			refresh();
 			estado = Estado.desloc_origem;
 		}
 	}
 	
 	public void EncerrarJogada() {
+		t_desloc.clear();
 		ChecaObjetivo();
 		Model.JOG_TerminaJogada();
 		
 		Model.JOG_ComeçaJogada();
 		estado = Estado.alocando;
-		
-		//Model.SAVE_autosave();
+
 		refresh();
 	}
 	
@@ -234,7 +232,10 @@ public class Partida{
 			return ("Deslocando exercitos.");
 		}
 		if(estado == Estado.desloc_destino) {
-			return ("Deslocando exercitos.\n" + "Origem: " + Model.TER_getNome(t_orig));
+			return ("Deslocando exercitos.\nOrigem: " + Model.TER_getNome(t_orig));
+		}
+		if(estado == Estado.fim_jogo) {
+			return(Model.JOG_getNomeJogadorVez() + " venceu!\nObjetivo: " + Model.JOG_getObjetivo());
 		}
 		else
 			return	"ERRO - getInfo";
@@ -248,8 +249,6 @@ public class Partida{
 	public void fim() {
 		estado = Estado.fim_jogo;
 		ui.mostrarFimDialogo();
-		System.out.println("\nJogador " + Model.JOG_getNomeJogadorVez() + " é o vencedor!");
-		System.out.println("\n\n\t----- FIM DE JOGO -----\n\n");
 		return;
 	}
 
