@@ -146,8 +146,7 @@ public class Partida{
 				System.out.println("tropas insuficientes");
 				return;
 			}
-			
-			
+						
 			t_orig = id;
 			estado = Estado.atac_destino;
 			refresh();
@@ -162,13 +161,16 @@ public class Partida{
 				return;
 			}
 			t_dest = id;
-			
+						
 			int qtd = maxExercAtaque(t_orig);
 			
 			if(qtd == 0)
 				return;
 			
-			Model.JOG_Atacar(t_orig, t_dest, qtd);
+			if(!Model.JOG_avaliaAtaque(t_orig, t_dest, qtd))
+				return;
+			
+			int[] a = Model.JOG_Atacar(t_orig, t_dest, qtd);
 			estado = Estado.atac_origem;
 			refresh();
 			ChecaObjetivo();
@@ -211,7 +213,8 @@ public class Partida{
 			estado = Estado.desloc_origem;
 		}
 	}
-	
+ 	
+ 	
 	public void EncerrarJogada() {
 		t_desloc.clear();
 		ChecaObjetivo();

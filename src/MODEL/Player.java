@@ -172,36 +172,46 @@ class Player {
 		return objetivo.cumpriuObjetivo();
 	}
 		
-	public void Atacar(Territorio origem, Territorio destino, int qtd_tropas) {
-		
+	
+	
+	
+	public boolean avaliaAtaque(Territorio origem, Territorio destino, int qtd_tropas) {
 		//verificar se fazem fronteira
 		if(!Board.fazFronteira(origem, destino)) {
 			System.out.println("Player_ERRO - ataque invalido (nao fazem fronteira)");
-			return;
+			return false;
 		}
-		
+				
 		//verificar se origem pertence ao jogador
 		if(origem.getCor() != cor) {
 			System.out.println("Player_ERRO - territorio de origem nao pertence ao jogador");
+			return false;
 		}
 		
 		//verificar se origem possui mais de um exercito
 		if(origem.getQtdExercitos() <= qtd_tropas) {
 			System.out.println("Player_ERRO - ataque invalido (ataque nao possui exercitos suficiente)");
-			return;
+			return false;
 		}
-		
+				
 		//verificar se destino pertence a outro jogador
 		if(destino.getCor() == this.cor) {
 			System.out.println("Player_ERRO - ataque invalido (territorios do mesmo jogador)");
-			return;
+			return false;
 		}
+		
+		return true;
+	}
+	
+	public int[] Atacar(Territorio origem, Territorio destino, int qtd_tropas) {		
+		
+		int[] retDados = new int[6];
 		
 		Player oponente = destino.getDono();
 		int qtd_def = destino.getQtdExercitos();
+		
 		//verificar se qtd_tropas é menor que 3
 		if(qtd_tropas > 3) {
-			System.out.println("ERRO - (qtd_tropas > 3)");
 			qtd_tropas = 3;
 		}
 		
@@ -211,12 +221,10 @@ class Player {
 		if(qtd_def > 3) {
 			dadosDefesa = new Dado[3];
 			qtd_def = 3;
-		}
-			
+		}			
 		else
 			dadosDefesa = new Dado[qtd_def];
-
-		
+	
 		//rolar dados ataque
 		int [] valoresAtaque = new int[qtd_tropas];
 		
@@ -224,10 +232,10 @@ class Player {
 			dadosAtaque[i] = new Dado();
 			
 			valoresAtaque[i] = dadosAtaque[i].RolarDado();
+			retDados[i] = valoresAtaque[i];
 		}
 		
 		Arrays.sort(valoresAtaque);
-		
 		
 		//rolar dados defesa
 		int [] valoresDefesa = new int[qtd_def];
@@ -235,6 +243,7 @@ class Player {
 		for (int i = 0; i < valoresDefesa.length; i++) {
 			dadosDefesa[i] = new Dado();
 			valoresDefesa[i] = dadosDefesa[i].RolarDado();
+			retDados[i+3] = valoresDefesa[i];
 		}
 		
 		Arrays.sort(valoresDefesa);
@@ -244,8 +253,6 @@ class Player {
 		System.out.println("\n\nATAQUE\tDEFESA");
 			
 		for (int i = 0, j = 0; !destino.exercitos.isEmpty() && i < valoresAtaque.length; i++) {
-			
-
 			
 			if(i<valoresDefesa.length)
 				System.out.println(valoresAtaque[i] + "\t" + valoresDefesa[i]);
@@ -271,16 +278,13 @@ class Player {
 			territorios.add(oponente.territorios.remove(oponente.territorios.indexOf(destino)));
 			moverExercitos(origem,destino,tropasAvante);
 		}
-		else {
-			System.out.println("\n(nao conquistou)\n\n");
-		}
 		
 		//caso elimine um jogador
 		if(oponente.territorios.isEmpty()) {
 			Eliminar(oponente);
 		}
 		
-
+		return retDados;
 		
 	}
 	

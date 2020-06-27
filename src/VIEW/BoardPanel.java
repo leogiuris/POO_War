@@ -32,16 +32,17 @@ import MODEL.Model;
 public class BoardPanel extends JPanel{
 	private Image bg;
 	private Image mapa;
+	private Image prox;
 	//private Image obj;
 	private boolean mostraObj = false;
 	Dimension textDimension = new Dimension(100, 30);
 	
-	JButton pVez = new JButton("Passar Vez"); 
+	JButton pVez = new JButton(""); 
 	JButton vObjetivo = new JButton("Objetivo"); 
 	JButton salvar = new JButton("Salvar");
 	JButton deslocar = new JButton("Deslocar Tropas");
 	JButton cancelar = new JButton("Voltar");
-	JButton passar = new JButton("Voltar");
+	
 	
 	Dimension MapaDimension = new Dimension(1024, 768);
 	
@@ -50,8 +51,10 @@ public class BoardPanel extends JPanel{
 		Font font = new Font("Roboto", Font.PLAIN, 14);
 		this.setFont(font);
 		this.setLayout(null);
+		
 		mapa = tk.getImage("./images/war_tabuleiro_mapa_copy.png");
 		bg = tk.getImage("./images/war_tabuleiro_fundo.png");
+		prox = tk.getImage("./images/BOTOES/war_btnProxJogada.png");
 		this.setMaximumSize(MapaDimension);
 		this.setMinimumSize(MapaDimension);
 		this.setPreferredSize(MapaDimension);		
@@ -75,7 +78,11 @@ public class BoardPanel extends JPanel{
 				mostraObj = false;
 			 }
 		});
-		pVez.setBounds(130, 675, 150, 50);
+		pVez.setBounds(140, 665, 70, 70);		
+		pVez.setOpaque(false);
+		pVez.setContentAreaFilled(false);
+		pVez.setBorderPainted(false);
+		pVez.setIcon(new ImageIcon(prox));
 		this.add(pVez);
 		
 		salvar.addActionListener(new ActionListener() {

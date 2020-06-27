@@ -69,9 +69,9 @@ public class Model {
 	}
 	
 	// Faz o jogador da vez atacar um territorio inimigo
-	public static void JOG_Atacar(int i_origem, int i_destino, int qtd_tropas) {
+	public static int[] JOG_Atacar(int i_origem, int i_destino, int qtd_tropas) {
 		Player p = Player.getJogadorDaVez();
-		p.Atacar(Board.territorios[i_origem], Board.territorios[i_destino], qtd_tropas);
+		return p.Atacar(Board.territorios[i_origem], Board.territorios[i_destino], qtd_tropas);
 	}
 	
 	// Retorna o objetivo do jogador da vez
@@ -109,6 +109,12 @@ public class Model {
 	public static void JOG_moverExercitos(int origem, int destino, int qtd) {
 		Player.getJogadorDaVez().moverExercitos(Board.territorios[origem], 
 														Board.territorios[destino], qtd);
+	}
+	
+	public static boolean JOG_avaliaAtaque(int origem, int destino, int qtd_tropas) {
+		 return Player.getJogadorDaVez().avaliaAtaque (	Board.territorios[origem], 
+				 										Board.territorios[destino], 
+				 										qtd_tropas );
 	}
 	
 	//Jogador da vez passa a vez para o proximo
@@ -188,6 +194,8 @@ public class Model {
 	public static void BART_SorteiaCartas() {
 		BaralhoTerritorio.sorteiaCartas();
 	}
+	
+	
 	
 	
 	// TESTES
