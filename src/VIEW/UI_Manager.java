@@ -4,6 +4,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+
+
 import CONTROL.Partida;
 
 public class UI_Manager {
@@ -12,7 +14,7 @@ public class UI_Manager {
 	
 	public UI_Manager() {
 		mf = new MainFrame();		
-		mf.init();
+
 	}
 	
 	
@@ -28,11 +30,21 @@ public class UI_Manager {
 		if(returnVal == JOptionPane.YES_OPTION) {
 			Partida.getInstance().Recomeçar();
 		}
-		
 	}
 	
 	public void mostrarCadastro() {
 		mf.cadastro();
+	}
+	
+	
+	public int inputDesloca() {
+		String resp = JOptionPane.showInputDialog(null,
+				"oi", "titulo", JOptionPane.INFORMATION_MESSAGE);
+		
+		if(resp == null)
+			return 0;
+		else
+			return Integer.parseInt(resp);
 	}
 	
 	public void refreshMain() {

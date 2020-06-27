@@ -43,7 +43,7 @@ public class Continente {
 	public void TESTE_continente() {
 		System.out.println("< " + nome + " >");
 		for (Territorio t : territorios) {
-			System.out.println(t.nome + ": " + t.getQtdExercitos() + " " + t.getCor());
+			System.out.println(t.id + ": " + t.nome + ": " + t.getQtdExercitos() + " " + t.getCor());
 		}
 	}
 }

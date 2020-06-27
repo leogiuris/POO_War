@@ -85,6 +85,8 @@ public class Partida{
 		ChecaObjetivo();
 		estado = Estado.alocando;
 		
+		Model.TESTE_imprimeBoard();
+		
 		refresh();		
 	}
 	
@@ -174,13 +176,15 @@ public class Partida{
 		}
 		
 		if(estado == Estado.desloc_origem) {
-			if(!Model.JOG_possuiTerritorio(id) || t_desloc.contains(id)) {
+			if(!Model.JOG_possuiTerritorio(id) || t_desloc.contains(id) || 
+											Model.TER_getQtdExercitos(id)<=1) {
 				refresh();
 				return;
 			}
 			
 			t_orig = id;
 			estado = Estado.desloc_destino;
+			refresh();
 			ChecaObjetivo();
 			return;
 		}
@@ -192,13 +196,14 @@ public class Partida{
 				return;
 			}
 				
-			
+			int qtd = ui.inputDesloca();
+			if(qtd == 0) {
+				estado = Estado.desloc_origem;
+				return;
+			}
 			
 			t_desloc.add(id);
 			t_dest = id;
-			
-			//linha teste
-			int qtd = Model.TER_getQtdExercitos(t_orig)/2;
 			
 			Model.JOG_moverExercitos(t_orig, t_dest, qtd);
 

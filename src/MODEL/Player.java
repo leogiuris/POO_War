@@ -290,8 +290,13 @@ class Player {
 	}
 	
 	public void ReceberCarta() {
-		if(conquistouTerritorio)
-			maoCartas.add(BaralhoTerritorio.pegarCarta());
+		if(conquistouTerritorio) {
+			CartaTerritorio c = BaralhoTerritorio.pegarCarta();
+			maoCartas.add(c);
+			
+			System.out.println("recebeu carta:\n- " + c.id + " " + c.forma.name());
+		}
+			
 	}
 	
 	public void botarExercitos(Territorio t, int qtd_tropas) {
@@ -334,6 +339,12 @@ class Player {
 	public void moverExercitos(Territorio a, Territorio b, int qtd) {
 		if(!Board.fazFronteira(a, b)) {
 			System.out.println("Player_ERRO - territorios nao fazem fronteira");
+			return;
+		}
+		
+		if(qtd >= a.getQtdExercitos()) {
+			System.out.println("Player_ERRO - territorios nao fazem fronteira");
+			return;
 		}
 		
 		for (int i = 0; i < qtd; i++) {

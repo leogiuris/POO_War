@@ -26,6 +26,12 @@ public class MainFrame extends JFrame{
 		boardPanel.add(cadastroPanel);
 		tabuleiro.carregaNodes();
 		boardPanel.add(tabuleiro);
+		
+		//Insets ins=this.getInsets();
+		//this.setSize(300+ins.left+ins.right,125+ins.top+ins.bottom);
+		this.setResizable(false);
+		this.pack();
+		this.setVisible(true);
 
 	}  
 	
@@ -40,14 +46,6 @@ public class MainFrame extends JFrame{
 		this.repaint();
 	}
 
-	
 
-	public void init() {
-		Insets ins=this.getInsets();
-		this.setSize(300+ins.left+ins.right,125+ins.top+ins.bottom);
-		this.setResizable(false);
-		this.pack();
-		this.setVisible(true);
-	}
 	
 }

@@ -86,7 +86,7 @@ public class CadastroPanel extends JPanel  {
 				Partida p = Partida.getInstance();
 				
 				for(JTextField i: playerNameTextFields) {
-				   	if(!i.getText().isBlank())
+				   	if(!i.getText().isEmpty())
 				   		vazio = false;
 				   	p.entraJogador( i.getText(), 
 				   			utils.adaptaCor(i.getBackground()) );

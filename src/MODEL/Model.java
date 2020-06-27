@@ -133,6 +133,7 @@ public class Model {
 	public static int TER_getQtdExercitos(int id) {
 		return Board.territorios[id].getQtdExercitos();
 	}
+
 	
 	public static int TER_getIDbyName(String nome){
 		for(Territorio t: Board.territorios) {
