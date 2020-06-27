@@ -1,19 +1,11 @@
 package MODEL;
 
 import java.io.File;
+import java.util.List;
 
 public class Model {
 	
 	static Board b = Board.getInstance();
-	
-	
-	public static void Reiniciar() {
-		Player.ResetPlayers();
-		for(Territorio t: Board.territorios) {
-			t.resetTerritorio();
-		}
-		BaralhoTerritorio.criaCartas();
-	}
 	
 	// Salva os dados do jogo num arquivo .json
 	public static void SAVE_salvarJogo(File f) {
@@ -52,6 +44,16 @@ public class Model {
 		return Player.getNumJogadores();
 	}
 	
+	public static List<CartaTerritorio> JOG_getMaoCartas() {
+		Player p = Player.getJogadorDaVez();
+		return p.getMaoCartas();
+	}
+	
+	public static void JOG_trocaCartas(List<CartaTerritorio> selecionadas) {
+		Player p = Player.getJogadorDaVez();
+		p.trocarCartas(selecionadas);
+	}
+	
 	//Retorna true se o jogador da vez possui o territorio 'id'
 	public static boolean JOG_possuiTerritorio(int id) {
 		for(Territorio t: Player.getJogadorDaVez().territorios) {
@@ -77,7 +79,7 @@ public class Model {
 	// Retorna o objetivo do jogador da vez
 	public static String JOG_getObjetivo() {
 		Player p = Player.getJogadorDaVez();
-		return p.getObjetivo().replace("_", " ");
+		return p.getObjetivo();
 	}
 
 	// Retorna o estado do jogador da vez (se está jogando ou não)
@@ -86,7 +88,6 @@ public class Model {
 	public static boolean JOG_jogando() {
 		return Player.getJogadorDaVez().jogando;
 	}
-	
 	
 	public static String JOG_getNomeJogadorVez() {
 		return Player.getJogadorDaVez().nome;
@@ -133,7 +134,6 @@ public class Model {
 	public static int TER_getQtdExercitos(int id) {
 		return Board.territorios[id].getQtdExercitos();
 	}
-
 	
 	public static int TER_getIDbyName(String nome){
 		for(Territorio t: Board.territorios) {
@@ -152,16 +152,11 @@ public class Model {
 		return Board.territorios[id].getCor().toString();
 	}
 	
-
-	
 	//Retorna o numero de jogadas desde o inicio
 	//(começa com 0 e incrementa quando um jogador termina sua jogada)
 	public static int n_vez() {
 		return Player.jogada;
 	}
-	
-	
-	
 	
 	//Verifica se dois territorios fazem fronteira
 	//Retorna true se fizerem
@@ -188,7 +183,6 @@ public class Model {
 	public static void BART_SorteiaCartas() {
 		BaralhoTerritorio.sorteiaCartas();
 	}
-	
 	
 	// TESTES
 	public static void TESTE_jogadorAlocaPrimeiroTer() {

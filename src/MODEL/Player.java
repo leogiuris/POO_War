@@ -52,7 +52,7 @@ class Player {
 	}
 	
 	
-//	CONSTRUTOR	
+	//---------  CONSTRUTOR  ---------
 	public Player(String nome, String cor){
 		this.nome = nome;
 		this.cor = getCor(cor);
@@ -290,13 +290,8 @@ class Player {
 	}
 	
 	public void ReceberCarta() {
-		if(conquistouTerritorio) {
-			CartaTerritorio c = BaralhoTerritorio.pegarCarta();
-			maoCartas.add(c);
-			
-			System.out.println("recebeu carta:\n- " + c.id + " " + c.forma.name());
-		}
-			
+		if(conquistouTerritorio)
+			maoCartas.add(BaralhoTerritorio.pegarCarta());
 	}
 	
 	public void botarExercitos(Territorio t, int qtd_tropas) {
@@ -339,12 +334,6 @@ class Player {
 	public void moverExercitos(Territorio a, Territorio b, int qtd) {
 		if(!Board.fazFronteira(a, b)) {
 			System.out.println("Player_ERRO - territorios nao fazem fronteira");
-			return;
-		}
-		
-		if(qtd >= a.getQtdExercitos()) {
-			System.out.println("Player_ERRO - territorios nao fazem fronteira");
-			return;
 		}
 		
 		for (int i = 0; i < qtd; i++) {
@@ -379,8 +368,8 @@ class Player {
 		}
 	}
 
-	public void trocarCartas() {
-		//Falta selecionar cartas para trocar e remove-las da mao			
+	public void trocarCartas(List<CartaTerritorio> tCartas) {
+		
 		exercitosRodada =+ 2+2*(numTroca);
 		numTroca++;
 		
@@ -433,6 +422,9 @@ class Player {
 		return this.cor;
 	}
 	
+	public List<CartaTerritorio> getMaoCartas() {
+		return this.maoCartas;
+	}
 //	--------- FUNÇÕES DE TESTE ----------
 	public static void TESTE_criaJogadores() {
 		System.out.println("--- TESTE CRIA JOGADORES ---");
@@ -448,12 +440,11 @@ class Player {
 		
 		for(int i = 0; i<jogadores.size(); i++) {
 
-			System.out.println((i+1) + " : " + jogadores.get(i).nome 
-					+ "\tcor: " + jogadores.get(i).cor
-					+ "\tobjetivo: " + jogadores.get(i).objetivo.descricao); 
+			System.out.println((i+1) + " : " + jogadores.get(i).nome + "\tcor: " + jogadores.get(i).cor+ "\tobjetivo: " + jogadores.get(i).objetivo.descricao); 
 
 		}
-				
+		System.out.println("Territorios sorteados...");
+		
 		System.out.println();
 	}
 	
@@ -517,6 +508,9 @@ class Player {
 		}
 		System.out.println();
 	}
+
+
+	
 	
 	
 }
