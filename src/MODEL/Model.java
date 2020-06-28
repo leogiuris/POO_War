@@ -67,6 +67,15 @@ public class Model {
 		p.trocarCartas(selecionadas);
 	}
 	
+	public static char JOG_getFormaCartaMao(int id) {
+		Player p = Player.getJogadorDaVez();
+		for(CartaTerritorio ct: p.maoCartas) {
+			if(ct.id == id)
+				return ct.getForma();
+		}
+		return 1;
+	}
+	
 	//Retorna true se o jogador da vez possui o territorio 'id'
 	public static boolean JOG_possuiTerritorio(int id) {
 		for(Territorio t: Player.getJogadorDaVez().territorios) {

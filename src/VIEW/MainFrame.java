@@ -16,6 +16,7 @@ public class MainFrame extends JFrame{
 	private CadastroPanel cadastroPanel = new CadastroPanel();
 	private Tabuleiro tabuleiro = new Tabuleiro();
 	
+	
 	public MainFrame() {
 		 
 		setTitle("War");

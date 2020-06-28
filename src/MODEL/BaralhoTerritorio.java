@@ -2,6 +2,8 @@ package MODEL;
 import java.io.File;
 import java.util.*;
 
+import MODEL.CartaTerritorio.Forma;
+
 public class BaralhoTerritorio {
 	
 	static private List<CartaTerritorio> baralho = new ArrayList<CartaTerritorio>();
@@ -14,12 +16,13 @@ public class BaralhoTerritorio {
         pathnames = f.list();
 		
         for(String str: pathnames) {
+        	System.out.println(str);
         	int index = str.indexOf('_');
         	int id = Integer.parseInt(str.substring(0, index));
         	char forma = str.charAt(index + 1);
         	baralho.add(new CartaTerritorio(id, forma));
         }
-        
+        System.out.println("foram todas");
 	}
 	
 	static public CartaTerritorio pegarCarta() {
@@ -48,8 +51,11 @@ public class BaralhoTerritorio {
 		Collections.shuffle(baralho);
 		
 		for(int i = 0; i<baralho.size(); i++) {
-			Player p = Player.jogadores.get(i % Player.jogadores.size());
-			p.territorios.add(baralho.get(i).territorio);
+			CartaTerritorio ct = baralho.get(i);
+			if(ct.forma == Forma.coringa)
+				continue;
+			Player p = Player.jogadores.get(i % Player.getNumJogadores());
+			p.territorios.add(ct.territorio);
 			
 		}
 		

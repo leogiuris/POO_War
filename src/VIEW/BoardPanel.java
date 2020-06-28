@@ -23,13 +23,8 @@ import CONTROL.Partida;
 import CONTROL.Partida.Estado;
 import MODEL.Model;
 
-/*
-	Essa classe contém o mapa e a maioria dos botoes
-	e informações que compoem o UI do jogo.
-
-*/
-
 public class BoardPanel extends JPanel{
+
 	private Image bg;
 	private Image mapa;
 	private Image prox;
@@ -37,20 +32,22 @@ public class BoardPanel extends JPanel{
 	private boolean mostraObj = false;
 	private boolean mostraCartas = false;
 	
+
 	CartasPanel cartasPanel = new CartasPanel();
 	Dimension panelDimension = new Dimension(660, 218);
 	
+
 	Dimension textDimension = new Dimension(100, 30);
+	Dimension MapaDimension = new Dimension(1024, 768);
 	
 	JButton pVez = new JButton(""); 
 	JButton vObjetivo = new JButton("Objetivo"); 
 	JButton salvar = new JButton("Salvar");
 	JButton deslocar = new JButton("Deslocar Tropas");
 	JButton cancelar = new JButton("Voltar");
-	JButton tCartas = new JButton("Trocar Cartas");
+
+	JButton tCartas = new JButton("Cartas");
 	
-	
-	Dimension MapaDimension = new Dimension(1024, 768);
 	
 	public BoardPanel() {
 		Toolkit tk=Toolkit.getDefaultToolkit();
@@ -67,7 +64,6 @@ public class BoardPanel extends JPanel{
 		
 		vObjetivo.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
-				 Partida.getInstance().ChecaObjetivo();
 				 if(!mostraObj)
 					 mostraObj = true;
 				 else
@@ -76,12 +72,25 @@ public class BoardPanel extends JPanel{
 			 }
 		});	
 		vObjetivo.setBounds(150, 65, 90, 20);
-		this.add(vObjetivo);		
+		this.add(vObjetivo);
+		
+		tCartas.addActionListener(new ActionListener() {
+			 public void actionPerformed(ActionEvent e) {
+				 if(!mostraCartas)
+					 mostraCartas = true;
+				 else
+					 mostraCartas = false;
+				 Partida.getInstance().refresh();
+			 }
+		});	
+		tCartas.setBounds(670, 680, 90, 20);
+		this.add(tCartas);
 		 
 		pVez.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 				Partida.getInstance().EncerrarJogada();
 				mostraObj = false;
+				mostraCartas = false;
 			 }
 		});
 		pVez.setBounds(140, 665, 70, 70);		
@@ -95,7 +104,10 @@ public class BoardPanel extends JPanel{
 			
 			public void actionPerformed(ActionEvent e) {
 				final JFileChooser fc = new JFileChooser("./saves");
-
+				//FileNameExtensionFilter jsonFilter 
+			//		= new FileNameExtensionFilter("json files (*.json)", "json");
+			//	fc.addChoosableFileFilter(jsonFilter);
+		        //fc.setFileFilter(jsonFilter);
 				int returnVal = fc.showSaveDialog(null);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 			        try {
@@ -114,6 +126,7 @@ public class BoardPanel extends JPanel{
 			 public void actionPerformed(ActionEvent e) {
 				Partida.getInstance().estado = Estado.desloc_origem;
 				mostraObj = false;
+				mostraCartas= false;
 				Partida.getInstance().refresh();
 			 }
 		});
@@ -141,6 +154,8 @@ public class BoardPanel extends JPanel{
 		});	
 		tCartas.setBounds(670, 680, 90, 20);
 		this.add(tCartas);
+		
+		//this.add(cartasPanel);
 	}
 	
 
@@ -157,9 +172,10 @@ public class BoardPanel extends JPanel{
 
 		Partida p = Partida.getInstance();
 		
-		if(p.estado == Estado.cadastrando)
-			return;
+
 		
+		
+
 		tCartas.setVisible(!(p.estado == Estado.cadastrando));
 		vObjetivo.setVisible(!(p.estado == Estado.cadastrando));
 		salvar.setVisible(!(p.estado == Estado.cadastrando));
@@ -170,7 +186,8 @@ public class BoardPanel extends JPanel{
 						p.estado == Estado.desloc_origem);
 			
 		
-		
+		if(p.estado == Estado.cadastrando)
+			return;
 		
 		g.setColor(Color.white);		
 		g.fillRect(10, 10, 250, 80);
@@ -183,6 +200,10 @@ public class BoardPanel extends JPanel{
 		g.drawString(str, 20, 45);
 		if(mostraObj) {
 			g.drawString(Model.JOG_getObjetivo().replace('_', ' '),20, 60);
+			
+		}
+		if(mostraCartas) {
+			this.add(cartasPanel);
 			
 		}
 		
@@ -231,9 +252,6 @@ public class BoardPanel extends JPanel{
 		
 
 	}
-	
 
-	
-	
 	
 }

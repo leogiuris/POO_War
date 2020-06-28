@@ -14,7 +14,7 @@ class CartaTerritorio {
 	}
 	
 	
-	public Forma getForma(char f) {
+	public Forma setForma(char f) {
 		if(f == 't')
 			return Forma.triangulo;
 		if(f == 'q')
@@ -29,11 +29,31 @@ class CartaTerritorio {
 
 	
 	public CartaTerritorio(int id, char f){
+		
 		this.id = id;
-		territorio = Board.territorios[id];
-		forma = getForma(f);
+		
+		if(id == 99) {
+			territorio = null;
+			forma = Forma.coringa;
+		}
+		else {
+			territorio = Board.territorios[id];
+			forma = setForma(f);
+		}
 	}
 	
+	public char getForma() {
+		if(forma == Forma.triangulo)
+			return 't';
+		if(forma == Forma.quadrado)
+			return 'q';
+		if(forma == Forma.circulo)
+			return 'c';
+		if(forma == Forma.coringa)
+			return 'a';
+		System.out.println("erro getForma");
+		return '\0';
+	}
 	
 	public Territorio getTerritorio() {
 		return territorio;
