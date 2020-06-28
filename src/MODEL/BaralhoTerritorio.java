@@ -1,4 +1,5 @@
 package MODEL;
+import java.io.File;
 import java.util.*;
 
 public class BaralhoTerritorio {
@@ -7,9 +8,18 @@ public class BaralhoTerritorio {
 	
 	
 	static public void criaCartas() {
-		for (int i = 0; i < Board.territorios.length; i++) {
-			baralho.add(new CartaTerritorio(Board.territorios[i]));
-		}
+		
+		String[] pathnames;
+        File f = new File("./images/CARTAS_TERRITORIO");
+        pathnames = f.list();
+		
+        for(String str: pathnames) {
+        	int index = str.indexOf('_');
+        	int id = Integer.parseInt(str.substring(0, index));
+        	char forma = str.charAt(index + 1);
+        	baralho.add(new CartaTerritorio(id, forma));
+        }
+        
 	}
 	
 	static public CartaTerritorio pegarCarta() {

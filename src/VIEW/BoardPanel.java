@@ -35,6 +35,11 @@ public class BoardPanel extends JPanel{
 	private Image prox;
 	//private Image obj;
 	private boolean mostraObj = false;
+	private boolean mostraCartas = false;
+	
+	CartasPanel cartasPanel = new CartasPanel();
+	Dimension panelDimension = new Dimension(660, 218);
+	
 	Dimension textDimension = new Dimension(100, 30);
 	
 	JButton pVez = new JButton(""); 
@@ -42,6 +47,7 @@ public class BoardPanel extends JPanel{
 	JButton salvar = new JButton("Salvar");
 	JButton deslocar = new JButton("Deslocar Tropas");
 	JButton cancelar = new JButton("Voltar");
+	JButton tCartas = new JButton("Trocar Cartas");
 	
 	
 	Dimension MapaDimension = new Dimension(1024, 768);
@@ -124,7 +130,17 @@ public class BoardPanel extends JPanel{
 		cancelar.setBackground(Color.red.brighter().brighter().brighter().brighter());
 		this.add(cancelar);
 		
-		
+		tCartas.addActionListener(new ActionListener() {
+			 public void actionPerformed(ActionEvent e) {
+				 if(!mostraCartas)
+					 mostraCartas = true;
+				 else
+					 mostraCartas = false;
+				 Partida.getInstance().refresh();
+			 }
+		});	
+		tCartas.setBounds(670, 680, 90, 20);
+		this.add(tCartas);
 	}
 	
 
@@ -141,7 +157,10 @@ public class BoardPanel extends JPanel{
 
 		Partida p = Partida.getInstance();
 		
+		if(p.estado == Estado.cadastrando)
+			return;
 		
+		tCartas.setVisible(!(p.estado == Estado.cadastrando));
 		vObjetivo.setVisible(!(p.estado == Estado.cadastrando));
 		salvar.setVisible(!(p.estado == Estado.cadastrando));
 		deslocar.setVisible((p.estado == Estado.atac_origem));
@@ -150,13 +169,13 @@ public class BoardPanel extends JPanel{
 		pVez.setVisible(p.estado == Estado.alocando ||
 						p.estado == Estado.desloc_origem);
 			
-		if(p.estado == Estado.cadastrando)
-			return;
+		
 		
 		
 		g.setColor(Color.white);		
 		g.fillRect(10, 10, 250, 80);
 		g.setColor(Color.black);
+		
 		// informações gerais do jogador
 		g.drawString("Vez de " + Model.JOG_getNomeJogadorVez(), 20, 30);
 		String str = p.getInfoJogador();
@@ -198,6 +217,16 @@ public class BoardPanel extends JPanel{
 			g.drawString("Europa: " + Model.JOG_getBonusCont()[3], 850, alt);
 			g.drawString("Asia: " + Model.JOG_getBonusCont()[4], 710, alt + 15);
 			g.drawString("Oceania: " + Model.JOG_getBonusCont()[5], 850, alt + 30);
+		}
+		
+		// cartas
+		if(mostraObj) {
+			g.drawString(Model.JOG_getObjetivo().replace('_', ' '),20, 60);
+			
+		}
+		if(mostraCartas) {
+			this.add(cartasPanel);
+			
 		}
 		
 

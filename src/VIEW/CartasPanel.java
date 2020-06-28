@@ -23,7 +23,7 @@ import java.sql.Array;
 import javax.swing.*;
 import CONTROL.Partida;
 import CONTROL.Partida.Estado;
-import MODEL.CartaTerritorio;
+
 import MODEL.Model;
 
 import java.util.*;
@@ -31,8 +31,8 @@ import java.util.*;
 public class CartasPanel extends JPanel  {
 	
 	Dimension panelDimension = new Dimension(660, 218);
-	public List<CartaTerritorio> maoCartas = Model.JOG_getMaoCartas();
-	public List<CartaTerritorio> cartasSelecionadas;
+	public List<Integer> maoCartas;
+	public List<Integer> cartasSelecionadas;
 	int i;
 	
 	public CartasPanel() {
@@ -43,14 +43,12 @@ public class CartasPanel extends JPanel  {
 		this.setPreferredSize(panelDimension);
 		this.setBounds(400,470, panelDimension.width, panelDimension.height);
 		
-		for (i = 0; i < Model.JOG_getMaoCartas().size(); i++) {
-			
-			JLabel cartaI = new JLabel(new ImageIcon("./images/CARTAS_TERRITORIO/" + maoCartas.get(i).id + "_" + maoCartas.get(i).forma.toString()));
+		for (i = 0; i < Model.JOG_getMaoCartas().size(); i++) {		
+			JLabel cartaI = new JLabel(new ImageIcon("./images/CARTAS_TERRITORIO/" + maoCartas.get(i) + "_" + maoCartas.get(i).forma.toString()));
 			cartaI.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                 	cartasSelecionadas.add(maoCartas.get(i));
                 }
-
             });
 			this.add(cartaI);
 			
@@ -70,6 +68,17 @@ public class CartasPanel extends JPanel  {
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
+		for (i = 0; i < Model.JOG_getMaoCartas().size(); i++) {		
+			JLabel cartaI = new JLabel(new ImageIcon("./images/CARTAS_TERRITORIO/" + maoCartas.get(i) + "_" + maoCartas.get(i).forma.toString()));
+			cartaI.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                	cartasSelecionadas.add(maoCartas.get(i));
+                }
+            });
+			this.add(cartaI);
+			
+		}
 	}
 	
 

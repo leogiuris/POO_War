@@ -1,7 +1,7 @@
 
 package MODEL;
 
-public class CartaTerritorio {
+class CartaTerritorio {
 	public int id;
 	public Territorio territorio;
 	public Forma forma;
@@ -9,25 +9,31 @@ public class CartaTerritorio {
 	public enum Forma{
 		triangulo,
 		circulo,
-		quadrado		
+		quadrado,
+		coringa
 	}
 	
-	public Forma getForma(int n) {
-		if(n%3 == 0) {
+	
+	public Forma getForma(char f) {
+		if(f == 't')
 			return Forma.triangulo;
-		}
-		else if(n%3 == 1) {
-			return Forma.circulo;
-		}
-		else
+		if(f == 'q')
 			return Forma.quadrado;
+		if(f == 'c')
+			return Forma.circulo;
+		if(f == 'a')
+			return Forma.coringa;
+		System.out.println("erro getForma");
+		return null;
 	}
 
-	public CartaTerritorio(Territorio t){
-		id = BaralhoTerritorio.getTamanho();
-		territorio = t;
-		forma = getForma(BaralhoTerritorio.getTamanho());
+	
+	public CartaTerritorio(int id, char f){
+		this.id = id;
+		territorio = Board.territorios[id];
+		forma = getForma(f);
 	}
+	
 	
 	public Territorio getTerritorio() {
 		return territorio;
