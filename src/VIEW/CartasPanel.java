@@ -33,8 +33,9 @@ public class CartasPanel extends JPanel  {
 	
 	Dimension panelDimension = new Dimension(660, 218);
 	public List<Integer> maoCartas;
-	public List<Integer> cartasSelecionadas;
+	public List<Integer> cartasSelecionadas = new ArrayList<Integer>();
 	int i;
+	
 	
 	public CartasPanel() {
 		Toolkit tk=Toolkit.getDefaultToolkit();
@@ -44,15 +45,15 @@ public class CartasPanel extends JPanel  {
 		this.setPreferredSize(panelDimension);
 		this.setBounds(400,470, panelDimension.width, panelDimension.height);
 		
-	
-		
 		JButton tCartas = new JButton("Trocar Cartas");
 		tCartas.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		tCartas.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) { 
 				Model.JOG_trocaCartas(cartasSelecionadas);
-				//fechaPainel();
+				for(Integer id: cartasSelecionadas)
+					System.out.println(id);
+				fechaPainel();
 			}
 		});
 		this.add(tCartas);
@@ -61,15 +62,25 @@ public class CartasPanel extends JPanel  {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		for (i = 0; i < Model.JOG_getMaoCartas().size(); i++) {		
+		cartasSelecionadas.clear();
+		
+		if(Partida.getInstance().estado == Estado.cadastrando) {
+			return;
+		}
+		
+		maoCartas = Model.JOG_getMaoCartas();
+		
+		for (i = 0; i < Model.JOG_getMaoCartas().size(); i++) {
+			
 			int idCarta = maoCartas.get(i);
 			JLabel cartaI = new JLabel(new ImageIcon("./images/CARTAS_TERRITORIO/" 
 														+ idCarta + "_" 
-														+ Model.JOG_getFormaCartaMao(idCarta)));
+														+ Model.JOG_getFormaCartaMao(idCarta) + ".png"));
 			
 			cartaI.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                	cartasSelecionadas.add(maoCartas.get(i));
+                	System.out.println("clicou carta");
+                	cartasSelecionadas.add(maoCartas.get(i-1));
                 }
             });
 			this.add(cartaI);
@@ -86,6 +97,7 @@ public class CartasPanel extends JPanel  {
 	}
 		
 }
+
 /*/
 package VIEW;
 

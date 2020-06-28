@@ -1,6 +1,8 @@
 package MODEL;
 import java.util.*;
 
+import MODEL.CartaTerritorio.Forma;
+
 
 class Player {
 	String nome;
@@ -383,7 +385,44 @@ class Player {
 		return null;
 	}
 	
+	public CartaTerritorio getCarta(int id) {
+		for(CartaTerritorio ct: maoCartas) {
+			if(ct.id == id) {
+				return ct;
+			}
+		}
+		return null;
+	}
+	
+	public boolean podeTrocar(List<Integer> tCartas) {
+		int c=0, q=0, t=0;
+		for(int i = 0; i< tCartas.size(); i++) {
+			CartaTerritorio ct = getCarta(tCartas.get(i));
+			if(ct.forma == Forma.circulo)
+				c++;
+			if(ct.forma == Forma.quadrado)
+				q++;
+			if(ct.forma == Forma.triangulo)
+				t++;
+			if(ct.forma == Forma.coringa) {
+				c++; q++; t++;
+			}		
+		}
+		
+		if(c == 3 || q == 3 || t == 3)
+			return true;
+		
+		if(c >= 1 && q >= 1 && t >= 1) 
+			return true;
+		
+		return false;
+		
+	}
+	
 	public void trocarCartas(List<Integer> tCartas) {
+		
+		if(!podeTrocar(tCartas))
+			return;
 		
 		exercitosRodada = 2+2*(numTroca);
 		numTroca++;
@@ -397,8 +436,7 @@ class Player {
 		for(int i =0; i<ret.length; i++) {
 			for(int j =0; j<territorios.size(); j++) {
 				if(ret[i].territorio == territorios.get(j)) {
-					botarExercitos(territorios.get(j), 1);
-					
+					botarExercitos(territorios.get(j), 1);				
 				}
 			}
 			BaralhoTerritorio.devolverCarta(ret[i]);
@@ -409,21 +447,11 @@ class Player {
 	public void contarExercitosRodada() {
 		//Exercitos comuns da rodada
 		exercitosRodada = territorios.size()/2;
-		
-		//Percorre lista de territorios e compara com continentes
+
 		verificaContinentes();
-		
-		//Troca de cartas
+
 		if(maoCartas.size()<3)
 			return;
-		
-		//Scanner ent=new Scanner(System.in);
-		//System.out.println("Deseja fazer a troca de cartas?(Sim/Nao)"); 
-		//String troca=ent.nextLine();
-		//if(troca == "s" || maoCartas.size()>=5) {
-		//	trocarCartas();
-		//}
-		//ent.close();
 	}
 	
 	public String getObjetivo() {

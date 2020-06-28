@@ -45,8 +45,7 @@ public class BoardPanel extends JPanel{
 	JButton salvar = new JButton("Salvar");
 	JButton deslocar = new JButton("Deslocar Tropas");
 	JButton cancelar = new JButton("Voltar");
-
-	JButton tCartas = new JButton("Cartas");
+	JButton tCartas = new JButton("Ver Cartas");
 	
 	
 	public BoardPanel() {
@@ -74,17 +73,6 @@ public class BoardPanel extends JPanel{
 		vObjetivo.setBounds(150, 65, 90, 20);
 		this.add(vObjetivo);
 		
-		tCartas.addActionListener(new ActionListener() {
-			 public void actionPerformed(ActionEvent e) {
-				 if(!mostraCartas)
-					 mostraCartas = true;
-				 else
-					 mostraCartas = false;
-				 Partida.getInstance().refresh();
-			 }
-		});	
-		tCartas.setBounds(670, 680, 90, 20);
-		this.add(tCartas);
 		 
 		pVez.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
@@ -155,7 +143,9 @@ public class BoardPanel extends JPanel{
 		tCartas.setBounds(670, 680, 90, 20);
 		this.add(tCartas);
 		
-		//this.add(cartasPanel);
+		this.add(cartasPanel);
+		cartasPanel.grabFocus();
+		cartasPanel.setVisible(false);
 	}
 	
 
@@ -171,12 +161,9 @@ public class BoardPanel extends JPanel{
 		g.setColor(Color.black);
 
 		Partida p = Partida.getInstance();
-		
 
-		
-		
 
-		tCartas.setVisible(!(p.estado == Estado.cadastrando));
+		tCartas.setVisible(!(p.estado == Estado.cadastrando) && !(mostraCartas));
 		vObjetivo.setVisible(!(p.estado == Estado.cadastrando));
 		salvar.setVisible(!(p.estado == Estado.cadastrando));
 		deslocar.setVisible((p.estado == Estado.atac_origem));
@@ -203,7 +190,7 @@ public class BoardPanel extends JPanel{
 			
 		}
 		if(mostraCartas) {
-			this.add(cartasPanel);
+			cartasPanel.setVisible(true);
 			
 		}
 		
@@ -246,7 +233,7 @@ public class BoardPanel extends JPanel{
 			
 		}
 		if(mostraCartas) {
-			this.add(cartasPanel);
+			//this.add(cartasPanel);
 			
 		}
 		

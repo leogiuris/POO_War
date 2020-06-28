@@ -19,6 +19,7 @@ public class Partida{
 	
 	public int t_orig = 99;
 	public int t_dest = 99;
+	public List<Integer> cartasTroca = new ArrayList<Integer>();
 	public List<Integer> t_desloc = new ArrayList<Integer>();
 
 	
@@ -36,6 +37,7 @@ public class Partida{
 		atac_destino,
 		desloc_origem,
 		desloc_destino,
+		cartas,
 		fim_jogo
 	}
 	
@@ -213,8 +215,8 @@ public class Partida{
 			estado = Estado.desloc_origem;
 		}
 	}
- 	
- 	
+
+
 	public void EncerrarJogada() {
 		t_desloc.clear();
 		ChecaObjetivo();

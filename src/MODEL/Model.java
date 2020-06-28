@@ -227,6 +227,13 @@ public class Model {
 		Board.TESTE_imprimeBoard();
 	}
 	
+	public static void TESTE_imprimeCartas() {
+		Player p = Player.getJogadorDaVez();
+		for(CartaTerritorio ct : p.maoCartas) {
+			System.out.println(ct.id);
+		}
+	}
+	
 	public static void TESTE_criaJogadores() {
 		Player.TESTE_criaJogadores();
 	}
