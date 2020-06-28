@@ -79,6 +79,7 @@ public class BoardPanel extends JPanel{
 				Partida.getInstance().EncerrarJogada();
 				mostraObj = false;
 				mostraCartas = false;
+				cartasPanel.setVisible(false);
 			 }
 		});
 		pVez.setBounds(140, 665, 70, 70);		
@@ -163,7 +164,7 @@ public class BoardPanel extends JPanel{
 		Partida p = Partida.getInstance();
 
 
-		tCartas.setVisible(!(p.estado == Estado.cadastrando) && !(mostraCartas));
+		tCartas.setVisible((p.estado == Estado.alocando) && !(mostraCartas));
 		vObjetivo.setVisible(!(p.estado == Estado.cadastrando));
 		salvar.setVisible(!(p.estado == Estado.cadastrando));
 		deslocar.setVisible((p.estado == Estado.atac_origem));

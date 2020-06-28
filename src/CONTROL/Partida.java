@@ -45,9 +45,7 @@ public class Partida{
 		estado = Estado.cadastrando;
 		//f = new MainFrame();
 		ui = new UI_Manager();
-		
-		//f.init();
-		//teste1();
+
 	}
 
 	
@@ -216,7 +214,31 @@ public class Partida{
 		}
 	}
 
-
+ 	
+ 	public void SelecionarCarta(int id) {
+ 		System.out.println("clicou carta " + id);
+ 		for(Integer n: cartasTroca) {
+ 			if(n == id)
+ 				return;
+ 				
+ 		}
+ 		cartasTroca.add(id);
+ 	}
+ 	
+ 	public void efetuarTroca() {
+ 		System.out.println("efetuar troca");
+ 		for(Integer n: cartasTroca) {
+ 			System.out.println(n.toString());
+ 		}
+ 		Model.JOG_trocaCartas(cartasTroca);
+ 		esvaziaTroca();
+ 		refresh();
+ 	}
+ 	
+ 	public void esvaziaTroca() {
+ 		cartasTroca.clear();
+ 	}
+ 	
 	public void EncerrarJogada() {
 		t_desloc.clear();
 		ChecaObjetivo();

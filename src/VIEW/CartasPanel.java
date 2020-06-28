@@ -32,58 +32,84 @@ import java.util.*;
 public class CartasPanel extends JPanel  {
 	
 	Dimension panelDimension = new Dimension(660, 218);
+	ImageIcon placeHolder;
+	JButton tCartas = new JButton("Trocar Cartas");
+	JButton fechar = new JButton("Fechar");
+	
 	public List<Integer> maoCartas;
-	public List<Integer> cartasSelecionadas = new ArrayList<Integer>();
 	int i;
+	int maxCartas = 5;
 	
 	
 	public CartasPanel() {
 		Toolkit tk=Toolkit.getDefaultToolkit();
+		placeHolder = new ImageIcon("./images/war_carta_placeholder.png");
+		
 		this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
 		this.setMaximumSize(panelDimension);
 		this.setMinimumSize(panelDimension);
 		this.setPreferredSize(panelDimension);
-		this.setBounds(400,470, panelDimension.width, panelDimension.height);
+		this.setBounds(200,400, placeHolder.getIconWidth()*6, placeHolder.getIconHeight());
 		
-		JButton tCartas = new JButton("Trocar Cartas");
+		
+		
+		fechar.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		fechar.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("fecha");
+				Partida.getInstance().esvaziaTroca();
+				fechaPainel();
+			}
+		});
+		
 		tCartas.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		tCartas.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) { 
-				Model.JOG_trocaCartas(cartasSelecionadas);
-				for(Integer id: cartasSelecionadas)
-					System.out.println(id);
+				//Model.JOG_trocaCartas(cartasSelecionadas);
+				Partida.getInstance().efetuarTroca();
 				fechaPainel();
 			}
 		});
+		
+		
 		this.add(tCartas);
+		this.add(fechar);
 	}
 	
 	protected void paintComponent(Graphics g) {
+		
+		Partida p = Partida.getInstance();
+
+		
 		super.paintComponent(g);
 		
-		cartasSelecionadas.clear();
-		
-		if(Partida.getInstance().estado == Estado.cadastrando) {
-			return;
-		}
-		
+
 		maoCartas = Model.JOG_getMaoCartas();
 		
-		for (i = 0; i < Model.JOG_getMaoCartas().size(); i++) {
+		for (i = 0; i < maoCartas.size(); i++) {
 			
 			int idCarta = maoCartas.get(i);
-			JLabel cartaI = new JLabel(new ImageIcon("./images/CARTAS_TERRITORIO/" 
-														+ idCarta + "_" 
-														+ Model.JOG_getFormaCartaMao(idCarta) + ".png"));
 			
-			cartaI.addMouseListener(new MouseAdapter() {
+			if(i >= maoCartas.size()) {
+				System.out.println("place holder");
+				JLabel ph = new JLabel(placeHolder);
+				this.add(ph);
+				return;
+			}
+			
+			CartaLabel cartaI = new CartaLabel(idCarta);
+			cartaI.carta.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
-                	System.out.println("clicou carta");
-                	cartasSelecionadas.add(maoCartas.get(i-1));
+                	cartaI.carta.setBorder(BorderFactory.createLineBorder(Color.yellow,4));
+                	//System.out.println("clicou carta " + idCarta);
+                	
+                	p.SelecionarCarta(idCarta);
+                	//cartasSelecionadas.add(maoCartas.get(i-1));
                 }
             });
-			this.add(cartaI);
+			this.add(cartaI.carta);
 			
 		}
 	}
@@ -97,6 +123,21 @@ public class CartasPanel extends JPanel  {
 	}
 		
 }
+
+class CartaLabel extends JLabel{
+	JLabel carta;
+	int id;
+	
+	public CartaLabel(int n) {
+		carta = new JLabel(new ImageIcon("./images/CARTAS_TERRITORIO/" 
+				+ n + "_" 
+				+ Model.JOG_getFormaCartaMao(n) + ".png"));
+		
+		id = n;
+	}
+	
+}
+
 
 /*/
 package VIEW;
